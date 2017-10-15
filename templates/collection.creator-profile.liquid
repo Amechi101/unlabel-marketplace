@@ -1,0 +1,148 @@
+<!-- /templates/collection.creator-profile.liquid -->
+
+{% assign city = collection.metafields.location.city %}
+{% assign state_or_region = collection.metafields.location.state_or_region %}
+{% assign country = collection.metafields.location.country %}
+
+<div class="container container--pad creator__overviewContainer color-context color-context--creator">
+    <div class="cols cols--m-gutter32 creator__overviewCols">
+        <div class="col creator__overviewCol creator__overviewCol--visual">
+            <figure class="creator__overviewVisualCols">
+                <div class="creator__overviewVisualCol creator__overviewVisualCol--left">
+                    <div class="img-container img-container--portrait">
+            
+                        <img src="{{ collection.image | img_url: '1024x' }}" alt="{{ collection.title }}">
+                        
+                    </div>
+                </div>
+        
+                <figcaption class="creator__overviewVisualCol creator__overviewVisualCol--info u-mobile-only">
+                    <p class="title">{{ collection.title }}</p>
+                    <p class="creator__location"><span class="creator-uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="col creator__overviewCol creator__overviewCol--info">
+            <div class="creator__infoHeader u-desktop-only">
+                <p class="title">{{ collection.title }}</p>
+                <p class="creator__location"><span class="creator-uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="grid__sidebar">   
+        <div class="grid__sidebarWidget">
+            <ul>
+                {% for field in collection.metafields.creator_style %}
+                    <li class="tag"><span class="creator-uppercase">{{ field | last }}</span></li>
+                {% endfor %}
+            </ul>
+            <div class="creator__bio">
+                {{ collection.description }}
+            </div>
+        </div>
+    </div> 
+    <div class="grid__main">
+        <div class="grid__banner"></div>
+        <div class="grid__header">
+            <div class="grid__headerTitle"></div>
+            <div class="grid__headerNav">
+                <div class="grid__headerNavGroup"></div>
+                <div class="grid__headerNavGroup">        
+                    <div>
+                        <form>
+                            <div class="select select--borderLess" name="SortBy" id="SortBy">
+                                <select>
+                                   <option value="" disabled selected="">Sort By</option>
+                                    <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+                                    <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+                                    <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+                                    <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+                                    <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+                                    <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+                                    <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+                                    <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        <strong>{{ collection.products_count }}</strong>&nbsp;results
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid__content">
+            <ol class="grid__list color-context color-context--products">
+                {% if collection.products.size == 0 %}
+                    <div class="grid__emptyMessage">
+                        <p class="missing">No products for now.</p>
+                    </div>
+                {% else %}  
+                    {% for product in collection.products limit:5 %}
+                        <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                            <article>
+                                <div class="grid__itemInner">
+                                    {% include 'product-grid-item' %}
+                                </div>
+                            </article>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ol>
+        </div>
+    </div>
+</div>
+  
+<div class="u-desktop-only">
+    <section class="triptych  color-context color-context--creators">
+        <div class="triptych__bg"></div>
+        <div class="container container--m-pad">
+            <div class="triptych__wrapper triptych__wrapper--thinner">
+                <header class="triptych__header">
+                    <h2 class="title title--destructured title--caps title--oneWordPerLine">More crea tors</h2>
+                </header>
+                <div class="triptych__content">
+                    <ul class="cols cols--m-3">
+                        {% for creator in linklists.creators.links limit:4 %}
+                            {% unless creator.object.handle == collection.handle %}
+                                <li class="col">
+                                    {% include 'creator-image-block' %}
+                                </li>
+                            {% endunless %}
+                        {% endfor %}
+                    </ul>
+                </div>   
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+  /*============================================================================
+    Inline JS because collection liquid object is only available
+    on collection pages and not external JS files
+  ==============================================================================*/
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    console.log(location.search)
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+
+  $(function() {
+    $('#SortBy')
+      .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+      .bind('change', function() {
+        Shopify.queryParams.sort_by = jQuery(this).val();
+        location.search = jQuery.param(Shopify.queryParams);
+      }
+    );
+  });
+</script>

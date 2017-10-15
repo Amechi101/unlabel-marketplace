@@ -1,0 +1,496 @@
+<!-- /templates/product.liquid -->
+{% comment %}
+
+  Rich snippets (itemscope, itemtype, etc.) for products are a theme requirement,
+  and allow search engines to easily understand what the content is.
+
+  For more information on these Scheme.org tags, visit:
+    - http://schema.org/docs/gs.html
+
+{% endcomment %}
+<div class="product">
+    <div class="container container--m-pad">
+        <div class="product__overview">
+            <div class="product__galleryContainer">
+                <div class="gallery">
+                    <div class="swiper-container gallery__larges">
+                        <ul class="swiper-wrapper">
+                            <li class="swiper-slide">
+                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/ed/f1/edf1ca53e2395383edc2286ebbe1e65e.jpg"></div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/0a/fb/0afbea29c0432e6f29ba837af5f5bb8d.jpg"></div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/12/fe/12fee747a6b15cbf01fbcbe211d43bc3.jpg"></div>
+                            </li>
+                            <li class="swiper-slide">
+                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/2e/27/2e2785c7872ad9a6595eb63d4e79e5ce.jpg"></div>
+                            </li>
+                        </ul>
+                        <div class="product__exclusiveLabel">
+                            Unlabel Exclusive
+                        </div>
+                    </div>
+                    <div class="swiper-container gallery__thumbs">
+                        <div class="swiper-wrapper">
+                            <a class="gallery__link swiper-slide" data-slide-to="0" href="">
+                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/75/b7/75b7f7fbf3b74925f43b9ae45724a5bb.jpg"></div></a> <a class="gallery__link swiper-slide" data-slide-to="1" href="">
+                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/b1/75/b175f0c78ca933cf9911a38fca01f1f6.jpg"></div></a> <a class="gallery__link swiper-slide" data-slide-to="2" href="">
+                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/3f/70/3f7044dfa1839026b8c52f8852632e08.jpg"></div></a> <a class="gallery__link swiper-slide" data-slide-to="3" href="">
+                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/cf/a9/cfa9f43072aa3094b207e726d73a0330.jpg"></div></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product__content">
+                <div>
+                    <h1 class="title product__title">Rustic Blazer</h1><a href="/partners/brand/winsome-goods/">
+                    <h2 class="product__brand">WInsome Goods</h2></a>
+                </div>
+                <div>
+                    <p class="product__price">$1.00</p>
+                </div>
+                <div>
+                    <div class="product__actions">
+                        <form action="/basket/add/110/" class="form add-to-basket" id="add_to_basket_form" method="post" name="add_to_basket_form">
+                            <input name='csrfmiddlewaretoken' type='hidden' value='9bMVhvERfbxiTulUtQKqQlCBrGV8SFgD'> <input id="id_quantity" name="quantity" type="hidden" value="1">
+                            <div class="basket-form__row">
+                                <div class="basket-form__col">
+                                    <div class="form-group form__group">
+                                        <label class="form__label control-label required" for="id_child_id">Variant</label>
+                                        <div class="form__field">
+                                            <div class="select">
+                                                <select class="form-control" id="id_child_id" name="child_id">
+                                                    <option value="111">
+                                                        size: 32
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="basket-form__col">
+                                    <button class="cta cta--dark btn-add-to-basket" data-loading-text="Adding..." type="submit" value="Add to cart">Add to cart</button>
+                                </div>
+                                <div class="basket-form__col">
+                                    <a class="cta cta--smallPad cta--inlineIcon cta--inlineIconLeft" id="like_button" onclick="onToggleFollow(event, '110')"><i class="fonticon fonticon--big fonticon--starStroke"></i>Like</a>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+
+                        function onToggleFollow(e, product_id) {
+                        e.preventDefault();
+                        $.ajax({
+                        url: "/accounts/like-unlike-product/" + product_id,
+
+                        success: function (data) {
+                        location.reload();
+                        }
+                        });
+                        e.currentTarget.blur();
+                        }
+
+                        </script>
+                    </div>
+                    <p class="product__sizeWorn">Size worn: 32</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product__details">
+        <div class="grid grid--inverted grid--borderBottomLess">
+            <div class="grid__main">
+                <div class="product__descContainer">
+                    <p class="subtitle">Description</p>
+                    <div class="desc">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                    </div>
+                </div>
+            </div>
+            <div class="grid__sidebar">
+                <div class="grid__sidebarWidget">
+                    <div class="product__ref">
+                        ID #ada as
+                    </div>
+                </div>
+                <div class="grid__sidebarWidget">
+                    <!-- TODO : make it share the current page using providers SDKs -->
+                    <!-- TODO : add dynamic content (text, subject, desc, etc) for each providers -->
+                    <div class="share">
+                        <p class="share__title">Share</p>
+                        <ul class="share__list">
+                            <li class="share__item">
+                                <a href="mailto:?subject=&body=http://35.166.138.246/catalogue/test-bag-2_110/" title="Share by Email"><span class="fonticon fonticon--email fonticon--smallBox"></span></a>
+                            </li>
+                            <li class="share__item">
+                                <a href="https://www.facebook.com/dialog/share?app_id=test&display=popup&href=http://35.166.138.246/catalogue/test-bag-2_110/&redirect_uri=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Facebook"><span class="fonticon fonticon--facebook fonticon--smallBox"></span></a>
+                            </li>
+                            <li class="share__item">
+                                <a href="https://twitter.com/share?url=http://35.166.138.246/catalogue/test-bag-2_110/&text=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Twitter"><span class="fonticon fonticon--twitter fonticon--smallBox"></span></a>
+                            </li>
+                            <li class="share__item">
+                                <a href="http://pinterest.com/pin/create/button/?url=http://35.166.138.246/catalogue/test-bag-2_110/&description=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Pinterest"><span class="fonticon fonticon--pinterest fonticon--smallBox"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- TODO // dynamic review content -->
+    <div class="color-context color-context--product">
+        <!-- TODO // dynamic content -->
+        <article class="review">
+            <div class="container container--pad">
+                <div class="cols cols--m-2 cols--m-gutter32">
+                    <div class="col">
+                        <a class="u-block" href="/influencers/ucc-detail/4/">
+                        <figure>
+                            <div class="img-container img-container--landscape"><img src="http://unlabel.s3.amazonaws.com/Influencers/21372475_1870010639995103_4559521969875189760_n.jpg"></div>
+                            <figcaption>
+                                <p>Caitlin Taylor</p>
+                                <p><small>Los Angeles, CA, USA</small></p>
+                            </figcaption>
+                        </figure></a>
+                    </div>
+                    <div class="col">
+                        <div class="review__content">
+                            <h2 class="subtitle">Product Review</h2>
+                            <div class="desc">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                            </div>
+                            <div class="sizechart">
+                                <ul class="sizechart__list">
+                                    <li class="sizechart__item">Height: <span data-sizechart-unit="cm">52 cm</span> <span data-sizechart-unit="inch">20"</span></li>
+                                    <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">23 cm</span> <span data-sizechart-unit="inch">9"</span></li>
+                                    <li class="sizechart__item">Chest: <span data-sizechart-unit="cm">23 cm</span> <span data-sizechart-unit="inch">9"</span></li>
+                                    <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">32 cm</span> <span data-sizechart-unit="inch">12"</span></li><!-- 
+                            
+                            <li class="sizechart__item">Weight: <span data-sizechart-unit="kg">52 kg</span> <span data-sizechart-unit="lb">114 lb</span></li>
+                            
+                            <li class="sizechart__item">Age: 23 yo</li>
+                            -->
+                                </ul>
+                                <div class="sizechart__toggles">
+                                    <div class="toggle">
+                                        <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
+                                    </div><!-- 
+                            <div class="toggle">
+                                <a href="#" class="toggle__label toggle__label==left" data-toggle-value="kg">Kilograms</a>
+                                <a href="#" class="toggle__slider" data-toggle-values="kg,lb"></a>
+                                <a href="#" class="toggle__label toggle__label==right" data-toggle-value="lb">Pounds</a>
+                            </div>
+                            -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div><!-- TODO // dynamic links and influencer name -->
+    <nav class="nav nav--internal">
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a class="link link--thick" href="#shipping-drawer">Shipping Info</a>
+            </li>
+            <li class="nav__item">
+                <a class="link link--thick" href="#returns-drawer">Returns Policy</a>
+            </li>
+            <li class="nav__item">
+                <a class="link link--thick" href="">About Jessi</a>
+            </li>
+        </ul>
+    </nav><!-- TODO // dynamic related products content -->
+    <section class="triptych color-context color-context--products">
+        <div class="container container--m-pad">
+            <div class="triptych__wrapper triptych__wrapper--taller">
+                <header class="triptych__header">
+                    <h2 class="title title--caps title--oneWordPerLine">More products</h2>
+                </header>
+                <div class="triptych__content">
+                    <ul class="cols cols--m-3">
+                        <li class="col">
+                            <a class="triptych__itemLink" href="/catalogue/jeans_38/">
+                            <figure>
+                                <div class="img-container img-container--square"><img alt="jeans" height="284" src="http://unlabel.s3.amazonaws.com/cache/17/a5/17a59ae6436150607475eeb224479c0d.jpg" width="284"></div>
+                                <figcaption>
+                                    <p>jeans</p>
+                                    <p><small>$200.00</small></p>
+                                </figcaption>
+                            </figure></a>
+                        </li>
+                        <li class="col">
+                            <a class="triptych__itemLink" href="/catalogue/t-shirts_40/">
+                            <figure>
+                                <div class="img-container img-container--square"><img alt="T-Shirts" height="284" src="http://unlabel.s3.amazonaws.com/cache/d4/f6/d4f66312d1a915f6bd053631e1837302.jpg" width="284"></div>
+                                <figcaption>
+                                    <p>T-Shirts</p>
+                                    <p><small>$500.00</small></p>
+                                </figcaption>
+                            </figure></a>
+                        </li>
+                        <li class="col">
+                            <a class="triptych__itemLink" href="">
+                            <figure>
+                                <div class="img-container img-container--square"><img alt="Churidhar" height="284" src="http://unlabel.s3.amazonaws.com/cache/1a/82/1a8280f9c4617a1a3ade71d0730e6abb.jpg" width="284"></div>
+                                <figcaption>
+                                    <p>Churidhar</p>
+                                    <p><small>$1,000.00</small></p>
+                                </figcaption>
+                            </figure></a>
+                        </li>
+                    </ul>
+                </div>
+                <nav class="triptych__nav">
+                    <a class="cta" href="#">See The Arrivals page</a>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--medium shipping-drawer" id="shipping-drawer">
+        <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
+        <div class="drawer__frame">
+            <div class="drawer__header">
+                <div class="drawer__headerContent">
+                    <h2 class="title title--small">Shipping Info</h2>
+                </div><a class="drawer__close close close--medium" href="#close-drawer" title="Close Drawer"></a>
+            </div>
+            <div class="drawer__scroller">
+                <div class="drawer__content drawer__content--padded">
+                    Shipping Info content
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--small returns-drawer" id="returns-drawer">
+        <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
+        <div class="drawer__frame">
+            <div class="drawer__header">
+                <div class="drawer__headerContent">
+                    <h2 class="title title--small">Returns Policy</h2>
+                </div><a class="drawer__close close close--medium" href="#close-drawer" title="Close Drawer"></a>
+            </div>
+            <div class="drawer__scroller">
+                <div class="drawer__content drawer__content--padded">
+                    <ul class="returns-drawer__list">
+                        <li class="returns-drawer__listItem">All returns are free of charge.</li>
+                        <li class="returns-drawer__listItem">Merchandise must be returned within 15 days.</li>
+                        <li class="returns-drawer__listItem">Merchandise must not be worn, altered, or washed.</li>
+                        <li class="returns-drawer__listItem">Merchandise must have all tags attached and be returned in original packaging.</li>
+                        <li class="returns-drawer__listItem">Merchandise returned without the original security tag, or a damaged security tag, may result in a delayed refund or may not qualify for a refund.</li>
+                        <li class="returns-drawer__listItem">Footwear must include the original shoe box in its original condition, without postal labels. Shoe box fees are charged when footwear is returned in a damaged shoe box, or without the original shoe box.</li>
+                        <li class="returns-drawer__listItem">Fine jewelry, handmade items, custom and monogrammed items, and items listed as final sale may not be returne</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div itemscope itemtype="http://schema.org/Product">
+
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+
+  {% include 'breadcrumb' %}
+
+  {% assign brand_collection = product.vendor | handleize  %}
+
+
+<h1>{{ collections[brand_collection].title }}</h1>
+<h1>{{ collections[brand_collection].url }}</h1>
+
+{% for tag in product.tags %}
+    {% if tag contains 'creator-' %}
+          
+        {% assign strip_creator_prefix = tag | remove: "creator-" %}
+        {% assign location = collections[strip_creator_prefix].metafields.location %}
+
+
+        <li class="active">{{ strip_creator_prefix }} test</li>
+          
+        <li class="active">{{ collections[strip_creator_prefix].title }}</li>
+            
+        {% for key in location %}
+            <li class="active">{{ key | last }}</li>
+        {% endfor %}
+    
+        <img src="{{ collections[strip_creator_prefix].image | img_url: '1024x' }}" alt="{{ collections[strip_creator_prefix].title }}">
+            
+        <li class="active">{{ collections[strip_creator_prefix].url }}</li>
+    {% endif %}
+{% endfor %}
+
+
+  <div class="grid product-single">
+    <div class="grid__item large--one-half text-center">
+      <div class="product-single__photos" id="ProductPhoto">
+        {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+        <img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
+      </div>
+
+      {% comment %}
+        Create thumbnails if we have more than one product image
+      {% endcomment %}
+      {% if product.images.size > 1 %}
+        <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+
+          {% for image in product.images %}
+            <li class="grid__item one-quarter">
+              <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+              </a>
+            </li>
+          {% endfor %}
+
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="grid__item large--one-half">
+
+      <h1 itemprop="name">{{ product.title }}</h1>
+
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+        {% comment %}
+          ID addToCartForm is a selector for the ajax cart plugin
+        {% endcomment %}
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+
+          {% comment %}
+            Add product variants as a dropdown.
+              - By default, each variant (or combination of variants) will display as its own <option>
+              - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
+
+            You can leverage jQuery to add a callback on page load and each time the select element changes:
+              - Include option_selection.js (as seen at the bottom of this file)
+              - This allows you to use JavaScript anytime the variant dropdown changes
+              - This also separates out your variant options (ie. size, color, etc.) to separate select elements
+
+            For more information on products with multiple options, visit:
+              - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+          {% endcomment %}
+          <select name="id" id="productSelect" class="product-single__variants">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+
+                {% comment %}
+                  Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+                {% endcomment %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+              {% else %}
+                <option disabled="disabled">
+                  {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+
+          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+          <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+            {{ current_variant.price | money }}
+          </span>
+
+          {% if product.compare_at_price_max > product.price %}
+            <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+            <p id="ComparePrice">
+              {{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}
+            </p>
+          {% endif %}
+
+          <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+
+          <button type="submit" name="add" id="AddToCart" class="btn">
+            <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+          </button>
+        </form>
+
+      </div>
+
+      <div class="product-description rte" itemprop="description">
+        {{ product.description }}
+      </div>
+
+      {% comment %}
+        If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
+        in the URL, we can show next/previous links to other products in the collection.
+      {% endcomment %}
+      {% if collection %}
+        {% if collection.previous_product or collection.next_product %}
+          <p>
+            {% if collection.previous_product %}
+              <span class="left">
+                {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
+              </span>
+            {% endif %}
+            {% if collection.next_product %}
+              <span class="right">
+                {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
+              </span>
+            {% endif %}
+          </p>
+        {% endif %}
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+
+{% comment %}
+  To take advantage of a callback on the select dropdown, add option_selection.js
+  and customize the JS in timber.productPage as needed.
+
+  Currently, timber.productPage does the following:
+    - Hides your <select> tag from above
+    - Breaks out the product variants into separate product options, if more than one exists
+    - Generates a <select> tag for each product option
+    - Enables/disables elements based on variant availability
+
+  Callback notes:
+    - Keep the callback available to the global scope (window.selectCallback) so that advanced
+      addons can override it.
+      * E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+<script>
+  var selectCallback = function(variant, selector) {
+    timber.productPage({
+      money_format: "{{ shop.money_format }}",
+      variant: variant,
+      selector: selector
+    });
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+  });
+</script>

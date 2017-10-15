@@ -1,0 +1,281 @@
+<!doctype html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  {% if settings.favicon_enable %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
+  <!-- Title and description ================================================== -->
+  <title>
+  {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Helpers ================================================== -->
+  {% include 'social-meta-tags' %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="device-size" content="set via css through font-family prop in order to be read by js">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  <!-- CSS ================================================== -->
+  {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
+  <style>
+      .creator-uppercase,
+      .brand-uppercase,
+      .uppercase {
+        text-transform: capitalize;
+      }
+  </style>
+
+  <!-- Header hook for plugins ================================================== -->
+  {{ content_for_header }}
+  {% include 'oldIE-js' %}
+
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' | script_tag }}
+  {{ 'modernizr-custom-unlabel.js' | asset_url | script_tag }}
+
+</head>
+
+{% comment %}
+  Add the page template as a class for easy page or template specific styling.
+{% endcomment %}
+<body id="{{ page_title | handle }}" class="{{ page_title | handle }}">
+<div id="app">
+    <header class="header">
+        <div id="header-submenu-overlay" class="header__overlay"></div>
+        <div class="header__bar cols cols--align-middle">
+            
+            <nav class="header__nav header__nav--primary nav--inline">
+                <a href="/" title="Home">
+                    <div class="logo">
+                        <span class="logo__label">{{ shop.name }}<small></small></span>
+                        <span class="logo__icon">
+                            {% include 'logo_dark' %}
+                        </span>
+                    </div>
+                </a>
+                <ul class="header__navList nav__list u-desktop-only">
+                    {% for link in linklists.main-menu.links %}
+                        <li class="header__navListItem">
+                            <a class="link link--thick link--discrete" href="{{ link.url }}" title="{{ link.title }}">
+                                {{ link.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <nav class="header__nav header__nav--secondary nav--inline">
+                <ul class="header__navList nav__list">
+                    <li class="header__navListItem header_submenuToggler">
+                        <a class="header__linkWithNotif header_linkWithSubmenu" href="#" title="Shopping Bag"><span class="u-desktop-only">Shopping Bag</span> <span class="fonticon fonticon--shoppingBag fonticon--box u-mobile-only"></span></a>
+                        <div class="header__submenu">
+                            <div class="header__submenuWrapper">
+                                <div class="basket-mini">
+                                    <div class="basket-mini__col basket-mini__col--content">
+                                        <div class="basket-mini__emptyMessage">
+                                            <p class="missing missing--matchColor">Your bag is currently empty.</p>
+                                        </div>
+                                    </div>
+                                    <div class="basket-mini__col basket-mini__col--total">
+                                        <div class="basket-mini__colGroup">
+                                            <p class="basket-mini__totalTitle subtitle subtitle--small">Subtotal</p>
+                                            <p class="basket-mini__totalPrice title title--small">$0.00</p>
+                                        </div>
+                                        <div class="basket-mini__colGroup">
+                                            <p class="basket-mini__totalNote">Excluding tax & shipping</p>
+                                            <div class="basket-mini__actions">
+                                                <a class="cta cta--dark cta--block is-disabled" href="/basket/">Checkout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="header__navListItem">
+                        <a class="header__searchBtn" href="#search-drawer" title="Search"><span class="fonticon fonticon--magnifyingglass fonticon--box"></span></a>
+                    </li>
+                </ul>
+                <a class="burgerMenu u-mobile-only" href="#mobile-main-nav" title="Toggle Menu">
+                    <span class="burgerMenu__bar burgerMenu__bar--top"></span> 
+                    <span class="burgerMenu__bar burgerMenu__bar--middle"></span> 
+                    <span class="burgerMenu__bar burgerMenu__bar--bottom"></span>
+                </a>
+            </nav>
+
+            <div class="drawer drawer--right" id="mobile-main-nav">
+                <a href="#close-drawer" class="drawer__backdrop" title="Close Menu"></a>
+                <div class="drawer__frame">
+                    <div class="drawer__header drawer__header--bar">
+                        <div class="drawer__headerContent"></div>
+                        <a href="#close-drawer" class="drawer__close close" title="Close Menu"></a>
+                    </div>
+                    <div class="drawer__scroller">
+                        <div class="drawer__content">
+                            <ul class="drawer__list">
+                                {% for link in linklists.main-menu.links %}
+                                    <li class="drawer__item">
+                                        <a class="drawer__link drawer__link--large" href="{{ link.url }}" title="{{ link.title }}">
+                                            <span class="drawer__linkLabel">{{ link.title }}</span>
+                                            <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="drawer__footer">
+                            <div class="drawer__branding">
+                                <a href="/" title="Home">
+                                    <div class="logo">
+                                        <span class="logo__label">{{ shop.name }}</span>
+                                        <span class="logo__icon">
+                                            {% include 'logo_dark' %}
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-drawer drawer drawer--top drawer--dark" id="search-drawer">
+            <a class="drawer__backdrop" href="#close-drawer" title="Close Search"></a>
+            <div class="drawer__frame">
+                <div class="drawer__header">
+                    <div class="drawer__headerContent"></div><a class="drawer__close close close--medium" href="#close-drawer" title="Close Search"></a>
+                </div>
+                <div class="drawer__scroller">
+                    <div class="drawer__content">
+                        <div class="search-drawer__contentWrapper">
+                            <div class="container">
+                                <form action="/search/" class="search-form search-form--dark" method="get">
+                                    <div class="search-form__wrapper">
+                                        <fieldset class="search-form__fieldset">
+                                            <div class="search-form__field">
+                                                <label class="search-form__label" for="id_q">Type to search</label> <input class="form-control" id="id_q" name="q" placeholder="Search" tabindex="1" type="search">
+                                            </div><button class="search-form__submit" type="submit"><span class="fonticon fonticon--box fonticon--magnifyingglass"></span></button>
+                                        </fieldset>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="content_inner" class="{{ page_title | handle }}" role="main">
+
+      {{ content_for_layout }}
+
+    </main>
+
+    <!-- //site-footer-start -->
+    <footer class="footer">
+        <div class="footer__bar footer__bar--top">
+            <nav class="footer__nav footer__nav--primary">
+                <a class="footer__home" href="/" title="Home">
+                    <div class="logo">
+                        <span class="logo__label">{{ shop.name }} <small></small></span>
+                        <span class="logo__icon">
+                            {% include 'logo_light' %}
+                        </span>
+                    </div>
+                </a>
+                <ul class="footer__navList">
+                    {% for link in linklists.footer.links %}
+                        <li>
+                            <a class="link link--thick link--discrete" href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+        <div class="footer__bar footer__bar--bottom cols cols--align-middle">
+            <div class="footer__copyright"><span class="footer__copyrightSymbol">©</span>2017 Unlabel. All rights reserved</div>
+            <nav class="footer__nav footer__nav--secondary">
+                <ul class="footer__navList footer__navList--legal">
+                    {% for link in linklists.legal.links %}
+                        <li>
+                            <a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <ul class="footer__navList footer__navList--social">
+                    <li>
+                        <a href="" title="Share on Facebook"><span class="fonticon fonticon--facebook fonticon--smallBox"></span></a>
+                    </li>
+                    <li>
+                        <a href="" title="Share on Instagram"><span class="fonticon fonticon--instagram fonticon--smallBox"></span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+    <!-- //site-footer-end -->
+</div>
+
+
+  {{ 'fastclick.min.js' | asset_url | script_tag }}
+  {{ 'timber.js' | asset_url | script_tag }}
+
+  {% comment %} @TODO add NPM for scripts {% endcomment %}
+  {{ 'bundle.js' | asset_url | script_tag }}
+
+  {% comment %}
+    Template-specific js
+  {% endcomment %}
+  <script>
+    {% if resetPassword %}
+      $(function() {
+        timber.resetPasswordSuccess();
+      });
+    {% endif %}
+  </script>
+
+
+  {% comment %}
+    Ajaxify your cart with this plugin.
+    Documentation:
+      - http://shopify.com/timber#ajax-cart
+  {% endcomment %}
+  {% if settings.ajax_cart_method == "drawer" %}
+    {{ 'handlebars.min.js' | asset_url | script_tag }}
+    {% include 'ajax-cart-template' %}
+    {{ 'ajax-cart.js' | asset_url | script_tag }}
+    <script>
+      jQuery(function($) {
+        ajaxCart.init({
+          formSelector: '#AddToCartForm',
+          cartContainer: '#CartContainer',
+          addToCartSelector: '#AddToCart',
+          cartCountSelector: '#CartCount',
+          cartCostSelector: '#CartCost',
+          moneyFormat: {{ shop.money_format | json }}
+        });
+      });
+
+      jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
+        // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
+        timber.RightDrawer.open();
+      });
+    </script>
+
+  {% endif %}
+
+</body>
+</html>

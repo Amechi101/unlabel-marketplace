@@ -1,0 +1,50 @@
+{
+  "name": "unlabel-frontend",
+  "version": "1.0.0",
+  "main": "assets/index.js",
+  "description": "Unlabel Frontend",
+  "scripts": {
+    "dev": "npm run js:dev",
+    "prod": "npm run css:prod & npm run js:prod",
+    "server:dev:proxy": "browser-sync start --proxy 'https://unlabel-us.myshopify.com' --files 'assets' 'templates' 'layout' 'snippets'",
+    "css:prod": "stylus --use autoprefixer-stylus --use ./node_modules/stylus-font-face --with {limit:80000} src/css/index.styl -o dist/css/bundle.min.css --compress",
+    "js:dev": "watchify assets/index.js -d -v -t babelify -t aliasify -o assets/bundle.js",
+    "js:prod": "browserify src/js/index.js -t babelify -t aliasify -t uglifyify | uglifyjs -c > dist/js/bundle.min.js"
+  },
+  "devDependencies": {
+    "aliasify": "2.1.0",
+    "autoprefixer-stylus": "0.13.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-stage-3": "6.24.1",
+    "babelify": "7.3.0",
+    "browser-sync": "2.18.8",
+    "browserify": "14.3.0",
+    "stylus": "0.54.5",
+    "stylus-font-face": "1.1.1",
+    "uglify-es": "3.0.3",
+    "uglifyify": "3.0.4",
+    "watchify": "3.9.0"
+  },
+  "dependencies": {
+    "closest": "0.0.1",
+    "debounce": "1.0.2",
+    "domready": "1.0.8",
+    "events": "1.1.1",
+    "gsap": "1.19.1",
+    "scrollmagic": "2.0.5",
+    "swiper": "3.4.2",
+    "tabbable": "1.0.6",
+    "zxcvbn": "4.4.2"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-3"
+    ],
+    "ignore": [
+      "node_modules",
+      "assets/bundle.js",
+      "assets/bundle.min.js"
+    ]
+  }
+}

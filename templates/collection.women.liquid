@@ -1,0 +1,197 @@
+<!-- /templates/collection.liquid -->
+{% comment %}
+
+  For more information on collection tags:
+    - http://docs.shopify.com/themes/liquid-variables/collection
+
+{% endcomment %}
+<div class="grid grid--borderTopLess color-context color-context--products">
+    <div class="grid__sidebar u-desktop-only">
+        <div class="categories nested-lists">
+            <ul class="nested-lists__list">
+                <li class="nested-lists__item">
+                   
+                    <a class="nested-lists__link" href="/">All Products</a>
+                 
+                </li>
+                
+                {% for type in collection.all_types %}
+                    <li class="nested-lists__item">
+                        <a class="nested-lists__link" href="{{ type | url_for_type }}">{{ type }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="grid__main">
+        <div class="grid__banner"></div>
+        <div class="grid__header">
+            <div class="grid__headerTitle">
+                {% if current_page %}
+                    <h1 class="title title--caps">Women - {{ collection.title }}</h1>
+                {% else %}
+                    <h1 class="title title--caps">Women</h1>
+                {% endif %}
+            </div>
+            <div class="grid__headerNav">
+                <div class="grid__headerNavGroup">
+                    <a class="link link--thick u-mobile-only" href="#drawer-categories">Categories</a>
+                    <div class="drawer drawer--right" id="drawer-categories">
+                        <a class="drawer__backdrop" href="#close-drawer" title="Close Categories"></a>
+                        <div class="drawer__frame">
+                            <div class="drawer__header drawer__header--bar">
+                                <div class="drawer__headerContent">
+                                    <span class="title title--small">Categories</span>
+                                </div><a class="drawer__close close" href="#close-drawer" title="Close Categories"></a>
+                            </div>
+                            <div class="drawer__scroller">
+                                <div class="drawer__content">
+                                    <div class="nested-lists">
+                                        <ul class="nested-lists__list drawer__list">
+                                            {% for type in collection.all_types %}
+                                                {% if type == 'Clothing' %}
+                                                    {% include 'product-filter-mobile' %}
+                                                
+                                                {% elsif type == 'Shoes' %}
+                                                    {% include 'product-filter-mobile' %}
+                                                
+                                                {% elsif type == 'Accessories' %}
+                                                    {% include 'product-filter-mobile' %}
+                                                
+                                                {% elsif type == 'Jewelry' %}
+                                                    {% include 'product-filter-mobile' %}
+                                                
+                                                {% elsif type == 'Bags' %}
+                                                    {% include 'product-filter-mobile' %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__headerNavGroup">
+                    <div>
+                        <form>
+                            <div class="select select--borderLess">
+                                <select>
+                                    <option disabled selected value="">
+                                        Sort By
+                                    </option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        <strong>{{ collection.products.count }}</strong>&nbsp;results
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid__content">
+            <ol class="grid__list color-context color-context--products">
+                {% for product in collection.products %}
+                    <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                        <article>
+                            <div class="grid__itemInner">
+                                {% include 'product-grid-item' %}
+                            </div>
+                        </article>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="grid__paginationContainer">
+    <!-- TODO : handle case when to many page numbers (display only: first ... curent-1 current current+1 ... last) -->
+</div>
+
+
+{% paginate collection.products by 12 %}
+
+{% include 'breadcrumb' %}
+
+{% comment %}
+  Use .grid--rev so that the collection tags appear below the products on mobile
+{% endcomment %}
+<div class="grid--rev">
+  <div class="grid__item large--three-quarters">
+
+    {% comment %}
+      Different markup if a collection description exists
+    {% endcomment %}
+    {% if collection.description != blank %}
+      <header class="section-header">
+        <h1 class="section-header__title">{{ collection.title }}</h1>
+        <div class="rte rte--header">
+          {{ collection.description }}
+        </div>
+      </header>
+      <hr>
+      <div class="section-header">
+        <div class="section-header__right">
+          {% include 'collection-sorting' %}
+        </div>
+      </div>
+    {% else %}
+      <header class="section-header">
+        <h1 class="section-header__title section-header__left">{{ collection.title }}</h1>
+        <div class="section-header__right">
+          {% include 'collection-sorting' %}
+        </div>
+      </header>
+    {% endif %}
+
+    {% comment %}
+      Use class grid-uniform to have evenly sized columns clear
+      each other properly at each breakpoint.
+    {% endcomment %}
+    <div class="grid-uniform">
+
+      {% comment %}
+        Loop through our products in the current collection.
+        See the snippet 'product-grid-item' for the layout.
+      {% endcomment %}
+      {% for product in collection.products %}
+
+        {% include 'product-grid-item' %}
+
+      {% else %}
+
+        {% if collection.handle == 'all' and current_tags == '' %}
+
+
+
+        {% else %}
+
+          {% comment %}
+            If collection exists but is empty, display message
+          {% endcomment %}
+          <div class="grid__item">
+            <p>{{ 'collections.general.no_matches' | t }}</p>
+          </div>
+
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <hr>
+      <div class="pagination">
+        {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+      </div>
+    {% endif %}
+
+  </div>
+
+  <div class="grid__item large--one-quarter">
+    {% include 'collection-sidebar' %}
+  </div>
+</div>
+
+{% endpaginate %}

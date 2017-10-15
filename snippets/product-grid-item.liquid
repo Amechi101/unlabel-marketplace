@@ -1,0 +1,35 @@
+<a class="u-block" href="{{ product.url }}" title="{{ product.title }}">
+	<figure>
+		<div class="img-container img-container--square"><img alt="{{ product.title }}" src="{{ product.featured_image | img_url: '1024x' }}"></div>
+		<figcaption>
+		    <h2>{{ product.title }}</h2>
+			{% for tag in product.tags %}
+			    {% if tag contains 'creator-' %}
+			        {% assign strip_creator_prefix = tag | remove: "creator-" | replace: "-", " " %}
+			    {% endif %}
+			{% endfor %}
+			<h3><small>by {{ product.vendor }} &nbsp;x&nbsp; <span class="creator-uppercase">{{ strip_creator_prefix }}</span></small></h3>
+
+			{% assign sold_out = true %}
+
+			{% if product.available %}
+			    {% assign sold_out = false %}
+			    {% assign on_sale = false %}
+
+			    {% if product.compare_at_price > product.price %}
+			        {% assign on_sale = true %}
+			        {% comment %}@TODO sale price {% endcomment %}
+			    {% else %}
+			        <p><small>{{ product.price | money }}</small></p>
+			    {% endif %}
+			{% else %}
+			    <p><small>Sold Out.</small></p>
+			{% endif %}
+		</figcaption>
+	</figure>
+</a>
+
+
+
+
+

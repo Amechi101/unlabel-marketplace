@@ -1,0 +1,5 @@
+{% assign location = brand.object.metafields.brand-location  %}
+
+{% for key in location %}
+    <p>{{ key | last }}</p>
+{% endfor %}

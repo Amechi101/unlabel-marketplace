@@ -1,0 +1,16 @@
+{% if title_lowercase  == women or title_lowercase  == men %}
+    {% for type in collection.all_types %}
+        <li class="nested-lists__item">
+            <a class="nested-lists__link" href="{{ type | url_for_type }}">{{ type }}</a>
+        </li>
+    {% endfor %}
+{% else %}
+
+    {% for tag in collection.tags %}
+        {% if tag  == women or tag == men %}
+            <li class="nested-lists__item">
+                <a class="nested-lists__link" href="/collections/{{tag}}">{{ tag | capitalize }}</a> > {{ collection.title }}
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endif %}

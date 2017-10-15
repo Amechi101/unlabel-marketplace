@@ -1,0 +1,185 @@
+<!-- /templates/page.for-creators.liquid -->
+
+{% comment %} 
+    @TODO add page description
+    @TODO Change instagram url type/CSS as well
+    @TODO hook up to mailchimp or another service to submit information
+    @TODO change email
+{% endcomment %}
+<div class="color-context color-context--creators">
+    <header class="invite__header">
+        <div class="container">
+            <div class="invite__headerWrapper">
+                <div class="invite__headerTitleContainer">
+                    <h1 class="title title--caps">Unlabel<br>
+                    for CONTENT<br>
+                    CREATORS</h1>
+                </div>
+                <div class="invite__headerVisualContainer"><img alt="Unlabel for CONTENT CREATORS visual" src="{{ 'invite-creator-header.jpg' | asset_url }}"></div>
+            </div>
+        </div>
+    </header>
+    <div class="invite__descContainer">
+        <div class="container container--medium">
+            <div class="desc">
+                Nullam maximus faucibus volutpat. Morbi ut erat nunc. Nulla cursus erat vitae dui dictum facilisis. Maecenas vel erat orci. Cras fringilla nunc in nibh tempor, et feugiat quam pellentesque.<br>
+                Vivamus blandit bibendum pellentesque. Cras imperdiet commodo diam at hendrerit. Vivamus at semper erat, vel interdum lectus. Proin sagittis est sed interdum finibus. Suspendisse id vulputate est. Cras sed ligula nec nisl vehicula ultricies.
+            </div>
+        </div>
+    </div>
+    <div class="invite__contact">
+        <div class="container container--medium">
+            <p class="invite__contactWrapper"><span class="invite__contactLabel">For any question regarding<br>
+            Creator inquiries, please contact</span><br>
+            <a href="mailto:ucc@unlabel.us">ucc@unlabel.us</a></p>
+        </div>
+    </div>
+    <div class="invite__list">
+        <div class="container container--medium">
+            <div class="cols cols--m-2 cols--m-gutter32">
+                <div class="col">
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">BRAND DIRECTORY</h3>
+                        <div class="invite__listItemDesc">
+                            Our Brand Directory allows you to publish details on your brand, or project so influencer can message you with their interest in partnering with you.
+                        </div>
+                    </div>
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">COMPILED STATS</h3>
+                        <div class="invite__listItemDesc">
+                            By connecting your social accounts (Instagram, Twitter, Tumblr, Google Analytics, Pinterest, Facebook and Youtube) we are able to pull stats, engagement and growth numbers and complie them all in one place.
+                        </div>
+                    </div>
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">EDUCATION</h3>
+                        <div class="invite__listItemDesc">
+                            We are constantly putting out content and putting on events to try and help our infleuncers learn and grow.
+                        </div>
+                    </div>
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">PROFILES</h3>
+                        <div class="invite__listItemDesc">
+                            Each influencer creates their own profile which we update daily. Including stats across platfrom reach, growth and engagement, as well as contact information, recent posts, collaborations and press coverage.
+                        </div>
+                    </div>
+                </div>
+                <div class="col col--right">
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">DEMOGRAPHICS</h3>
+                        <div class="invite__listItemDesc">
+                            We provide demographic information on an influencers following, so you get gender, location, age and language breakdowns for each platform.
+                        </div>
+                    </div>
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">BRAND WORK AND PRESS</h3>
+                        <div class="invite__listItemDesc">
+                            Insight into which brands they have worked with, the types of collaboratiosn they are proud of, and their level of stardom/popularity.
+                        </div>
+                    </div>
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">PRESS KIT</h3>
+                        <div class="invite__listItemDesc">
+                            As an Unlabel member you get a private link that you can share with anyone that will give them access to your full profile and stats even if they don't have a membership, no more updating press kits.
+                        </div>
+                    </div>
+                    <div class="invite__listItem">
+                        <h3 class="title title--small">INSIGHTS</h3>
+                        <div class="invite__listItemDesc">
+                            Because we store and track your progress, we can tell you growth rates, average engagement rates and let you know if those numbers are going up or down month to month.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="triptych color-context color-context--creators">
+        <div class="triptych__bg"></div>
+        <div class="container container--m-pad">
+            <div class="triptych__wrapper triptych__wrapper--wider triptych__wrapper--taller">
+                <header class="triptych__header">
+                    <h2 class="title title--caps title--oneWordPerLine">Join our creators</h2>
+                </header>
+                <div class="triptych__content">
+                    <ul class="cols cols--m-3">
+                        {% for creator in linklists.creators.links limit:3 %}
+                            <li class="col">
+                                {% include 'creator-image-block' %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="invite__register">
+        <div class="container container--narrow container--pad">
+            <div class="invite__registerTitleContainer">
+                <h2 class="title title--small">Join Unlabel in few steps</h2>
+            </div>
+            <form action="" class="invite__registerForm" enctype="multipart/form-data" id="Influencer_register_form" method="post" name="Influencer_register_form">
+                <div class="form__row form__row--m-2">
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_first_name">First Name</label>
+                        <div class="form__field">
+                            <input class="form-control" id="id_first_name" name="first_name" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_last_name">Last Name</label>
+                        <div class="form__field">
+                            <input class="form-control" id="id_last_name" name="last_name" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="form__row form__row--m-2">
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="instagram_url">Instagram URL</label>
+                        <div class="form__field">
+                            <input class="form-control" id="id_instagram_url" name="instagram_url" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_email">Email</label>
+                        <div class="form__field">
+                            <input class="form-control" id="id_email" name="email" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="form__row form__row--m-2">
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_city">City</label>
+                        <div class="form__field">
+                            <input class="form-control" id="id_city" name="city" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_state">State</label>
+                        <div class="form__field">
+                            <input class="form-control" id="id_state" name="state" type="text">
+                        </div>
+                    </div>
+               </div>
+               <div class="form__row">
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_country">Country</label>
+                        <div class="form__field">
+                            <div class="select">
+                                <select class="form-control" id="id_country" name="country">
+                                   <option value="USA">
+                                       USA
+                                   </option>
+                                   <option value="Barcelona">
+                                       Barcelona
+                                   </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form__actions">
+                    <button class="cta cta--dark" name="submit" type="submit">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+
+{% if title_lowercase  == women or title_lowercase  == men %}
+    {% for type in collection.all_types %}
+        <li class="nested-lists__item drawer__item">
+                <a class="nested-lists__link drawer__link" href="{{ type | url_for_type }}">
+                    <span class="drawer__linkLabel">{{type}}</span>
+                    <span class="drawer__linkIcon">
+                        <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                    </span>
+                </a>
+            </a>
+        </li>
+    {% endfor %}
+{% else %}
+    {% for tag in collection.tags %}
+        {% if tag  == women or tag == men %}
+            <li class="nested-lists__item drawer__item">
+                 <a class="nested-lists__link drawer__link" href="/collections/{{tag}}">
+                        <span class="drawer__linkLabel">{{ tag | capitalize }} > {{ collection.title }}</span>
+                        <span class="drawer__linkIcon">
+                            <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                        </span>
+                    </a>
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endif %}

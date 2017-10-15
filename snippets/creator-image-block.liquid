@@ -1,0 +1,13 @@
+{% assign city = creator.object.metafields.location.city %}
+{% assign state_or_region = creator.object.metafields.location.state_or_region %}
+{% assign country = creator.object.metafields.location.country %}
+
+<a class="u-block" href="{{ creator.url }}" title="{{ creator.title }}">
+	<figure>
+	    <div class="img-container img-container--portrait"><img alt="{{ creator.object.title }}" src="{{ creator.object.image | img_url: '1024x' }}"></div>
+	    <figcaption>
+	        <h3>{{ creator.object.title }}</h3>
+	        <p><small><span class="creator-uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</small></p> 
+	    </figcaption>
+	</figure>
+</a>

@@ -8,6 +8,60 @@
     - http://schema.org/docs/gs.html
 
 {% endcomment %}
+
+{% assign brand_collection = product.vendor | handleize  %}
+
+
+{% comment %}
+    
+    To capture if the current brand has other products in its collection to 
+    show other related prdoucts
+
+{% endcomment %}
+
+{% for collection in product.collections %}
+    {% capture collection_size %}
+        {{ collection.products_count }}
+    {% endcapture %}
+{% endfor %}
+
+
+{% assign collection_size = collection_size | plus:0 %}
+
+
+{% comment %}
+    
+    Getting the creator matched to this product to input product review
+    information for current product
+
+{% endcomment %}
+{% for tag in product.tags %}
+    {% if tag contains "creator-" %}
+        {% assign strip_creator_prefix = tag | remove: "creator-" %}
+    
+        {% capture creator_tag %}
+            {{ strip_creator_prefix }}
+        {% endcapture %}
+    {% endif %} 
+{% endfor %}
+
+{% assign creator = creator_tag | handleize %}
+
+{% assign creator_size_worn = collections[creator].metafields.creator_size_worn.creator_size %}
+{% assign creator_city = collections[creator].metafields.location.city %}
+{% assign creator_state_or_region = collections[creator].metafields.location.state_or_region | upcase %}
+{% assign creator_country = collections[creator].metafields.location.country | upcase %}
+{% assign creator_image = collections[creator].image %}
+{% assign creator_profile_url = collections[creator].url %}
+{% assign creator_name = collections[creator].title %}
+
+{% assign creator_height = collections[creator].metafields.creator_physical.height %}
+{% assign creator_chest_or_bust = collections[creator].metafields.creator_physical.chest_or_bust %}
+{% assign creator_hips = collections[creator].metafields.creator_physical.hips %}
+{% assign creator_waist = collections[creator].metafields.creator_physical.waist %}
+
+{% assign cm_conversion_factor = 2.54 %}
+
 <div class="product">
     <div class="container container--m-pad">
         <div class="product__overview">
@@ -15,86 +69,86 @@
                 <div class="gallery">
                     <div class="swiper-container gallery__larges">
                         <ul class="swiper-wrapper">
-                            <li class="swiper-slide">
-                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/ed/f1/edf1ca53e2395383edc2286ebbe1e65e.jpg"></div>
-                            </li>
-                            <li class="swiper-slide">
-                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/0a/fb/0afbea29c0432e6f29ba837af5f5bb8d.jpg"></div>
-                            </li>
-                            <li class="swiper-slide">
-                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/12/fe/12fee747a6b15cbf01fbcbe211d43bc3.jpg"></div>
-                            </li>
-                            <li class="swiper-slide">
-                                <div class="gallery__largesImgContainer"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/2e/27/2e2785c7872ad9a6595eb63d4e79e5ce.jpg"></div>
-                            </li>
+                            {% for image in product.images %}
+                                <li class="swiper-slide">
+                                    <div class="gallery__largesImgContainer">
+                                        <img alt="{{ image.alt | escape }}" src="{{ image.src | img_url: 'large' }}" />
+                                    </div>
+                                </li>
+                            {% endfor %}
                         </ul>
                         <div class="product__exclusiveLabel">
-                            Unlabel Exclusive
+                            Sponsored Content
                         </div>
                     </div>
                     <div class="swiper-container gallery__thumbs">
                         <div class="swiper-wrapper">
-                            <a class="gallery__link swiper-slide" data-slide-to="0" href="">
-                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/75/b7/75b7f7fbf3b74925f43b9ae45724a5bb.jpg"></div></a> <a class="gallery__link swiper-slide" data-slide-to="1" href="">
-                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/b1/75/b175f0c78ca933cf9911a38fca01f1f6.jpg"></div></a> <a class="gallery__link swiper-slide" data-slide-to="2" href="">
-                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/3f/70/3f7044dfa1839026b8c52f8852632e08.jpg"></div></a> <a class="gallery__link swiper-slide" data-slide-to="3" href="">
-                            <div class="img-container"><img alt="Rustic Blazer" src="http://unlabel.s3.amazonaws.com/cache/cf/a9/cfa9f43072aa3094b207e726d73a0330.jpg"></div></a>
+                            {% for image in product.images %}
+                                <a class="gallery__link swiper-slide" data-slide-to="{{ image.position }}" href="#">
+                                    <div class="img-container">
+                                        <img alt="{{ image.alt | escape }}" src="{{ image.src | img_url: 'large' }}" />
+                                    </div>
+                                </a> 
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="product__content">
                 <div>
-                    <h1 class="title product__title">Rustic Blazer</h1><a href="/partners/brand/winsome-goods/">
-                    <h2 class="product__brand">WInsome Goods</h2></a>
+                    <h1 class="title product__title">{{ product.title }}</h1>
+                    <a href="{{ collections[brand_collection].url }}">
+                        <h2 class="product__brand uppercase">{{ product.vendor }}</h2>
+                    </a>
                 </div>
                 <div>
-                    <p class="product__price">$1.00</p>
+                    <p class="product__price">{% include 'product-price' %}</p>
                 </div>
                 <div>
                     <div class="product__actions">
-                        <form action="/basket/add/110/" class="form add-to-basket" id="add_to_basket_form" method="post" name="add_to_basket_form">
-                            <input name='csrfmiddlewaretoken' type='hidden' value='9bMVhvERfbxiTulUtQKqQlCBrGV8SFgD'> <input id="id_quantity" name="quantity" type="hidden" value="1">
+                        {% comment %}@TODO hook add to cart functionality {% endcomment %}
+                        <form action="" class="form add-to-basket" id="add_to_basket_form" method="post" name="add_to_basket_form">
+                            <input id="id_quantity" name="quantity" type="hidden" value="1">
                             <div class="basket-form__row">
-                                <div class="basket-form__col">
-                                    <div class="form-group form__group">
-                                        <label class="form__label control-label required" for="id_child_id">Variant</label>
-                                        <div class="form__field">
-                                            <div class="select">
-                                                <select class="form-control" id="id_child_id" name="child_id">
-                                                    <option value="111">
-                                                        size: 32
-                                                    </option>
-                                                </select>
+                                {% if product.has_only_default_variant %}
+                                    
+                                {% else %}
+                                    <div class="basket-form__col">
+                                        <div class="form-group form__group">
+                                            <label class="form__label control-label required" for="id_child_id">Variant</label>
+                                            <div class="form__field">
+                                                <div class="select">
+                                                    <select class="form-control" id="id_child_id" name="child_id">
+                                                        {% for variant in product.variants %}
+                                                            {% if variant.available %}
+
+                                                                {% comment %}
+                                                                  Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+                                                                {% endcomment %}
+                                                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">Size: {{ variant.title }}</option>
+                                                            {% else %}
+                                                                <option disabled="disabled">
+                                                                  size: {{ variant.title }}
+                                                                </option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endif %}
                                 <div class="basket-form__col">
                                     <button class="cta cta--dark btn-add-to-basket" data-loading-text="Adding..." type="submit" value="Add to cart">Add to cart</button>
                                 </div>
-                                <div class="basket-form__col">
-                                    <a class="cta cta--smallPad cta--inlineIcon cta--inlineIconLeft" id="like_button" onclick="onToggleFollow(event, '110')"><i class="fonticon fonticon--big fonticon--starStroke"></i>Like</a>
-                                </div>
                             </div>
                         </form>
-                        <script>
-
-                        function onToggleFollow(e, product_id) {
-                        e.preventDefault();
-                        $.ajax({
-                        url: "/accounts/like-unlike-product/" + product_id,
-
-                        success: function (data) {
-                        location.reload();
-                        }
-                        });
-                        e.currentTarget.blur();
-                        }
-
-                        </script>
                     </div>
-                    <p class="product__sizeWorn">Size worn: 32</p>
+                    {% if product.has_only_default_variant %}
+                                    
+                     {% else %}
+                        <p class="product__sizeWorn">Size worn: {{ creator_size_worn  | strip_html | escape | strip }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -105,19 +159,19 @@
                 <div class="product__descContainer">
                     <p class="subtitle">Description</p>
                     <div class="desc">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                        {{ product.description | strip_html | escape | strip }}
                     </div>
                 </div>
             </div>
             <div class="grid__sidebar">
                 <div class="grid__sidebarWidget">
                     <div class="product__ref">
-                        ID #ada as
+                        ID #{{ product.id }}
                     </div>
                 </div>
                 <div class="grid__sidebarWidget">
-                    <!-- TODO : make it share the current page using providers SDKs -->
-                    <!-- TODO : add dynamic content (text, subject, desc, etc) for each providers -->
+                    <!-- @TODO : make it share the current page using providers SDKs -->
+                    <!-- @TODO : add dynamic content (text, subject, desc, etc) for each providers -->
                     <div class="share">
                         <p class="share__title">Share</p>
                         <ul class="share__list">
@@ -138,50 +192,39 @@
                 </div>
             </div>
         </div>
-    </div><!-- TODO // dynamic review content -->
+    </div>
     <div class="color-context color-context--product">
-        <!-- TODO // dynamic content -->
         <article class="review">
             <div class="container container--pad">
                 <div class="cols cols--m-2 cols--m-gutter32">
                     <div class="col">
-                        <a class="u-block" href="/influencers/ucc-detail/4/">
-                        <figure>
-                            <div class="img-container img-container--landscape"><img src="http://unlabel.s3.amazonaws.com/Influencers/21372475_1870010639995103_4559521969875189760_n.jpg"></div>
-                            <figcaption>
-                                <p>Caitlin Taylor</p>
-                                <p><small>Los Angeles, CA, USA</small></p>
-                            </figcaption>
-                        </figure></a>
+                        <a class="u-block" href="{{ creator_profile_url }}">
+                            <figure>
+                                <div class="img-container img-container--landscape"><img src="{{ creator_image | img_url: '1024x' }}"></div>
+                                <figcaption>
+                                    <p>{{ creator_name }}</p>
+                                    <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
+                                </figcaption>
+                            </figure>
+                        </a>
                     </div>
                     <div class="col">
                         <div class="review__content">
                             <h2 class="subtitle">Product Review</h2>
                             <div class="desc">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                {{ product.metafields.product_review.review }}
                             </div>
                             <div class="sizechart">
                                 <ul class="sizechart__list">
-                                    <li class="sizechart__item">Height: <span data-sizechart-unit="cm">52 cm</span> <span data-sizechart-unit="inch">20"</span></li>
-                                    <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">23 cm</span> <span data-sizechart-unit="inch">9"</span></li>
-                                    <li class="sizechart__item">Chest: <span data-sizechart-unit="cm">23 cm</span> <span data-sizechart-unit="inch">9"</span></li>
-                                    <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">32 cm</span> <span data-sizechart-unit="inch">12"</span></li><!-- 
-                            
-                            <li class="sizechart__item">Weight: <span data-sizechart-unit="kg">52 kg</span> <span data-sizechart-unit="lb">114 lb</span></li>
-                            
-                            <li class="sizechart__item">Age: 23 yo</li>
-                            -->
+                                    <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
+                                    <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
+                                    <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
+                                    <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
                                 </ul>
                                 <div class="sizechart__toggles">
                                     <div class="toggle">
                                         <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
-                                    </div><!-- 
-                            <div class="toggle">
-                                <a href="#" class="toggle__label toggle__label==left" data-toggle-value="kg">Kilograms</a>
-                                <a href="#" class="toggle__slider" data-toggle-values="kg,lb"></a>
-                                <a href="#" class="toggle__label toggle__label==right" data-toggle-value="lb">Pounds</a>
-                            </div>
-                            -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +232,7 @@
                 </div>
             </div>
         </article>
-    </div><!-- TODO // dynamic links and influencer name -->
+    </div>
     <nav class="nav nav--internal">
         <ul class="nav__list">
             <li class="nav__item">
@@ -199,56 +242,61 @@
                 <a class="link link--thick" href="#returns-drawer">Returns Policy</a>
             </li>
             <li class="nav__item">
-                <a class="link link--thick" href="">About Jessi</a>
+                <a class="link link--thick" href="{{ creator_profile_url }}">{{ creator_name }}</a>
             </li>
         </ul>
-    </nav><!-- TODO // dynamic related products content -->
-    <section class="triptych color-context color-context--products">
-        <div class="container container--m-pad">
-            <div class="triptych__wrapper triptych__wrapper--taller">
-                <header class="triptych__header">
-                    <h2 class="title title--caps title--oneWordPerLine">More products</h2>
-                </header>
-                <div class="triptych__content">
-                    <ul class="cols cols--m-3">
-                        <li class="col">
-                            <a class="triptych__itemLink" href="/catalogue/jeans_38/">
-                            <figure>
-                                <div class="img-container img-container--square"><img alt="jeans" height="284" src="http://unlabel.s3.amazonaws.com/cache/17/a5/17a59ae6436150607475eeb224479c0d.jpg" width="284"></div>
-                                <figcaption>
-                                    <p>jeans</p>
-                                    <p><small>$200.00</small></p>
-                                </figcaption>
-                            </figure></a>
-                        </li>
-                        <li class="col">
-                            <a class="triptych__itemLink" href="/catalogue/t-shirts_40/">
-                            <figure>
-                                <div class="img-container img-container--square"><img alt="T-Shirts" height="284" src="http://unlabel.s3.amazonaws.com/cache/d4/f6/d4f66312d1a915f6bd053631e1837302.jpg" width="284"></div>
-                                <figcaption>
-                                    <p>T-Shirts</p>
-                                    <p><small>$500.00</small></p>
-                                </figcaption>
-                            </figure></a>
-                        </li>
-                        <li class="col">
-                            <a class="triptych__itemLink" href="">
-                            <figure>
-                                <div class="img-container img-container--square"><img alt="Churidhar" height="284" src="http://unlabel.s3.amazonaws.com/cache/1a/82/1a8280f9c4617a1a3ade71d0730e6abb.jpg" width="284"></div>
-                                <figcaption>
-                                    <p>Churidhar</p>
-                                    <p><small>$1,000.00</small></p>
-                                </figcaption>
-                            </figure></a>
-                        </li>
-                    </ul>
+    </nav>
+
+    {% if collection_size > 4 %}
+        <section class="triptych color-context color-context--products">
+            <div class="container container--m-pad">
+                <div class="triptych__wrapper triptych__wrapper--taller">
+                    <header class="triptych__header">
+                        <h2 class="title title--caps title--oneWordPerLine">More products</h2>
+                    </header>
+                    <div class="triptych__content">
+                        <ul class="cols cols--m-3">
+                            {% assign exclude_current_product = product.title %}
+
+                            {% for collection in product.collections %}
+
+                                {% if collection.title == product.vendor %}
+
+                                    {% capture collection_url %}
+                                        {{ collection.url }}
+                                    {% endcapture %}
+                                      
+                                    {% for product in collection.products %}
+                                            
+                                        {% unless product.title contains exclude_current_product %}
+                                            {% if product.available %}
+                                                <li class="col">
+                                                    {% include 'product-grid-item' %}
+                                                </li>
+                                            {% endif %}
+                                        
+                                        {% endunless %}
+                                    {% endfor %}
+
+                                {% endif %}
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <nav class="triptych__nav">
+                        <a class="cta" href="{{ collection_url }}">See {{ product.vendor }}'s store</a>
+                    </nav>
                 </div>
-                <nav class="triptych__nav">
-                    <a class="cta" href="#">See The Arrivals page</a>
-                </nav>
             </div>
-        </div>
-    </section>
+        </section>
+    {% else %}
+
+
+    {%endif %}
+
+    {% comment %}
+        @TODO shipping content and returns information dynamic
+    {% endcomment %}
     <section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--medium shipping-drawer" id="shipping-drawer">
         <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
         <div class="drawer__frame">
@@ -289,167 +337,6 @@
     </section>
 </div>
 
-
-<div itemscope itemtype="http://schema.org/Product">
-
-  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
-  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
-
-  {% comment %}
-    Get first variant, or deep linked one
-  {% endcomment %}
-  {% assign current_variant = product.selected_or_first_available_variant %}
-
-  {% include 'breadcrumb' %}
-
-  {% assign brand_collection = product.vendor | handleize  %}
-
-
-<h1>{{ collections[brand_collection].title }}</h1>
-<h1>{{ collections[brand_collection].url }}</h1>
-
-{% for tag in product.tags %}
-    {% if tag contains 'creator-' %}
-          
-        {% assign strip_creator_prefix = tag | remove: "creator-" %}
-        {% assign location = collections[strip_creator_prefix].metafields.location %}
-
-
-        <li class="active">{{ strip_creator_prefix }} test</li>
-          
-        <li class="active">{{ collections[strip_creator_prefix].title }}</li>
-            
-        {% for key in location %}
-            <li class="active">{{ key | last }}</li>
-        {% endfor %}
-    
-        <img src="{{ collections[strip_creator_prefix].image | img_url: '1024x' }}" alt="{{ collections[strip_creator_prefix].title }}">
-            
-        <li class="active">{{ collections[strip_creator_prefix].url }}</li>
-    {% endif %}
-{% endfor %}
-
-
-  <div class="grid product-single">
-    <div class="grid__item large--one-half text-center">
-      <div class="product-single__photos" id="ProductPhoto">
-        {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
-        <img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
-      </div>
-
-      {% comment %}
-        Create thumbnails if we have more than one product image
-      {% endcomment %}
-      {% if product.images.size > 1 %}
-        <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
-
-          {% for image in product.images %}
-            <li class="grid__item one-quarter">
-              <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
-                <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-              </a>
-            </li>
-          {% endfor %}
-
-        </ul>
-      {% endif %}
-    </div>
-
-    <div class="grid__item large--one-half">
-
-      <h1 itemprop="name">{{ product.title }}</h1>
-
-      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
-
-        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
-
-        {% comment %}
-          ID addToCartForm is a selector for the ajax cart plugin
-        {% endcomment %}
-        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
-
-          {% comment %}
-            Add product variants as a dropdown.
-              - By default, each variant (or combination of variants) will display as its own <option>
-              - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
-
-            You can leverage jQuery to add a callback on page load and each time the select element changes:
-              - Include option_selection.js (as seen at the bottom of this file)
-              - This allows you to use JavaScript anytime the variant dropdown changes
-              - This also separates out your variant options (ie. size, color, etc.) to separate select elements
-
-            For more information on products with multiple options, visit:
-              - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
-          {% endcomment %}
-          <select name="id" id="productSelect" class="product-single__variants">
-            {% for variant in product.variants %}
-              {% if variant.available %}
-
-                {% comment %}
-                  Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
-                {% endcomment %}
-                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
-
-              {% else %}
-                <option disabled="disabled">
-                  {{ variant.title }} - {{ 'products.product.sold_out' | t }}
-                </option>
-              {% endif %}
-            {% endfor %}
-          </select>
-
-          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-          <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
-            {{ current_variant.price | money }}
-          </span>
-
-          {% if product.compare_at_price_max > product.price %}
-            <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-            <p id="ComparePrice">
-              {{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}
-            </p>
-          {% endif %}
-
-          <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
-          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
-
-          <button type="submit" name="add" id="AddToCart" class="btn">
-            <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
-          </button>
-        </form>
-
-      </div>
-
-      <div class="product-description rte" itemprop="description">
-        {{ product.description }}
-      </div>
-
-      {% comment %}
-        If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
-        in the URL, we can show next/previous links to other products in the collection.
-      {% endcomment %}
-      {% if collection %}
-        {% if collection.previous_product or collection.next_product %}
-          <p>
-            {% if collection.previous_product %}
-              <span class="left">
-                {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
-              </span>
-            {% endif %}
-            {% if collection.next_product %}
-              <span class="right">
-                {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
-              </span>
-            {% endif %}
-          </p>
-        {% endif %}
-      {% endif %}
-
-    </div>
-  </div>
-
-</div>
 
 {% comment %}
   To take advantage of a callback on the select dropdown, add option_selection.js
@@ -494,3 +381,6 @@
     {% endif %}
   });
 </script>
+
+
+

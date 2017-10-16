@@ -161,11 +161,13 @@
                     <div class="drawer__content">
                         <div class="search-drawer__contentWrapper">
                             <div class="container">
-                                <form action="/search/" class="search-form search-form--dark" method="get">
+                                <form action="/search/" class="search-form search-form--dark">
                                     <div class="search-form__wrapper">
                                         <fieldset class="search-form__fieldset">
                                             <div class="search-form__field">
-                                                <label class="search-form__label" for="id_q">Type to search</label> <input class="form-control" id="id_q" name="q" placeholder="Search" tabindex="1" type="search">
+                                                <label class="search-form__label" for="id_q">Type to search</label> 
+                                                <input class="form-control" value="{{ search.terms | escape }}" id="id_q" name="q" placeholder="Search" tabindex="1" type="search">
+                                                <input type="hidden" name="type" value="product" />
                                             </div><button class="search-form__submit" type="submit"><span class="fonticon fonticon--box fonticon--magnifyingglass"></span></button>
                                         </fieldset>
                                     </div>

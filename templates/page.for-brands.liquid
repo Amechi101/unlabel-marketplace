@@ -99,10 +99,8 @@
                 </header>
                 <div class="triptych__content">
                     <ul class="cols cols--m-3">
-                        {% for brand in linklists.brands.links limit:3 %}
-                            <li class="col">
-                              {% include 'brand-image-block' %}
-                            </li>
+                        {% for obj in linklists.brands.links limit:3 %}
+                              {% include 'triptych-block' %}
                         {% endfor %}
                     </ul>
                 </div>

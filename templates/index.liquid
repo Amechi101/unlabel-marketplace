@@ -6,6 +6,10 @@
   More info on global variables (available on all templates):
     - http://docs.shopify.com/themes/liquid-variables/global
 {% endcomment %}
+
+{% assign creators = linklists.creators %}
+{% assign brands = linklists.brands %}
+
 <section class="home__header">
     <div class="container">
         <div class="home__headerWrapper">
@@ -32,9 +36,9 @@
     <div class="container">
         <div class="home__creatorsCols">
             <div class="home__creatorsCol home__creatorsCol--left">
-                {% for creator in linklists.creators.links limit:1 offset:0 %}
+                {% for obj in creators.links limit:1 offset:0 %}
                     <article class="home_creatorGridItem">
-                        {% include 'creator-image-block' %}
+                        {% include 'portrait-image-block' %}
                     </article>
                 {% endfor %}
                 <div class="home__creatorsTitleContainer">
@@ -51,16 +55,16 @@
                 </div>
             </div>
             <div class="home__creatorsCol home__creatorsCol--middle">
-                {% for creator in linklists.creators.links limit:1 offset:1 %}
+                {% for obj in creators.links limit:1 offset:1 %}
                     <article class="home_creatorGridItem">
-                        {% include 'creator-image-block' %}
+                        {% include 'portrait-image-block' %}
                     </article>
                 {% endfor %}
             </div>
             <div class="home__creatorsCol home__creatorsCol--right u-desktop-only">
-                {% for creator in linklists.creators.links limit:2 offset:2 %}
+                {% for obj in creators.links limit:2 offset:2 %}
                     <article class="home_creatorGridItem">
-                        {% include 'creator-image-block' %}
+                        {% include 'portrait-image-block' %}
                     </article>
                 {% endfor %}
             </div>
@@ -75,10 +79,9 @@
         <div class="home__brandsCarousel carousel">
             <div class="cols cols--m cols--align-left cols--align-top">
                 <div class="col brands__carouselColLeft">
-                   
                     <div class="swiper-container carousel_visualsSlider home__brandsVisualsSlider">
                         <div class="swiper-wrapper">
-                        {% for brand in linklists.brands.links limit: 5 %}
+                        {% for brand in brands.links limit: 5 %}
                             <div class="swiper-slide">
                                 <div class="visual visual--landscape">
                                     <img src="{{ brand.object.image | img_url: '1024x' }}" alt="{{ brand.title }}">
@@ -91,27 +94,17 @@
                 <div class="col brands__carouselColRight">
                     <div class="swiper-container carousel__backgroundsSlider home__brandsBgsSlider">
                         <div class="swiper-wrapper">
+                            {% for brand in brands.links limit: 5 %}
                             <div class="swiper-slide">
-                                <div class="carousel__bgSlide" style="background-color: #EDDDDD;"></div>
+                                <div class="carousel__bgSlide" style="{% cycle 'background-color: #EDDDDD;', 'background-color: #DEEDEE;', 'background-color: #DDE0ED;' %}"></div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="carousel__bgSlide" style="background-color: #DEEDEE;"></div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="carousel__bgSlide" style="background-color: #DDE0ED;"></div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="carousel__bgSlide" style="background-color: #F5E5D9;"></div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="carousel__bgSlide" style="background-color: #EDDDDD;"></div>
-                            </div> 
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="home__brandsCarouselContentWrapper">
                         <div class="swiper-container carousel_contentsSlider home__brandsContentsSlider">
                             <div class="swiper-wrapper">
-                                {% for brand in linklists.brands.links limit:5 %}
+                                {% for brand in brands.links limit: 5 %}
                                     <div class="swiper-slide">
                                         <h3 class="carousel_contentItem subtitle">{{ brand.title }}</h3>
                                         <div class="carousel__contentItem desc desc--small">{{ brand.object.description }}</div>
@@ -157,20 +150,13 @@
     <div class="grid2 home__productsGrid">
         <div class="grid__emptyMessage">
             <ol class="grid2__list">
-                {% for collection in collections %}
-
-                    {% assign lowercase_collection_type = collection.metafields.collection_type.type | downcase %}
-                   
-                    {% if lowercase_collection_type == 'creator' %}
-
-                        {% for product in collection.products limit:6 %}
+                 {% for creators in creators.links %}
+                        {% for product in creators.object.products limit:6 %}
                             {% if product.available %}
                                 <li class="grid2__item">
                                     <article>
                                         <div class="grid__itemInner">
-                                            
                                             {% include 'product-grid-item' %}
-                                           
                                         </div>
                                     </article>
                                 </li>
@@ -178,8 +164,6 @@
                                 <p class="missing">No products for now.</p>
                             {% endif %}
                         {% endfor %}
-                    
-                    {% endif %}
                 {% endfor %}
             </ol>
         </div>

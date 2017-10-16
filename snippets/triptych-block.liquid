@@ -1,0 +1,11 @@
+<li class="col">
+	<a class="u-block" href="{{ obj.url }}" title="{{ obj.title }}">
+		<figure>
+		    <div class="img-container img-container--portrait"><img alt="{{ obj.object.title }}" src="{{ obj.object.image | img_url: '1024x' }}"></div>
+		    <figcaption>
+		        <h3>{{ obj.object.title }}</h3>
+		        <p><small><span class="uppercase">{{ obj.object.metafields.location.city  }}</span>, {{ obj.object.metafields.location.state_or_region | upcase }}, {{ obj.object.metafields.location.country | upcase }}</small></p> 
+		    </figcaption>
+		</figure>
+	</a>
+</li>

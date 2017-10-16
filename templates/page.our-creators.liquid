@@ -2,7 +2,9 @@
 {% comment %} 
   @TODO add page description
 {% endcomment %}
-{% assign creators = linklists.creators.links | sort: 'title' %}
+
+{% assign creators = linklists.creators.links %}
+{% assign creators_alphabetical_order = creators | sort: 'title' %}
 
 <section class="triptych triptych--contentDesktopOnly color-context color-context--creators">
     <div class="triptych__bg"></div>
@@ -13,13 +15,8 @@
             </header>
             <div class="triptych__content u-desktop-only">
                 <ul class="cols cols--m-3">
-
-                    {% for creator in creators | limit:3 offset:0 %}
-                        <li class="col">
-                            
-                            {% include 'creator-image-block' %}
-                            
-                        </li>
+                    {% for obj in creators | limit:3 offset:0 %}
+                        {% include 'triptych-block' %}
                     {% endfor %}
                 </ul>
             </div>
@@ -28,22 +25,35 @@
 </section>
 
 <div class="grid">
-    
+    <div class="grid__sidebar u-desktop-only">
+        <div class="filters">
+            <div class="filters__category"></div>
+        </div> 
+    </div>
+
     <div class="grid__main">
+        <div class="grid__banner"></div>
+        <div class="grid__header">
+            <div class="grid__headerTitle"></div>
+            <div class="grid__headerNav">
+                <div class="grid__headerNavGroup">
+                    <div>
+                        <strong>{{ creators.size }}</strong>&nbsp;{{ linklists.creators.title | downcase }}
+                    </div>
+                </div>
+            </div>
+        </div>  
         <div class="grid__content">
-            {% if linklists.creators.links.size > 0 %}
+            {% if creators.size > 0 %}
                 <ol class="grid__list color-context color-context--creators">
-                    
-                    {% for creator in creators | offset:3 %}
-                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
-                                <article>
-                                    <div class="grid__itemInner">
-                                       
-                                        {% include 'creator-image-block' %}
-                                      
-                                    </div>
-                                </article>
-                            </li>
+                    {% for obj in creators_alphabetical_order %}
+                        <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                            <article>
+                                <div class="grid__itemInner">
+                                    {% include 'portrait-image-block' %}
+                                </div>
+                            </article>
+                        </li>
                     {% endfor %}
                 </ol>
             {% else %}

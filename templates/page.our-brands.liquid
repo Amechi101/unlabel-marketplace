@@ -3,10 +3,9 @@
   @TODO add page description
 {% endcomment %}
 
-{% assign city = collection.metafields.location.city %}
-{% assign state_or_region = collection.metafields.location.state_or_region %}
-{% assign country = collection.metafields.location.country %}
-{% assign brands = linklists.brands.links | sort: 'title' %}
+{% assign brands = linklists.brands.links %}
+{% assign brands_alphabetical_order = brands | sort: 'title' %}
+
 
 <section class="triptych triptych--contentDesktopOnly color-context color-context--brands">
     <div class="triptych__bg"></div>
@@ -17,10 +16,8 @@
             </header>
             <div class="triptych__content u-desktop-only">
                 <ul class="cols cols--m-3">
-                	{% for brand in brands | limit:3 offset:0 %}
-						<li class="col">
-	                        {% include 'brand-image-block' %}
-	                    </li>
+                	{% for obj in brands | limit:3 offset:0 %}
+	                   {% include 'triptych-block' %}
 					{% endfor %}
                 </ul>
             </div>
@@ -29,28 +26,34 @@
 </section>
 
 <div class="grid">
+    <div class="grid__sidebar u-desktop-only">
+        <div class="filters">
+            <div class="filters__category"></div>
+        </div> 
+    </div>
     <div class="grid__main">
+        <div class="grid__banner"></div>
+            <div class="grid__header">
+                <div class="grid__headerTitle"></div>
+                <div class="grid__headerNav">
+                    <div class="grid__headerNavGroup">
+                        <div>
+                            <strong>{{ brands.size }}</strong>&nbsp;{{ linklists.brands.title | downcase }}
+                        </div>
+                    </div>
+                </div>
+            </div> 
         <div class="grid__content">
-            {% if linklists.brands.links.size > 0 %}
+            {% if brands.size > 0 %}
                 <ol class="grid__list color-context color-context--brands">
-    				{% for brand in brands | offset:3 %}
-    		                <li class="grid__item grid__item--m-2 grid__item--l-3 grid__item--xl-4">
-    		                    <article>
-    		                        <div class="grid__itemInner">
-    		                            <a class="u-block" href="{{ brand.object.url }}" title="{{ brand.object.title }}">
-    		                            <figure>
-    		                                <div class="img-container img-container--landscape"><img alt="{{ brand.object.title }}" src="{{ brand.object.image | img_url: '720x720' }}"></div>
-    		                                <figcaption>
-    		                                    <h2>{{ brand.object.title }}</h2>
-                                                {% assign city = brand.object.metafields.location.city %}
-                                                {% assign state_or_region = brand.object.metafields.location.state_or_region %}
-                                                {% assign country = brand.object.metafields.location.country %}
-    		                                    <p><small>{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</small></p>
-    		                                </figcaption>
-    		                            </figure></a>
-    		                        </div>
-    		                    </article>
-    		                </li>
+    				{% for obj in brands_alphabetical_order %}
+		                <li class="grid__item grid__item--m-2 grid__item--l-3 grid__item--xl-4">
+		                    <article>
+		                        <div class="grid__itemInner">
+		                            {% include 'landscape-image-block' %}
+		                        </div>
+		                    </article>
+		                </li>
                     {% endfor %}
                 </ol>
             {% else %}

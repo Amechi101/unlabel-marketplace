@@ -101,10 +101,8 @@
                 </header>
                 <div class="triptych__content">
                     <ul class="cols cols--m-3">
-                        {% for creator in linklists.creators.links limit:3 %}
-                            <li class="col">
-                                {% include 'creator-image-block' %}
-                            </li>
+                        {% for obj in linklists.creators.links limit:3 %}
+                            {% include 'triptych-block' %}
                         {% endfor %}
                     </ul>
                 </div>

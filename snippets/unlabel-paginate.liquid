@@ -1,0 +1,17 @@
+<div class="grid__paginationContainer">
+   {% if paginate.pages > 1 %}
+        <nav class="pagination">
+            <ul class="pagination__list">
+                {% for page in (0..paginate.pages) %}
+                    {% if paginate.current_page == page %}
+                        <li class="pagination__item is-active"><span class="pagination__link">{{ page }}</span></li>
+                    {% endif %}
+                        
+                    {% if paginate.parts[page].is_link %}
+                        <li class="pagination__item"><a href="{{ paginate.parts[page].url }}" class="pagination__link">{{ paginate.parts[page].title }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>

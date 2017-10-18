@@ -1,0 +1,52 @@
+<!-- shoping bag -->
+<div class="basket-mini">
+    <div class="basket-mini__col basket-mini__col--content">
+        
+        <ul class="basket-mini__productList" rv-show="cart.item_count | gt 0">
+            <li rv-each-item="cart.items" class="basket-mini__productListItem">
+                <a class="u-block" rv-href="item.url">
+                <figure class="order-summary__product">
+                    <div class="order-summary__productVisual">
+                        <div class="img-container img-container--square"><img rv-alt="item.product_title" class="thumbnail" rv-src='item.image | img_url'></div>
+                    </div>
+                    <figcaption class="order-summary__productContent">
+                        <p class="order-summary__productName" rv-text="item.product_title"></p>
+                        
+                        <p class="order-summary__productName">Qty : <span rv-text="item.quantity"></span></p>
+                       
+
+                        <p class="order-summary__productName">Size : <span rv-each-option="item.variant_options.0">{option}</span>
+                        </p>
+                        <p class="order-summary__productPrice" rv-text="item.price | money Currency.currentCurrency"></p>
+                    </figcaption>
+                </figure></a>
+            </li>
+        </ul>
+            
+        <div rv-show="cart.item_count | lt 1" class="basket-mini__emptyMessage">
+            <p class="missing missing--matchColor">Your bag is currently empty.</p>
+        </div>
+     
+    </div>
+    <div class="basket-mini__col basket-mini__col--total" rv-show="cart.item_count | gt 0">
+        <div class="basket-mini__colGroup">
+            <p class="basket-mini__totalTitle subtitle subtitle--small">Subtotal</p>
+            <p class="basket-mini__totalPrice title title--small" rv-text="cart.total_price | money Currency.currentCurrency"></p>
+            <p class="basket-mini__totalNote">Excluding tax & shipping</p>
+            <div class="basket-mini__actions">
+                <a class="cta cta--dark cta--block" href="/cart/">Checkout</a>
+            </div>
+        </div>
+    </div>
+    <div class="basket-mini__col basket-mini__col--total" rv-show="cart.item_count | eq 0">
+        <div class="basket-mini__colGroup">
+            <p class="basket-mini__totalTitle subtitle subtitle--small">Subtotal</p>
+            <p class="basket-mini__totalPrice title title--small" rv-text="cart.total_price | money Currency.currentCurrency"></p>
+            <p class="basket-mini__totalNote">Excluding tax & shipping</p>
+            <div class="basket-mini__actions">
+                <a class="cta cta--dark cta--block is-disabled" href="/cart/">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // shopping bag -->

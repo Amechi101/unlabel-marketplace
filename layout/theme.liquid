@@ -24,9 +24,9 @@
   <!-- Helpers ================================================== -->
   {% include 'social-meta-tags' %}
   <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="robots" content="NOARCHIVE,NOCACHE" />
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <meta name="device-size" content="set via css through font-family prop in order to be read by js">
-  <meta name="theme-color" content="{{ settings.color_primary }}">
 
   <!-- CSS ================================================== -->
   {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
@@ -52,6 +52,7 @@
 {% endcomment %}
 <body id="{{ page_title | handle }}" class="{{ page_title | handle }}">
 <div id="app">
+
     <header class="header">
         <div id="header-submenu-overlay" class="header__overlay"></div>
         <div class="header__bar cols cols--align-middle">
@@ -78,29 +79,15 @@
 
             <nav class="header__nav header__nav--secondary nav--inline">
                 <ul class="header__navList nav__list">
-                    <li class="header__navListItem header_submenuToggler">
-                        <a class="header__linkWithNotif header_linkWithSubmenu" href="#" title="Shopping Bag"><span class="u-desktop-only">Shopping Bag</span> <span class="fonticon fonticon--shoppingBag fonticon--box u-mobile-only"></span></a>
+                    <li class="header__navListItem header_submenuToggler" data-cart-view="data-cart-view">
+                        <a class="header__linkWithNotif header_linkWithSubmenu" href="#" title="Shopping Bag">
+                            <span class="u-desktop-only">Shopping Bag</span> 
+                            <span class="fonticon fonticon--shoppingBag fonticon--box u-mobile-only"></span>
+                            <span rv-show="cart.item_count | gt 0" class="notif"><span rv-text="cart.item_count"></span></span>
+                        </a>
                         <div class="header__submenu">
                             <div class="header__submenuWrapper">
-                                <div class="basket-mini">
-                                    <div class="basket-mini__col basket-mini__col--content">
-                                        <div class="basket-mini__emptyMessage">
-                                            <p class="missing missing--matchColor">Your bag is currently empty.</p>
-                                        </div>
-                                    </div>
-                                    <div class="basket-mini__col basket-mini__col--total">
-                                        <div class="basket-mini__colGroup">
-                                            <p class="basket-mini__totalTitle subtitle subtitle--small">Subtotal</p>
-                                            <p class="basket-mini__totalPrice title title--small">$0.00</p>
-                                        </div>
-                                        <div class="basket-mini__colGroup">
-                                            <p class="basket-mini__totalNote">Excluding tax & shipping</p>
-                                            <div class="basket-mini__actions">
-                                                <a class="cta cta--dark cta--block is-disabled" href="/basket/">Checkout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% include 'shopping-bag' %}
                             </div>
                         </div>
                     </li>
@@ -232,52 +219,89 @@
 </div>
 
 
-  {{ 'fastclick.min.js' | asset_url | script_tag }}
-  {{ 'timber.js' | asset_url | script_tag }}
+    {{ 'fastclick.min.js' | asset_url | script_tag }}
 
-  {% comment %} @TODO add NPM for scripts {% endcomment %}
-  {{ 'bundle.js' | asset_url | script_tag }}
+    {{ 'rivets-cart.min.js' | asset_url | script_tag }}
 
-  {% comment %}
-    Template-specific js
-  {% endcomment %}
-  <script>
-    {% if resetPassword %}
-      $(function() {
-        timber.resetPasswordSuccess();
-      });
-    {% endif %}
-  </script>
+    {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+    {{ "/services/javascripts/currencies.js" | script_tag }}
+    
+    {{ "jquery.currencies.min.js" | asset_url | script_tag }}
+
+    {{ 'bundle.js' | asset_url | script_tag }}
 
 
-  {% comment %}
-    Ajaxify your cart with this plugin.
-    Documentation:
-      - http://shopify.com/timber#ajax-cart
-  {% endcomment %}
-  {% if settings.ajax_cart_method == "drawer" %}
-    {{ 'handlebars.min.js' | asset_url | script_tag }}
-    {% include 'ajax-cart-template' %}
-    {{ 'ajax-cart.js' | asset_url | script_tag }}
-    <script>
-      jQuery(function($) {
-        ajaxCart.init({
-          formSelector: '#AddToCartForm',
-          cartContainer: '#CartContainer',
-          addToCartSelector: '#AddToCart',
-          cartCountSelector: '#CartCount',
-          cartCostSelector: '#CartCost',
-          moneyFormat: {{ shop.money_format | json }}
+    <!-- Initialise Cart.js once the page has loaded -->
+    <script type="text/javascript">
+        jQuery(function() {
+
+            CartJS.init({{ cart | json }}, {
+                requestBodyClass: 'cart-loading',
+                currency: '{{ shop.currency }}',
+                moneyFormat: '{{ shop.money_format }}',
+                moneyWithCurrencyFormat: '{{ shop.money_with_currency_format }}'
+            });
+
+            console.log(CartJS.cart);
+            
+            var productActionsContainer = $('#productActions');
+            var productVariantsSelector = productActionsContainer.find('select');
+            var productVariantOptions = productVariantsSelector.find('option:selected');
+            var productVariantStock = productVariantOptions.data('stock-count');
+            var productVariantStockIndicator = $('.product__sizeWorn');
+
+            var stockIndicatorDisplay = function( el, selector, stock_count ) {
+                // el         => element to update
+                // selector   => current selected variant in <select> tag
+                //stock_count => current available stock 
+
+                if ( selector.length == 1) {
+                    if(stock_count >= 3) {
+                        el.text('In Stock');
+                        console.log('In stock');
+                    
+                    } else if( stock_count < 3 && stock_count > 0) {
+                        console.log('Low in Stock');
+                        el.text('Low in stock - ' + stock_count + ' left');
+                    
+                    } else if ( stock_count == 0 ) {
+                        el.text('Out of stock')
+                    }
+                }
+
+            };
+
+            stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
+
+            productVariantsSelector.change(function() {
+        
+                var $this =  $(this)
+                productVariantOptions = $this.find('option:selected');
+                productVariantStock = productVariantOptions.data('stock-count'); 
+
+                stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
+            });
+
+
+            $(document).on('cart.requestComplete', function(event, cart) {
+                new unlabel_app.Drawer({
+                    el: document.getElementById("CartDrawer"), 
+                    options: {
+                        closeSelector: '.drawer__close, .drawer__backdrop, a[href="#close-drawer"]',
+                        addToCartProductPage: true
+                    }
+                });
+            });
+
+            //Re-render CartJS data- elements when the currency changes.
+            $(document).on('currency.changed', function(e, oldCurrency, newCurrency) {
+                CartJS.render(e, CartJS.cart);
+            });
+
+
         });
-      });
-
-      jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
-        // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
-        timber.RightDrawer.open();
-      });
     </script>
-
-  {% endif %}
 
 </body>
 </html>

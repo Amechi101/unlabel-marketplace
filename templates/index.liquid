@@ -149,8 +149,13 @@
     </div>
     <div class="grid2 home__productsGrid">
         <div class="grid__emptyMessage">
+          {% for collection in collections %}
+                {{ collection.title }}
+           {% endfor %}
+            
             <ol class="grid2__list">
                  {% for creators in creators.links %}
+                 {% if creators.object.products.size > 0 %}
                         {% for product in creators.object.products limit:6 %}
                             {% if product.available %}
                                 <li class="grid2__item">

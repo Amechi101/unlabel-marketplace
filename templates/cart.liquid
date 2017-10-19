@@ -6,125 +6,178 @@
     - Shopify Payments - http://docs.shopify.com/manual/more/shopify-payments/testing-shopify-payments
 
 {% endcomment %}
-
-{% if cart.item_count > 0 %}
-
-  <h1>{{ 'cart.general.title' | t }}</h1>
-  <form action="/cart" method="post" novalidate class="cart table-wrap">
-    <table class="cart-table full table--responsive">
-      <thead class="cart__row cart__header-labels">
-        <th colspan="2" class="text-center">{{ 'cart.label.product' | t }}</th>
-        <th class="text-center">{{ 'cart.label.price' | t }}</th>
-        <th class="text-center">{{ 'cart.label.quantity' | t }}</th>
-        <th class="text-right">{{ 'cart.label.total' | t }}</th>
-      </thead>
-      <tbody>
-        {% for item in cart.items %}
-          <tr class="cart__row table__section">
-            <td data-label="{{ 'customer.order.product' | t }}">
-              <a href="{{ item.url | within: collections.all }}" class="cart__image">
-                {% comment %}
-                  More image size options at:
-                    - http://docs.shopify.com/themes/filters/product-img-url
-                {% endcomment %}
-                <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
-              </a>
-            </td>
-            <td>
-              <a href="{{ item.url }}" class="h4">
-                {{ item.product.title }}
-              </a>
-              {% unless item.variant.title contains 'Default' %}
-                <br>
-                <small>{{ item.variant.title }}</small>
-              {% endunless %}
-
-              {% if settings.cart_vendor_enable %}
-                <p>{{ item.vendor }}</p>
-              {% endif %}
-
-              {% comment %}
-                Optional, loop through custom product line items if available
-
-                For more info on line item properties, visit:
-                  - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
-              {% endcomment %}
-              {% assign property_size = item.properties | size %}
-              {% if property_size > 0 %}
-                {% for p in item.properties %}
-                  {% unless p.last == blank %}
-                    {{ p.first }}:
-
-                    {% comment %}
-                      Check if there was an uploaded file associated
-                    {% endcomment %}
-                    {% if p.last contains '/uploads/' %}
-                      <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
-                    {% else %}
-                      {{ p.last }}
-                    {% endif %}
-
-                    <br>
-                  {% endunless %}
-                {% endfor %}
-              {% endif %}
-
-              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove">
-                <small>{{ 'cart.general.remove' | t }}</small>
-              </a>
-            </td>
-            <td data-label="{{ 'cart.label.price' | t }}">
-              <span class="h3">
-                {{ item.price | money }}
-              </span>
-            </td>
-            <td data-label="{{ 'cart.label.quantity' | t }}">
-              <input type="number" name="updates[]" id="updates_{{ item.key }}" data-id="{{ item.key }}" value="{{ item.quantity }}" min="0">
-            </td>
-            <td data-label="{{ 'cart.label.total' | t }}" class="text-right">
-              {% if item.original_line_price != item.line_price %}
-                <span class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></span>
-              {% endif %}
-              <span class="h3">
-                {{ item.line_price | money }}
-              </span>
-              {% for discount in item.discounts %}
-                <span class="cart-item__discount">{{ discount.title }}</span>
-              {% endfor %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <div class="grid cart__row">
-      {% if settings.cart_notes_enable %}
-        <div class="grid__item two-thirds small--one-whole">
-          <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
-          <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
-        </div>
-      {% endif %}
-      <div class="grid__item text-right{% if settings.cart_notes_enable %} one-third small--one-whole{% endif %}">
-        <p>
-          <span class="cart__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
-          <span class="h3 cart__subtotal">{{ cart.total_price | money }}</span>
-        </p>
-        {% if cart.total_discounts > 0 %}
-          {% assign savings = cart.total_discounts | money %}
-          <p>
-            <span class="cart-subtotal__savings"><em>{{ 'cart.general.savings_html' | t: price: savings }}</em></span>
-          </p>
-        {% endif %}
-        <p><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
-        <button type="submit" name="update" class="btn--secondary update-cart">{{ 'cart.general.update' | t }}</button>
-        <button type="submit" name="checkout" class="btn">{{ 'cart.general.checkout' | t }}</button>
-      </div>
+<div class="basket__header">
+    <div class="container">
+        <h2 class="title title--small">Your shopping bag</h2>
     </div>
-  </form>
-{% else %}
-  {% comment %}
-    The cart is empty
-  {% endcomment %}
-  <h2>{{ 'cart.general.title' | t }}</h2>
-  <p>{{ 'cart.general.empty' | t }}</p>
-  <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
-{% endif %}
+</div>
+
+ <main id="content_inner" class="{{ page_title | handle }}" role="main" data-cart-view="data-cart-view">
+    <div rv-show="cart.item_count | gt 0"  class="basket_summary" id="basket_formset_update">
+        <div class="basket-item" rv-each-item="cart.items">
+            <div class="container">
+                <div class="basket-item__row">
+                    <div class="basket-item__col basket-item__col--detail">
+                        <a class="basket-item__visual u-block" rv-href="item.url">
+                        <div class="img-container img-container--square"><img rv-alt="item.product_title"  rv-src='item.image | img_url'></div></a>
+                        <div class="basket-item__info">
+                            <p class="basket-item__name" rv-text="item.product_title"></p>
+                            <p class="basket-item__upc"># <span rv-text="item.id"></span></p>
+                            <p class="basket-item__size">Size: <span rv-each-option="item.variant_options.0">{option}</span></p>
+                            <p class="basket-item__brand">
+                                <a class="link" rv-href="item.vendor | handleize_brand_collection_shopping_bag"><span rv-text="item.vendor"></span></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="basket-item__col u-desktop-only">
+                        <div class="basket-item__delete">
+                            <a href="#" rv-data-cart-remove="index | plus 1">
+                                <div style="display: none;">
+                                    Remove
+                                </div>
+                                <span class="fonticon fonticon--trash fonticon--box"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="basket-item__col u-desktop-only">
+                        <div class="basket-item__quantity">
+                            <div class="quantity">
+                                <div class="quantity__controls u-desktop-only">
+                                    <a class="quantity__btn quantity__btn--less" href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" >
+                                        <span class="fonticon fonticon--box fonticon--less"></span>
+                                    </a>
+
+                                    <input class="quantity__input" type="text" rv-value="item.quantity"> 
+
+                                    <a class="quantity__btn quantity__btn--more" href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1">
+                                        <span class="fonticon fonticon--box fonticon--more"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="basket-item__col u-desktop-only">
+                        <p class="basket-item__price" rv-html="item.line_price | money Currency.currentCurrency"></p>
+                    </div>
+                </div>
+                <div class="basket-item__row u-mobile-only">
+                    <div class="basket-item__col">
+                        <div class="basket-item__quantity">
+                            <div class="quantity">
+                                <div class="quantity__controls u-desktop-only">
+                                    <a class="quantity__btn quantity__btn--less" href="#"><span class="fonticon fonticon--box fonticon--less"></span></a> <input class="quantity__input" type="text" value="1"> <a class="quantity__btn quantity__btn--more" href="#"><span class="fonticon fonticon--box fonticon--more"></span></a>
+                                </div>
+                                <div class="quantity__selectContainer select select--borderLess u-mobile-only">
+                                    <select class="quantity__select">
+                                        <option value="0">
+                                            0
+                                        </option>
+                                        <option selected="selected" value="1">
+                                            1
+                                        </option>
+                                        <option value="2">
+                                            2
+                                        </option>
+                                        <option value="3">
+                                            3
+                                        </option>
+                                        <option value="4">
+                                            4
+                                        </option>
+                                        <option value="5">
+                                            5
+                                        </option>
+                                        <option value="6">
+                                            6
+                                        </option>
+                                        <option value="7">
+                                            7
+                                        </option>
+                                        <option value="8">
+                                            8
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="basket-item__price" rv-html="item.line_price | money Currency.currentCurrency"></p>
+                    </div>
+                    <div class="basket-item__col">
+                        <div class="basket-item__delete">
+                            <a rv-data-cart-remove="index | plus 1" href="#">
+                            <div style="display: none;">
+                                Remove
+                            </div><span class="fonticon fonticon--trash fonticon--box"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <form rv-show="cart.item_count | gt 0" action="/cart" method="post" novalidate name="basket_formset_checkout" class="basket_summary" id="basket_formset_checkout">
+        <div class="basket__footer">
+            <div class="basket__footerRow">
+                <div class="basket__footerCol basket__footerCol--left">
+                    <div class="basket__footerColContent">
+                        <div class="basket__couponFormContainer"></div>
+                        <p class="basket__footerAsterix note">*Shipping & taxes calculated at checkout</p>
+                    </div>
+                </div>
+                <div class="basket__footerCol basket__footerCol--right">
+                    <div class="basket__footerColContent">
+                        <p class="basket__totalLabel">Total</p>
+                        <p class="basket__total subtitle" rv-html="cart.total_price | money Currency.currentCurrency"></p>
+                        <p class="basket__totalAction"><button  type="submit" name="checkout" class="cta cta--light cta--block">Proceed to checkout</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="basket__empty" rv-show="cart.item_count | lt 1">
+        <div class="container">
+            <p class="missing">Your bag is currently empty.</p>
+        </div>
+    </div>
+</main>
+ <section class="triptych color-context color-context--products">
+    <div class="container container--m-pad">
+        <div class="triptych__wrapper triptych__wrapper--taller">
+            <header class="triptych__header">
+                <h2 class="title title--caps title--oneWordPerLine">You may also like</h2>
+            </header>
+            <div class="triptych__content">
+                <ul class="cols cols--m-3">
+                    {% assign exclude_current_product = product.title %}
+
+                    {% for collection in product.collections %}
+
+                        {% if collection.title == product.vendor %}
+
+                            {% capture collection_url %}
+                                {{ collection.url }}
+                            {% endcapture %}
+                              
+                            {% for product in collection.products %}
+                                    
+                                {% unless product.title contains exclude_current_product %}
+                                    {% if product.available %}
+                                        <li class="col">
+                                            {% include 'product-grid-item' %}
+                                        </li>
+                                    {% endif %}
+                                
+                                {% endunless %}
+                            {% endfor %}
+
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+            </div>
+            <nav class="triptych__nav">
+                <a class="cta" href="{{ collection_url }}">See {{ product.vendor }}'s store</a>
+            </nav>
+        </div>
+    </div>
+</section>

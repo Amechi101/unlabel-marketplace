@@ -47,7 +47,7 @@
 
 {% assign creator = creator_tag | handleize %}
 
-{% assign creator_size_worn = collections[creator].metafields.creator_size_worn.creator_size %}
+{% assign creator_size_worn = collections[creator].metafields.product_worn.worn %}
 {% assign creator_city = collections[creator].metafields.location.city %}
 {% assign creator_state_or_region = collections[creator].metafields.location.state_or_region | upcase %}
 {% assign creator_country = collections[creator].metafields.location.country | upcase %}
@@ -106,7 +106,7 @@
                 </div>
                 <div>
                     <div id="productActions" class="product__actions">
-                        <form class="form add-to-basket" data-cart-submit="data-cart-submit">
+                        <form action="/cart/add" class="form add-to-basket" data-cart-submit="data-cart-submit">
                             <div class="basket-form__row">
                                 {% if product.has_only_default_variant %}
                                     
@@ -214,11 +214,10 @@
                                 <ul class="sizechart__list">
                                     <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
                                     <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
-                                    <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
                                     <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
-                                   
+                                    <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
                                     {% if creator_size_worn != '' %}
-                                        <li class="sizechart__item">Size worn: {{ creator_size_worn | escape }}</li>
+                                        <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
                                     {% endif %}
                                 </ul>
                                 <div class="sizechart__toggles">
@@ -292,7 +291,7 @@
     {% else %}
 
 
-    {%endif %}
+    {% endif %}
 
     {% comment %}
         @TODO shipping content and returns information dynamic
@@ -338,6 +337,40 @@
 </div>
 
 {% include 'shopping-bag-drawer' %}
+
+<script>
+    
+    //@TODO make inventory tracking functionality to make sure users do
+    // not add out of stock items to there cart, or items that they have the last inventory off within there cart
+    // var product_data = {{ product | json }};
+    // var product_variants = product_data.variants;
+    
+    // console.log(product_data);
+
+
+    // for (var i = 0; i < product_variants.length; i++) {
+    //     var variant_info = product_variants[i];
+    //     var variant_id = variant_info.id;
+        
+    //     for (var j = 0; j < cart.items.length; j++) {
+    //         var cart_info = cart.items[i];
+    //         var cart_variant_id = cart_info.id;
+
+    //         if( variant_info.inventory_quantity <= 1) {
+    //             if (cart_variant_id == variant_id  ) {
+    //                 alert('Out of Stock')
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    $(document).on('cart.requestComplete', function(event, cart) {
+
+        // shopping_drawer( true );
+
+    });
+</script>
 
 
 

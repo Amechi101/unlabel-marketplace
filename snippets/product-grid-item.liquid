@@ -1,19 +1,23 @@
-<a class="u-block" href="{{ product.url }}" title="{{ product.title }}">
-	<figure>
-		<div class="img-container img-container--square"><img alt="{{ product.title }}" src="{{ product.featured_image | img_url: '1024x' }}"></div>
-		<figcaption>
-		    <h2>{{ product.title }}</h2>
-			{% for tag in product.tags %}
-			    {% if tag contains 'creator-' %}
-			        {% assign strip_creator_prefix = tag | remove: "creator-" | replace: "-", " " %}
-			    {% endif %}
-			{% endfor %}
-			<h3><small>by {{ product.vendor }} &nbsp;x&nbsp; <span class="creator-uppercase">{{ strip_creator_prefix }}</span></small></h3>
+<article>
+	<div class="grid__itemInner">
+		<a class="u-block" href="{{ product.url }}" title="{{ product.title }}">
+			<figure>
+				<div class="img-container img-container--square"><img alt="{{ product.title }}" src="{{ product.featured_image | img_url: '1024x' }}"></div>
+				<figcaption>
+				    <h2>{{ product.title }}</h2>
+					{% for tag in product.tags %}
+					    {% if tag contains 'creator-' %}
+					        {% assign strip_creator_prefix = tag | remove: "creator-" | replace: "-", " " %}
+					    {% endif %}
+					{% endfor %}
+					<h3><small>by {{ product.vendor }} &nbsp;x&nbsp; <span class="creator-uppercase">{{ strip_creator_prefix }}</span></small></h3>
 
-			{% include 'product-price' %}
-		</figcaption>
-	</figure>
-</a>
+					{% include 'product-price' %}
+				</figcaption>
+			</figure>
+		</a>
+	</div>
+</article>
 
 
 

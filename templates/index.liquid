@@ -143,32 +143,24 @@
         </div>
     </div>
 </section>
+
 <section class="home__products color-context color-context--products">
     <div class="container">
         <h2 class="title title--caps home__productsTitle">Start<br>shopping</h2>
     </div>
     <div class="grid2 home__productsGrid">
         <div class="grid__emptyMessage">
-          {% for collection in collections %}
-                {{ collection.title }}
-           {% endfor %}
-            
             <ol class="grid2__list">
-                 {% for creators in creators.links %}
-                 {% if creators.object.products.size > 0 %}
-                        {% for product in creators.object.products limit:6 %}
-                            {% if product.available %}
-                                <li class="grid2__item">
-                                    <article>
-                                        <div class="grid__itemInner">
-                                            {% include 'product-grid-item' %}
-                                        </div>
-                                    </article>
-                                </li>
-                            {% else %}
-                                <p class="missing">No products for now.</p>
-                            {% endif %}
-                        {% endfor %}
+            {% for creators in creators.links %}
+                    {% for product in creators.object.products limit:6 %}
+                        
+                        {% if product.available %}
+                            <li class="grid2__item">
+                                {% include 'product-grid-item' %}
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}  
                 {% endfor %}
             </ol>
         </div>

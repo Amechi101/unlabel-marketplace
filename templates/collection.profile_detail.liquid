@@ -100,7 +100,7 @@
                 <div class="grid__headerNav">
                     <div class="grid__headerNavGroup"></div>
                     <div class="grid__headerNavGroup">        
-                        <div>
+    {% comment %}                    <div>
                             <form>
                                 <div class="select select--borderLess" name="SortBy" id="SortBy">
                                     <select>
@@ -116,7 +116,7 @@
                                     </select>
                                 </div>
                             </form>
-                        </div>
+                        </div>{% endcomment %}
                         <div>
                             <strong>{{ current_displayed }}</strong>&nbsp;results
                         </div>
@@ -131,14 +131,12 @@
                             <p class="missing">No products for now.</p>
                         </div>
                     {% else %}  
-                        {% for product in collection.products limit:5 %}
-                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
-                                <article>
-                                    <div class="grid__itemInner">
-                                        {% include 'product-grid-item' %}
-                                    </div>
-                                </article>
-                            </li>
+                        {% for product in collection.products limit:16 %}
+                            {% if product.available %}
+                                <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                                    {% include 'product-grid-item' %}
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     {% endif %}
                 </ol>

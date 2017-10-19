@@ -167,11 +167,15 @@
         </div>
     </header>
 
-    <main id="content_inner" class="{{ page_title | handle }}" role="main">
+    {% if template == 'cart' %}
 
-      {{ content_for_layout }}
+        {{ content_for_layout }}
 
-    </main>
+    {% else %}
+        <main id="content_inner" class="{{ page_title | handle }}" role="main">
+            {{ content_for_layout }}
+        </main>
+    {% endif %}
 
     <!-- //site-footer-start -->
     <footer class="footer">
@@ -221,7 +225,7 @@
 
     {{ 'fastclick.min.js' | asset_url | script_tag }}
 
-    {{ 'rivets-cart.min.js' | asset_url | script_tag }}
+    {{ 'rivets-cart.js' | asset_url | script_tag }}
 
     {{ 'option_selection.js' | shopify_asset_url | script_tag }}
 
@@ -243,7 +247,7 @@
                 moneyWithCurrencyFormat: '{{ shop.money_with_currency_format }}'
             });
 
-            console.log(CartJS.cart);
+            console.log(CartJS.cart, 'current cart within browser session of user');
             
             var productActionsContainer = $('#productActions');
             var productVariantsSelector = productActionsContainer.find('select');
@@ -272,6 +276,7 @@
 
             };
 
+
             stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
 
             productVariantsSelector.change(function() {
@@ -284,15 +289,17 @@
             });
 
 
-            $(document).on('cart.requestComplete', function(event, cart) {
+            window.shopping_drawer = window.shopping_drawer || {};
+
+            shopping_drawer = function( bool ) {
                 new unlabel_app.Drawer({
                     el: document.getElementById("CartDrawer"), 
                     options: {
                         closeSelector: '.drawer__close, .drawer__backdrop, a[href="#close-drawer"]',
-                        addToCartProductPage: true
+                        addToCartProductPage: bool
                     }
                 });
-            });
+            }
 
             //Re-render CartJS data- elements when the currency changes.
             $(document).on('currency.changed', function(e, oldCurrency, newCurrency) {

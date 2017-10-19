@@ -81,14 +81,12 @@
             <div class="grid__content">
                 <ol class="grid__list color-context color-context--products">
                     {% if collection.products.count > 0 %}
-                        {% for product in collection.products %}
-                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
-                                <article>
-                                    <div class="grid__itemInner">
-                                        {% include 'product-grid-item' %}
-                                    </div>
-                                </article>
-                            </li>
+                        {% for product in collection.products limit:16 %}
+                            {% if product.available %}
+                                <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                                    {% include 'product-grid-item' %}
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         <div class="grid__emptyMessage">

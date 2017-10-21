@@ -72,22 +72,20 @@
                 {% endif %}
             </div>
             <div class="grid__sidebarWidget">
-                <!-- @TODO : make it share the current page using providers SDKs -->
-                <!-- @TODO : add dynamic content (text, subject, desc, etc) for each providers -->
                 <div class="share">
                     <p class="share__title">Share</p>
                     <ul class="share__list">
                         <li class="share__item">
-                            <a href="mailto:?subject=&body=http://35.166.138.246/catalogue/test-bag-2_110/" title="Share by Email"><span class="fonticon fonticon--email fonticon--smallBox"></span></a>
+                            <a href="mailto:?subject={{ collection.title | strip_html | escape }}'s {% if collection_type == 'creator' %}profile{% else %}store{% endif %} on Unlabel&body=https://unlabel-us.myshopify.com{{ collection.url }}" title="Share by Email"><span class="fonticon fonticon--email fonticon--smallBox"></span></a>
                         </li>
                         <li class="share__item">
-                            <a href="https://www.facebook.com/dialog/share?app_id=test&display=popup&href=http://35.166.138.246/catalogue/test-bag-2_110/&redirect_uri=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Facebook"><span class="fonticon fonticon--facebook fonticon--smallBox"></span></a>
+                            <a href="https://www.facebook.com/dialog/share?app_id=1421811444777881&display=popup&https://unlabel-us.myshopify.com{{ collection.url }}&redirect_uri=https://unlabel-us.myshopify.com{{ collection.url }}" target="_blank" title="Share on Facebook"><span class="fonticon fonticon--facebook fonticon--smallBox"></span></a>
                         </li>
                         <li class="share__item">
-                            <a href="https://twitter.com/share?url=http://35.166.138.246/catalogue/test-bag-2_110/&text=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Twitter"><span class="fonticon fonticon--twitter fonticon--smallBox"></span></a>
+                            <a href="https://twitter.com/share?url=https://unlabel-us.myshopify.com{{ collection.url }}&text={{ collection.title }}'s {% if collection_type == 'creator' %}profile{% else %}store{% endif %} on Unlabel" target="_blank" title="Share on Twitter"><span class="fonticon fonticon--twitter fonticon--smallBox"></span></a>
                         </li>
                         <li class="share__item">
-                            <a href="http://pinterest.com/pin/create/button/?url=http://35.166.138.246/catalogue/test-bag-2_110/&description=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Pinterest"><span class="fonticon fonticon--pinterest fonticon--smallBox"></span></a>
+                            <a href="http://pinterest.com/pin/create/button/?url=https://unlabel-us.myshopify.com{{ collection.url }}&description={{ collection.title | strip_html | escape }}'s {% if collection_type == 'creator' %}profile{% else %}store{% endif %} on Unlabel" target="_blank" title="Share on Pinterest"><span class="fonticon fonticon--pinterest fonticon--smallBox"></span></a>
                         </li>
                     </ul>
                 </div>
@@ -100,11 +98,11 @@
                 <div class="grid__headerNav">
                     <div class="grid__headerNavGroup"></div>
                     <div class="grid__headerNavGroup">        
-    {% comment %}                    <div>
+{% comment %}                        <div>
                             <form>
                                 <div class="select select--borderLess" name="SortBy" id="SortBy">
                                     <select>
-                                       <option value="" disabled selected="">Sort By</option>
+                                        <option value="" disabled selected="">Sort By</option>
                                         <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
                                         <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
                                         <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
@@ -132,11 +130,11 @@
                         </div>
                     {% else %}  
                         {% for product in collection.products limit:16 %}
-                            {% if product.available %}
-                                <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
-                                    {% include 'product-grid-item' %}
-                                </li>
-                            {% endif %}
+                         
+                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                                {% include 'product-grid-item' %}
+                            </li>
+                          
                         {% endfor %}
                     {% endif %}
                 </ol>

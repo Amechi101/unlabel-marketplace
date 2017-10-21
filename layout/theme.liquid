@@ -8,9 +8,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  {% if settings.favicon_enable %}
-  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
-  {% endif %}
+
+<link rel="apple-touch-icon" sizes="57x57" href="{{ 'apple-icon-57x57.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="60x60" href="{{ 'apple-icon-60x60.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ 'apple-icon-72x72.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="76x76" href="{{ 'apple-icon-76x76.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ 'apple-icon-114x114.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ 'apple-icon-120x120.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ 'apple-icon-144x144.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ 'apple-icon-152x152.png' | asset_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ 'apple-icon-180x180.png' | asset_url }}">
+<link rel="icon" type="image/png" sizes="192x192"  href="{{ 'android-icon-192x192.png' | asset_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon-32x32.png' | asset_url }}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ 'favicon-96x96.png' | asset_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ 'favicon-16x16.png' | asset_url }}">
+<meta name="msapplication-TileImage" content="{{ 'ms-icon-144x144.png' | asset_url }}">
+
 
   <!-- Title and description ================================================== -->
   <title>
@@ -29,7 +42,7 @@
   <meta name="device-size" content="set via css through font-family prop in order to be read by js">
 
   <!-- CSS ================================================== -->
-  {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'unlabel.scss.css' | asset_url | stylesheet_tag }}
   <style>
       .creator-uppercase,
       .brand-uppercase,
@@ -51,8 +64,8 @@
   Add the page template as a class for easy page or template specific styling.
 {% endcomment %}
 <body id="{{ page_title | handle }}" class="{{ page_title | handle }}">
-<div id="app">
 
+<div id="app">
     <header class="header">
         <div id="header-submenu-overlay" class="header__overlay"></div>
         <div class="header__bar cols cols--align-middle">
@@ -172,9 +185,11 @@
         {{ content_for_layout }}
 
     {% else %}
+        
         <main id="content_inner" class="{{ page_title | handle }}" role="main">
             {{ content_for_layout }}
         </main>
+    
     {% endif %}
 
     <!-- //site-footer-start -->
@@ -235,8 +250,6 @@
 
     {{ 'bundle.js' | asset_url | script_tag }}
 
-
-    <!-- Initialise Cart.js once the page has loaded -->
     <script type="text/javascript">
         jQuery(function() {
 
@@ -247,65 +260,14 @@
                 moneyWithCurrencyFormat: '{{ shop.money_with_currency_format }}'
             });
 
-            console.log(CartJS.cart, 'current cart within browser session of user');
-            
-            var productActionsContainer = $('#productActions');
-            var productVariantsSelector = productActionsContainer.find('select');
-            var productVariantOptions = productVariantsSelector.find('option:selected');
-            var productVariantStock = productVariantOptions.data('stock-count');
-            var productVariantStockIndicator = $('.product__sizeWorn');
-
-            var stockIndicatorDisplay = function( el, selector, stock_count ) {
-                // el         => element to update
-                // selector   => current selected variant in <select> tag
-                //stock_count => current available stock 
-
-                if ( selector.length == 1) {
-                    if(stock_count >= 3) {
-                        el.text('In Stock');
-                        console.log('In stock');
-                    
-                    } else if( stock_count < 3 && stock_count > 0) {
-                        console.log('Low in Stock');
-                        el.text('Low in stock - ' + stock_count + ' left');
-                    
-                    } else if ( stock_count == 0 ) {
-                        el.text('Out of stock')
-                    }
-                }
-
-            };
+            console.log(CartJS.cart, 'current cart');
 
 
-            stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
-
-            productVariantsSelector.change(function() {
-        
-                var $this =  $(this)
-                productVariantOptions = $this.find('option:selected');
-                productVariantStock = productVariantOptions.data('stock-count'); 
-
-                stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
-            });
-
-
-            window.shopping_drawer = window.shopping_drawer || {};
-
-            shopping_drawer = function( bool ) {
-                new unlabel_app.Drawer({
-                    el: document.getElementById("CartDrawer"), 
-                    options: {
-                        closeSelector: '.drawer__close, .drawer__backdrop, a[href="#close-drawer"]',
-                        addToCartProductPage: bool
-                    }
-                });
-            }
 
             //Re-render CartJS data- elements when the currency changes.
             $(document).on('currency.changed', function(e, oldCurrency, newCurrency) {
                 CartJS.render(e, CartJS.cart);
             });
-
 
         });
     </script>

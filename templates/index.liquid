@@ -154,11 +154,11 @@
             {% for creators in creators.links %}
                     {% for product in creators.object.products limit:6 %}
                         
-                        {% if product.available %}
-                            <li class="grid2__item">
-                                {% include 'product-grid-item' %}
-                            </li>
-                        {% endif %}
+                  
+                        <li class="grid2__item">
+                            {% include 'product-grid-item' %}
+                        </li>
+                 
 
                     {% endfor %}  
                 {% endfor %}

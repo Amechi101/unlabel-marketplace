@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="grid__headerNavGroup">
-                        <div>
+{% comment %}                        <div>
                             <form>
                                 <div class="select select--borderLess">
                                     <select>
@@ -71,7 +71,7 @@
                                     </select>
                                 </div>
                             </form>
-                        </div>
+                        </div>{% endcomment %}
                         <div>
                             <strong>{{ current_displayed }}</strong>&nbsp;results
                         </div>
@@ -82,11 +82,11 @@
                 <ol class="grid__list color-context color-context--products">
                     {% if collection.products.count > 0 %}
                         {% for product in collection.products limit:16 %}
-                            {% if product.available %}
-                                <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
-                                    {% include 'product-grid-item' %}
-                                </li>
-                            {% endif %}
+                         
+                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                                {% include 'product-grid-item' %}
+                            </li>
+            
                         {% endfor %}
                     {% else %}
                         <div class="grid__emptyMessage">

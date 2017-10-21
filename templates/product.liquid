@@ -47,7 +47,6 @@
 
 {% assign creator = creator_tag | handleize %}
 
-{% assign creator_size_worn = collections[creator].metafields.product_worn.worn %}
 {% assign creator_city = collections[creator].metafields.location.city %}
 {% assign creator_state_or_region = collections[creator].metafields.location.state_or_region | upcase %}
 {% assign creator_country = collections[creator].metafields.location.country | upcase %}
@@ -166,22 +165,20 @@
                     </div>
                 </div>
                 <div class="grid__sidebarWidget">
-                    <!-- @TODO : make it share the current page using providers SDKs -->
-                    <!-- @TODO : add dynamic content (text, subject, desc, etc) for each providers -->
                     <div class="share">
                         <p class="share__title">Share</p>
                         <ul class="share__list">
                             <li class="share__item">
-                                <a href="mailto:?subject=&body=http://35.166.138.246/catalogue/test-bag-2_110/" title="Share by Email"><span class="fonticon fonticon--email fonticon--smallBox"></span></a>
+                                <a href="mailto:?subject={{ product.title }}&body=https://unlabel-us.myshopify.com{{ product.url }}" title="Share by Email"><span class="fonticon fonticon--email fonticon--smallBox"></span></a>
                             </li>
                             <li class="share__item">
-                                <a href="https://www.facebook.com/dialog/share?app_id=test&display=popup&href=http://35.166.138.246/catalogue/test-bag-2_110/&redirect_uri=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Facebook"><span class="fonticon fonticon--facebook fonticon--smallBox"></span></a>
+                                <a href="https://www.facebook.com/dialog/share?app_id=1421811444777881&display=popup&href=https://unlabel-us.myshopify.com{{ product.url }}&redirect_uri=https://unlabel-us.myshopify.com{{ product.url }}" target="_blank" title="Share on Facebook"><span class="fonticon fonticon--facebook fonticon--smallBox"></span></a>
                             </li>
                             <li class="share__item">
-                                <a href="https://twitter.com/share?url=http://35.166.138.246/catalogue/test-bag-2_110/&text=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Twitter"><span class="fonticon fonticon--twitter fonticon--smallBox"></span></a>
+                                <a href="https://twitter.com/share?url=https://unlabel-us.myshopify.com{{ product.url }}&text={{ product.title }}" target="_blank" title="Share on Twitter"><span class="fonticon fonticon--twitter fonticon--smallBox"></span></a>
                             </li>
                             <li class="share__item">
-                                <a href="http://pinterest.com/pin/create/button/?url=http://35.166.138.246/catalogue/test-bag-2_110/&description=http://35.166.138.246/catalogue/test-bag-2_110/" target="_blank" title="Share on Pinterest"><span class="fonticon fonticon--pinterest fonticon--smallBox"></span></a>
+                                <a href="http://pinterest.com/pin/create/button/?url=https://unlabel-us.myshopify.com{{ product.url }}&description={{ product.title }}" target="_blank" title="Share on Pinterest"><span class="fonticon fonticon--pinterest fonticon--smallBox"></span></a>
                             </li>
                         </ul>
                     </div>
@@ -216,9 +213,10 @@
                                     <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
                                     <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
                                     <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
-                                    {% if creator_size_worn != '' %}
-                                        <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
-                                    {% endif %}
+                                    
+                                    {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
+                                    <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
+                                  
                                 </ul>
                                 <div class="sizechart__toggles">
                                     <div class="toggle">
@@ -339,36 +337,55 @@
 {% include 'shopping-bag-drawer' %}
 
 <script>
-    
-    //@TODO make inventory tracking functionality to make sure users do
-    // not add out of stock items to there cart, or items that they have the last inventory off within there cart
-    // var product_data = {{ product | json }};
-    // var product_variants = product_data.variants;
-    
-    // console.log(product_data);
 
+    // Stock level indicator
+    var productActionsContainer = $('#productActions');
+    var productVariantsSelector = productActionsContainer.find('select');
+    var productVariantOptions = productVariantsSelector.find('option:selected');
+    var productVariantStock = productVariantOptions.data('stock-count');
+    var productVariantStockIndicator = $('.product__sizeWorn');
 
-    // for (var i = 0; i < product_variants.length; i++) {
-    //     var variant_info = product_variants[i];
-    //     var variant_id = variant_info.id;
-        
-    //     for (var j = 0; j < cart.items.length; j++) {
-    //         var cart_info = cart.items[i];
-    //         var cart_variant_id = cart_info.id;
+    var stockIndicatorDisplay = function( el, selector, stock_count ) {
+        // el         => element to update
+        // selector   => current selected variant in <select> tag
+        //stock_count => current available stock 
 
-    //         if( variant_info.inventory_quantity <= 1) {
-    //             if (cart_variant_id == variant_id  ) {
-    //                 alert('Out of Stock')
-    //             }
-    //         }
-    //     }
-    // }
+        if ( selector.length == 1) {
+            if(stock_count >= 3) {
+                el.text('In Stock');
+            
+            } else if( stock_count < 3 && stock_count > 0) {
+                el.text('Low in stock - ' + stock_count + ' left');
+            
+            } else if ( stock_count == 0 ) {
+                el.text('Out of stock');
+            }
+        }
+    };
+
+    // Initial State
+    stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
+
+    productVariantsSelector.change(function() {
+
+        var $this =  $(this)
+        productVariantOptions = $this.find('option:selected');
+        productVariantStock = productVariantOptions.data('stock-count'); 
+
+        stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
+    });
 
 
     $(document).on('cart.requestComplete', function(event, cart) {
-
-        // shopping_drawer( true );
-
+        
+        new unlabel_app.Drawer({
+            el: document.getElementById("CartDrawer"), 
+            options: {
+                closeSelector: '.drawer__close, .drawer__backdrop, a[href="#close-drawer"]',
+                addToCartProductPage: true
+            }
+        });
+   
     });
 </script>
 

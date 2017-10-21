@@ -1851,28 +1851,44 @@
         error: CartJS.Utils.ensureArray(options.error),
         complete: CartJS.Utils.ensureArray(options.complete),
         
-        // @Amechi custom work done here
+        // @Amechi custom work done here... and notes...
+        /*
+          If the user adds items to the cart and there cart has more inventory 
+          then the product variant, return a response saying the item is sold out.
+
+          If on the product page do not open drawer...
+          
+          */
         statusCode: {
             200: function( data, textStatus, jqXHR ) {
-                console.log( data, 'data obj');
-                console.log(textStatus, 'text status' );
-                console.log(jqXHR, 'ajax obj');
 
-                
-                console.log(jqXHR.error(function (err) { console.log(err)}), 'error func')
-                console.log(jqXHR.getResponseHeader("content-type"), 'response func')
-
-                // if (current_user_cart.item_count == data.item_count) {
-                //     alert('you can\'t add anymore items buddy!')
-                // }
             },
-            422: function(error) {
-                console.log(error);
-                
-                if( error.responseJSON.status == 422 ) {
+            422: function( error, textStatus ) {
+                console.log(error)
+                if( window.location.pathname != '/cart/' ) {
                     
-                    console.log('no good!')
-                    shopping_drawer( false );
+                    /*
+                        Build better sequence...
+                        fade in message of item not added... then fade out...
+                        then fade in new text of default shopping bag title.
+                        .... also better message 
+
+                    */
+                    console.log('Item was not added!');
+
+                    var cartDrawerTitle = $( "#CartDrawer .title.title--small" );
+                     
+                    cartDrawerTitle.fadeIn("slow").text( error.responseJSON.description ).delay(2000).fadeOut();
+                    
+                    cartDrawerTitle.queue(function() {
+
+                        $this = $( this );
+                        
+                        $this.fadeIn("slow").text('Shopping Bag');
+                       
+                        $this.dequeue();
+                    });
+                   
                 }
             }
         },
@@ -1939,6 +1955,7 @@
       data.line = line;
       if (quantity != null) {
         data.quantity = quantity;
+
       }
       options.updateCart = true;
       return CartJS.Queue.add('/cart/change.js', data, options);
@@ -2280,13 +2297,18 @@
       return CartJS.Utils.getSizedImageUrl(src, size);
     };
 
-    // This a hack for the "/cart" page to make links referring to a specific brands collection 
+    /* 
+        @Amechi -- This a hack for the "/cart" page to make links referring to a specific brands collection 
+    */
     rivets.formatters.handleize_brand_collection_shopping_bag = function (str) {
+        // https://gist.github.com/dlindenkreuz/a439ec4b939f0561d6d9
         return "/collections/" + str.toLowerCase().replace(/[^\w\u00C0-\u024f]+/g, "-").replace(/^-+|-+$/g, "");
     };
+    // ---- End
     rivets.formatters.moneyWithCurrency = rivets.formatters.money_with_currency;
     rivets.formatters.weightWithUnit = rivets.formatters.weight_with_unit;
     rivets.formatters.productImageSize = rivets.formatters.product_image_size;
+
   } else {
     CartJS.Rivets = {
       init: function() {},

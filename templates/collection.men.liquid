@@ -5,11 +5,6 @@
     - http://docs.shopify.com/themes/liquid-variables/collection
 
 {% endcomment %}
-{% assign title_lowercase = collection.title | downcase %}
-
-{{ title_lowercase }}
-{% assign women = "women" %}
-{% assign men = "men" %}
 
 {% paginate collection.products by 12 %}
     
@@ -18,7 +13,7 @@
     {% else %}
         {% assign current_displayed = collection.products_count %}
     {% endif %}
-    
+
     <div class="grid grid--borderTopLess color-context color-context--products">
         <div class="grid__sidebar u-desktop-only">
             <div class="categories nested-lists">
@@ -31,13 +26,9 @@
             <div class="grid__banner"></div>
             <div class="grid__header">
                 <div class="grid__headerTitle">
-                    {% if title_lowercase == women or  title_lowercase == men %}
-                        <h1 class="title title--caps">{{ collection.title }}</h1>
-                    {% elsif title_lowercase != women %}
-                        <h1 class="title title--caps">Women - {{ collection.title }}</h1>
-                    {% elsif title_lowercase != men %}
-                        <h1 class="title title--caps">Men - {{ collection.title }}</h1>
-                    {% endif %}
+
+                    {% include 'product-collection-title' %}
+                 
                 </div>
                 <div class="grid__headerNav">
                     <div class="grid__headerNavGroup">
@@ -63,7 +54,8 @@
                         </div>
                     </div>
                     <div class="grid__headerNavGroup">
-{% comment %}                        <div>
+                        {% comment %} @NICETOHAVE - add sorting functionality                     
+                        <div>
                             <form>
                                 <div class="select select--borderLess">
                                     <select>
@@ -73,7 +65,8 @@
                                     </select>
                                 </div>
                             </form>
-                        </div>{% endcomment %}
+                        </div>
+                        {% endcomment %}
                         <div>
                             <strong>{{ current_displayed }}</strong>&nbsp;results
                         </div>
@@ -84,14 +77,9 @@
                 <ol class="grid__list color-context color-context--products">
                     {% if collection.products.count > 0 %}
                         {% for product in collection.products limit:16 %}
-                            {% for tag in product.tags %}
-                                {% if tag == "men" %}
-                                    <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
-                                        {% include 'product-grid-item' %}
-                                    </li>
-                               
-                                {% endif %}
-                            {% endfor %}
+                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                                {% include 'product-grid-item' %}
+                            </li>
                         {% endfor %}
                     {% else %}
                         <div class="grid__emptyMessage">

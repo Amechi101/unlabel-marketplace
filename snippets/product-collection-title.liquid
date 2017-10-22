@@ -1,0 +1,33 @@
+{% if current_tags %}
+    {% for tag in current_tags  %}
+        {% case tag %}
+            {% when tag contains "clothing-" %}
+                {% assign strip_prefix = tag | remove: "clothing-" %}
+                <h1 class="title title--caps">{{ collection.title }} - {{ strip_prefix }}</h1>
+            {% break %}
+            
+            {% when tag contains "jewelry-" %}
+                {% assign strip_prefix = tag | remove: "jewelry-"  %}
+                <h1 class="title title--caps">{{ collection.title }} - {{ strip_prefix }}</h1>
+            {% break %}
+            
+            {% when tag contains "bags-" %}
+                {% assign strip_prefix = tag | remove: "bags-"  %}
+                <h1 class="title title--caps">{{ collection.title }} - {{ strip_prefix }}</h1>
+            {% break %}
+            
+            {% when tag contains "shoes-" %}
+                {% assign strip_prefix = tag | remove: "shoes-"  %}
+                <h1 class="title title--caps">{{ collection.title }} - {{ strip_prefix }}</h1>
+            {% break %}
+            
+            {% when tag contains "accessories-" %}
+                {% assign strip_prefix = tag | remove: "accessories-"  %}
+                <h1 class="title title--caps">{{ collection.title }} - {{ strip_prefix }}</h1>
+            {% break %}
+        {% endcase %}
+    {% endfor %}
+{% else %}
+    <h1 class="title title--caps">{{ collection.title }}</h1>
+{% endif %}
+

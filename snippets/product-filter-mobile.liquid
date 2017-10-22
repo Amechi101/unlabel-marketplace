@@ -1,28 +1,123 @@
+{% for type in collection.all_types %}
 
-{% if title_lowercase  == women or title_lowercase  == men %}
-    {% for type in collection.all_types %}
+    {% if type == 'Clothing' %}
         <li class="nested-lists__item drawer__item">
-                <a class="nested-lists__link drawer__link" href="{{ type | url_for_type }}">
-                    <span class="drawer__linkLabel">{{type}}</span>
-                    <span class="drawer__linkIcon">
-                        <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
-                    </span>
-                </a>
+            <a class="nested-lists__link drawer__link drawer__link--toggle" href="#">
+                <span class="drawer__linkLabel">{{ type }}</span>
+                <span class="drawer__linkIcon"></span>
             </a>
-        </li>
-    {% endfor %}
-{% else %}
-    {% for tag in collection.tags %}
-        {% if tag  == women or tag == men %}
-            <li class="nested-lists__item drawer__item">
-                 <a class="nested-lists__link drawer__link" href="/collections/{{tag}}">
-                        <span class="drawer__linkLabel">{{ tag | capitalize }} > {{ collection.title }}</span>
-                        <span class="drawer__linkIcon">
-                            <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
-                        </span>
-                    </a>
-                </a>
-            </li>
-        {% endif %}
-    {% endfor %}
-{% endif %}
+            <ul class="nested-lists__list drawer__list">
+                {% for tag in collection.all_tags %}
+                    {% if tag contains 'clothing-'  %}
+                        {% assign strip_prefix = tag | remove: "clothing-" %}
+                        
+                        <li class="nested-lists__item drawer__item">
+                            <a class="nested-lists__link drawer__link uppercase" href="{{ tag | handleize | prepend:'/' | within: collection }}">
+                                <span class="drawer__linkLabel">{{ strip_prefix }}</span>
+                                <span class="drawer__linkIcon">
+                                    <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li> 
+    {% elsif type == 'Jewelry' %}
+        <li class="nested-lists__item drawer__item">
+            <a class="nested-lists__link drawer__link drawer__link--toggle" href="#">
+                <span class="drawer__linkLabel">{{ type }}</span>
+                <span class="drawer__linkIcon"></span>
+            </a>
+            <ul class="nested-lists__list drawer__list">
+                {% for tag in collection.all_tags %}
+                    {% if tag contains 'jewelry-' %}
+
+                        {% assign strip_prefix = tag | remove: "jewelry-" %}
+                        
+                        <li class="nested-lists__item drawer__item">
+                            <a class="nested-lists__link drawer__link uppercase" href="{{ tag | handleize | prepend:'/' | within: collection }}">
+                                <span class="drawer__linkLabel">{{ strip_prefix }}</span>
+                                <span class="drawer__linkIcon">
+                                    <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li> 
+    {% elsif type == 'Bags' %}
+        <li class="nested-lists__item drawer__item">
+            <a class="nested-lists__link drawer__link drawer__link--toggle" href="#">
+                <span class="drawer__linkLabel">{{ type }}</span>
+                <span class="drawer__linkIcon"></span>            
+            </a>
+            <ul class="nested-lists__list drawer__list">
+                {% for tag in collection.all_tags %}
+                    {% if tag contains 'bags-' %}
+
+                        {% assign strip_prefix = tag | remove: "bags-" %}
+                        
+                        <li class="nested-lists__item drawer__item">
+                            <a class="nested-lists__link drawer__link uppercase" href="{{ tag | handleize | prepend:'/' | within: collection }}">
+                                <span class="drawer__linkLabel">{{ strip_prefix }}</span>
+                                <span class="drawer__linkIcon">
+                                    <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li> 
+    {% elsif type == 'Shoes' %}
+        <li class="nested-lists__item drawer__item">
+            <a class="nested-lists__link drawer__link drawer__link--toggle" href="#">
+                <span class="drawer__linkLabel">{{ type }}</span>
+                <span class="drawer__linkIcon"></span>            
+            </a>
+            <ul class="nested-lists__list drawer__list">
+                {% for tag in collection.all_tags %}
+                    {% if tag contains 'shoes-' %}
+
+                        {% assign strip_prefix = tag | remove: "shoes-" %}
+                        
+                        <li class="nested-lists__item drawer__item">
+                            <a class="nested-lists__link drawer__link uppercase" href="{{ tag | handleize | prepend:'/' | within: collection }}">
+                                <span class="drawer__linkLabel">{{ strip_prefix }}</span>
+                                <span class="drawer__linkIcon">
+                                    <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li> 
+    {% elsif type == 'Accessories' %}
+        <li class="nested-lists__item drawer__item">
+            <a class="nested-lists__link drawer__link drawer__link--toggle" href="#">
+                <span class="drawer__linkLabel">{{ type }}</span>
+                <span class="drawer__linkIcon"></span>           
+            </a>
+            <ul class="nested-lists__list drawer__list">
+                {% for tag in collection.all_tags %}
+                    {% if tag contains 'accessories-' %}
+
+                        {% assign strip_prefix = tag | remove: "accessories-" %}
+                        
+                        <li class="nested-lists__item drawer__item">
+                            <a class="nested-lists__link drawer__link uppercase" href="{{ tag | handleize | prepend:'/' | within: collection }}">
+                                <span class="drawer__linkLabel">{{ strip_prefix }}</span>
+                                <span class="drawer__linkIcon">
+                                    <span class="fonticon fonticon--smallBox fonticon--carouselArrowRight"></span>
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li> 
+    {% endif %}
+{% endfor %}

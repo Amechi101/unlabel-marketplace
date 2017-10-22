@@ -29,7 +29,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="basket-item__col u-desktop-only">
+                    <div class="basket-item__col u-desktop-only desktop-cart-remove">
                         <div class="basket-item__delete">
                             <a href="#" rv-data-cart-remove="index | plus 1">
                                 <div style="display: none;">
@@ -39,7 +39,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="basket-item__col u-desktop-only">
+                    <div class="basket-item__col u-desktop-only desktop-cart-qty-control">
                         <div class="basket-item__quantity">
                             <div class="quantity">
                                 <div class="quantity__controls u-desktop-only">
@@ -56,17 +56,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="basket-item__col u-desktop-only">
+                    <div class="basket-item__col u-desktop-only desktop-cart-price">
                         <p class="basket-item__price" rv-html="item.line_price | money Currency.currentCurrency"></p>
                     </div>
                 </div>
                 
-                <div class="basket-item__row u-mobile-only">
+                <div class="basket-item__row u-mobile-only mobile-cart">
                     <div class="basket-item__col">
                         <div class="basket-item__quantity">
                             <div class="quantity">
                                 <div class="quantity__controls">
-                                    <a class="quantity__btn quantity__btn--less" href="#"><span class="fonticon fonticon--box fonticon--less"></span></a> <input class="quantity__input" type="text" value="1"> <a class="quantity__btn quantity__btn--more" href="#"><span class="fonticon fonticon--box fonticon--more"></span></a>
+                                    <a class="quantity__btn quantity__btn--less" href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" >
+                                        <span class="fonticon fonticon--box fonticon--less"></span>
+                                    </a>
+
+                                    <input class="quantity__input" type="text" rv-value="item.quantity"> 
+
+                                    <a class="quantity__btn quantity__btn--more" href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1">
+                                        <span class="fonticon fonticon--box fonticon--more"></span>
+                                    </a>
                                 </div>
                          {% comment %}       <div class="quantity__selectContainer select select--borderLess u-mobile-only">
                                     <select rv-id="quantitySelect-item.quantity" class="quantity__select" rv-data-current-qty="item.quantity" rv-data-variant-id="item.id">
@@ -101,7 +109,7 @@
                                 </div>{% endcomment %}
                             </div>
                         </div>
-                        <p class="basket-item__price mobile" rv-html="item.line_price | money Currency.currentCurrency"></p>
+                        <p class="basket-item__price" rv-html="item.line_price | money Currency.currentCurrency"></p>
                     </div>
                     <div class="basket-item__col">
                         <div class="basket-item__delete">

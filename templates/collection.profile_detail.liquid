@@ -27,14 +27,24 @@
                 
                         <figcaption class="creator__overviewVisualCol creator__overviewVisualCol--info u-mobile-only">
                             <p class="title">{{ collection.title }}</p>
-                            <p class="creator__location"><span class="creator-uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                            
+                            {% if state_or_region != '' %}
+                                <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                            {% else %}
+                                <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ country | upcase }}</p>
+                            {% endif %}
                         </figcaption>
                     </figure>
                 </div>
                 <div class="col creator__overviewCol creator__overviewCol--info">
                     <div class="creator__infoHeader u-desktop-only">
                         <p class="title">{{ collection.title }}</p>
-                        <p class="creator__location"><span class="creator-uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                        
+                        {% if state_or_region != '' %}
+                            <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                        {% else %}
+                            <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ country | upcase }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -48,7 +58,11 @@
                 <div class="col brand__overviewCol brand__overviewCol--info">
                     <div class="brand__infoHeader">
                         <h2 class="title">{{ collection.title }}</h2>
-                        <p class="brand__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p></p>
+                        {% if state_or_region != '' %}
+                            <p class="brand__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                        {% else %}
+                            <p class="brand__location"><span class="uppercase">{{ city }}</span>, {{ country | upcase }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -60,8 +74,11 @@
             <div class="grid__sidebarWidget">
                 {% if collection_type == 'creator' %}
                     <ul>
-                        {% for field in collection.metafields.creator_style %}
-                            <li class="tag"><span class="creator-uppercase">{{ field | last }}</span></li>
+                        
+                        {% assign styles = collection.metafields.style.type | split: "," %}
+                        
+                        {% for style in styles %}
+                            <li class="tag"><span class="uppercase">{{ style }}</span></li>
                         {% endfor %}
                     </ul>
                     <div class="creator__bio">

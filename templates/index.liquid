@@ -13,57 +13,57 @@
 <section class="home__header">
     <div class="container">
         <div class="home__headerWrapper">
-            <div class="visual visual--wideLandscape">
+            <div class="visual visual--wideLandscape js-parallax js-animate c-mask" data-speed="-2" data-target=".is-smooth-scroll-compatible">
                 <img src="{{ 'home-visual.jpg' | asset_url }}" alt="Intro">
             </div>
-            <div class="home__headerTitleContainer">
-                <h2 class="title title--headline">
-                    <span class="u-block">Unla</span>
-                    <span class="u-block">bel<span class="logo"><span class="logo__icon">{% include 'logo_dark' %}</span></span>
+            <div class="home__headerTitleContainer js-parallax" data-speed="3" data-target=".is-smooth-scroll-compatible">
+                <h2 class="title title--headline c-mask">
+                    <span class="u-block letters-1"><span>U</span><span>n</span><span>l</span><span>a</span></span>
+                    <span class="u-block letters-2"><span>b</span><span>e</span><span>l</span><span class="logo"><span class="logo__icon">{% include 'logo_dark' %}</span></span>
                     </span>
                 </h2>
             </div>
             <div class="cols cols--m home__headerCols">
-                <div class="col home__headerIntroContainer">
+                <div class="col home__headerIntroContainer js-parallax" data-speed="2" data-target=".is-smooth-scroll-compatible">
                     <p class="title title--medium">The best way to shop nice products from independent brands all over the world.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<section class="home__creators color-context color-context--creators">
-    <div class="home__CreatorsBg"></div>
+<section id="js-creator-parallax" class="home__creators color-context color-context--creators">
+    <div class="home__CreatorsBg js-scroll-mask-right js-scroll-mask js-parallax"></div>
     <div class="container">
         <div class="home__creatorsCols">
-            <div class="home__creatorsCol home__creatorsCol--left">
+            <div class="home__creatorsCol home__creatorsCol--left js-parallax" data-speed="1" data-target="#js-creator-parallax">
                 {% for obj in creators.links limit:1 offset:0 %}
                     <article class="home_creatorGridItem">
                         {% include 'portrait-image-block' %}
                     </article>
                 {% endfor %}
-                <div class="home__creatorsTitleContainer">
+                <div class="home__creatorsTitleContainer js-parallax js-scroll" data-repeat>
                     <h2 class="title title--caps">Our<br>
                     creators</h2>
                 </div>
                 <div class="home__creatorsCtaContainer">
                     <a class="cta cta--dark" href="{{ pages.our-creators.url }}">Discover more</a>
                 </div>
-                <div class="home__creatorsSubtitleContainer">
+                <div class="home__creatorsSubtitleContainer js-parallax js-scroll" data-repeat>
                     <div class="subtitle subtitle--medium home_creatorGridItem">
                         All our products are selected by our content creators for their quality, style and uniqueness.
                     </div>
                 </div>
             </div>
-            <div class="home__creatorsCol home__creatorsCol--middle">
+            <div class="home__creatorsCol home__creatorsCol--middle js-parallax" data-speed="1" data-target="#js-creator-parallax">
                 {% for obj in creators.links limit:1 offset:1 %}
-                    <article class="home_creatorGridItem">
+                    <article class="home_creatorGridItem js-parallax js-scroll" data-repeat>
                         {% include 'portrait-image-block' %}
                     </article>
                 {% endfor %}
             </div>
-            <div class="home__creatorsCol home__creatorsCol--right u-desktop-only">
+            <div class="home__creatorsCol home__creatorsCol--right u-desktop-only js-parallax" data-speed="1" data-target="#js-creator-parallax">
                 {% for obj in creators.links limit:2 offset:2 %}
-                    <article class="home_creatorGridItem">
+                    <article class="home_creatorGridItem js-parallax js-scroll" data-repeat>
                         {% include 'portrait-image-block' %}
                     </article>
                 {% endfor %}
@@ -72,9 +72,9 @@
     </div>
 </section>
 
-<section class="home__brands color-context color-context--brands">
+<section id="js-brands-parallax" class="home__brands color-context color-context--brands">
     <div class="container">
-        <h2 class="home__brandsTitle title title--caps">Our<br class="u-desktop-only"/> Brands</h2>
+        <h2  class="home__brandsTitle title title--caps js-parallax js-scroll" data-repeat>Our<br class="u-desktop-only"/> Brands</h2>
 
         <div class="home__brandsCarousel carousel">
             <div class="cols cols--m cols--align-left cols--align-top">
@@ -82,7 +82,7 @@
                     <div class="swiper-container carousel_visualsSlider home__brandsVisualsSlider">
                         <div class="swiper-wrapper">
                         {% for brand in brands.links limit: 5 %}
-                            <div class="swiper-slide">
+                            <div class="swiper-slide js-parallax js-scroll" data-repeat>
                                 <div class="visual visual--landscape">
                                     <img src="{{ brand.object.image | img_url: '1024x' }}" alt="{{ brand.title }}">
                                 </div>
@@ -96,7 +96,7 @@
                         <div class="swiper-wrapper">
                             {% for brand in brands.links limit: 5 %}
                             <div class="swiper-slide">
-                                <div class="carousel__bgSlide" style="{% cycle 'background-color: #EDDDDD;', 'background-color: #DEEDEE;', 'background-color: #DDE0ED;' %}"></div>
+                                <div class="carousel__bgSlide js-scroll-mask-left js-scroll-mask js-parallax"style="{% cycle 'background-color: #EDDDDD;', 'background-color: #DEEDEE;', 'background-color: #DDE0ED;' %}"></div>
                             </div>
                             {% endfor %}
                         </div>
@@ -107,7 +107,7 @@
                                 {% for brand in brands.links limit: 5 %}
                                     <div class="swiper-slide">
                                         <h3 class="carousel_contentItem subtitle">{{ brand.title }}</h3>
-                                        <div class="carousel__contentItem desc desc--small">{{ brand.object.description }}</div>
+                                        <div class="carousel__contentItem desc desc--small">{{ brand.object.description | truncatewords: 50 }}</div>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -138,31 +138,25 @@
 <section class="home__story">
     <div class="container">
         <div class="home__storyWrapper">
-            <h2 class="subtitle">What we are</h2>
-            <div class="desc home__storyDesc">Nullam maximus faucibus volutpat. Morbi ut erat nunc. Nulla cursus erat vitae dui dictum facilisis. Maecenas vel erat orci. Cras fringilla nunc in nibh tempor, et feugiat quam pellentesque.<br>Vivamus blandit bibendum pellentesque. Cras imperdiet commodo diam at hendrerit. Vivamus at semper erat, vel interdum lectus. Proin sagittis est sed interdum finibus. Suspendisse id vulputate est. Cras sed ligula nec nisl vehicula ultricies.</div>
+            <h2 class="subtitle js-parallax js-scroll" data-repeat>Who we are</h2>
+            <div class="desc home__storyDesc js-parallax js-scroll" data-repeat>Nullam maximus faucibus volutpat. Morbi ut erat nunc. Nulla cursus erat vitae dui dictum facilisis. Maecenas vel erat orci. Cras fringilla nunc in nibh tempor, et feugiat quam pellentesque.<br>Vivamus blandit bibendum pellentesque. Cras imperdiet commodo diam at hendrerit. Vivamus at semper erat, vel interdum lectus. Proin sagittis est sed interdum finibus. Suspendisse id vulputate est. Cras sed ligula nec nisl vehicula ultricies.</div>
         </div>
     </div>
 </section>
 
-<section class="home__products color-context color-context--products">
+<section id="js-product-parallax" class="home__products color-context color-context--products">
     <div class="container">
         <h2 class="title title--caps home__productsTitle">Start<br>shopping</h2>
     </div>
-    <div class="grid2 home__productsGrid">
-        <div class="grid__emptyMessage">
-            <ol class="grid2__list">
+    <div class="grid2 home__productsGrid js-parallax" data-speed="1.5" data-target="#js-product-parallax">
+        <ol class="grid2__list">
             {% for creators in creators.links %}
-                    {% for product in creators.object.products limit:6 %}
-                        
-                  
-                        <li class="grid2__item">
-                            {% include 'product-grid-item' %}
-                        </li>
-                 
-
-                    {% endfor %}  
-                {% endfor %}
-            </ol>
-        </div>
+                {% for product in creators.object.products limit:6 %}
+                    <li class="grid2__item js-parallax js-scroll" data-repeat>
+                        {% include 'product-grid-item' %}
+                    </li>
+                {% endfor %} 
+            {% endfor %}
+        </ol>
     </div>
 </section>

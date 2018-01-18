@@ -2,9 +2,6 @@
 
 {% comment %} 
     @TODO add page description
-    @TODO hook up to mailchimp or another service to submit information
-    @TODO change email
-    @TODO Add Categories
 {% endcomment %}
 <div class="color-context color-context--brands">
     <header class="invite__header">
@@ -29,7 +26,7 @@
         <div class="container container--medium">
             <p class="invite__contactWrapper"><span class="invite__contactLabel">For any question regarding<br>
             Brand inquiries, please contact</span><br>
-            <a href="mailto:ucc@unlabel.us">brand@unlabel.us</a></p>
+            <a href="mailto:brands@unlabel.us">brands@unlabel.us</a></p>
         </div>
     </div>
     <div class="invite__list">
@@ -107,47 +104,61 @@
             </div>
         </div>
     </section>
-    <div class="invite__register">
-        <div class="container container--narrow container--pad">
+    <div id="signupForm" class="invite__register">
+        <div class="invite__descContainer">
+            <div style="" class="container container--medium">
+                <div class="desc">
+                    <div class="final-message-success"></div>
+                    <div class="final-message-error"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container container--narrow container--pad unlabel-form">
             <div class="invite__registerTitleContainer">
                 <h2 class="title title--small">Join Unlabel in few steps</h2>
             </div>
-            <form action="" class="invite__registerForm" enctype="multipart/form-data" id="Brand_register_form" method="post" name="Brand_register_form">
-               <div class="form__row">
+            <form action="http://unlabel.us11.list-manage.com/subscribe/post-json?u=55bc6223b0a7d78f0a89513be&amp;id=b7b5cdbdfb&c=?" class="invite__registerForm" id="Brand_register_form" method="get" name="Brand_register_form">
+               <div class="form__row form__row--m-2">
                     <div class="form-group form__group">
                         <label class="form__label control-label required" for="id_brand_name">Brand Name</label>
                         <div class="form__field">
-                            <input class="form-control" id="id_brand_name" name="brand_name" type="text">
+                            <input class="form-control" id="MERGE3" name="MERGE3" size="25" type="text" required>
+                        </div>
+                    </div>
+                    <div class="form-group form__group">
+                        <label class="form__label control-label required" for="id_email">Email</label>
+                        <div class="form__field">
+                            <input class="form-control" autocapitalize="off" autocorrect="off" size="25" id="MERGE0" name="MERGE0" type="text" required>
                         </div>
                     </div>
                 </div>
                 <div class="form__row form__row--m-2">
                     <div class="form-group form__group">
                         <label class="form__label control-label required" for="id_first_name">First Name</label>
-                        <div class="form__field">
-                            <input class="form-control" id="id_first_name" name="first_name" type="text">
+                        <div class="form__field">   
+                            <input class="form-control" id="MERGE1" name="MERGE1" type="text" size="25" required>
                         </div>
                     </div>
                     <div class="form-group form__group">
                         <label class="form__label control-label required" for="id_last_name">Last Name</label>
                         <div class="form__field">
-                            <input class="form-control" id="id_last_name" name="last_name" type="text">
+                            <input class="form-control" id="MERGE6" name="MERGE6" type="text" size="25" required>
                         </div>
                     </div>
                 </div>
                 <div class="form__row form__row--m-2">
                     <div class="form-group form__group">
-                        <label class="form__label control-label required" for="id_gender">Audience</label>
+                        <label class="form__label control-label required" for="id_audience">Audience</label>
                         <div class="form__field">
                             <div class="select">
-                                <select class="form-control" id="id_gender" name="gender">
-                                    <option value="M">
+                                <select class="form-control" id="MERGE7" name="MERGE7">
+                                    <option value="Male">
                                         Male
                                     </option>
-                                    <option value="F">
+                                    <option value="Female">
                                         Female
                                     </option>
-                                    <option value="Both">
+                                    <option value="Male &amp; Female">
                                         Male &amp; Female
                                     </option>
                                 </select>
@@ -155,36 +166,27 @@
                         </div>
                     </div>
                     <div class="form-group form__group">
-                        <label class="form__label control-label required" for="id_email">Email</label>
+                        <label class="form__label control-label required" for="id_primary_category">Primary Category</label>
                         <div class="form__field">
-                            <input class="form-control" id="id_email" name="email" type="text">
-                        </div>
-                    </div>
-               </div>
-               <div class="form__row form__row--m-2">
-                    <div class="form-group form__group">
-                        <label class="form__label control-label required" for="id_city">City</label>
-                        <div class="form__field">
-                            <input class="form-control" id="id_city" name="city" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group form__group">
-                        <label class="form__label control-label required" for="id_state">State</label>
-                        <div class="form__field">
-                            <input class="form-control" id="id_state" name="state" type="text">
-                        </div>
-                    </div>
-               </div>
-               <div class="form__row">
-                    <div class="form-group form__group">
-                        <label class="form__label control-label required" for="id_country">Country</label>
-                        <div class="form__field">
-                         <div class="select">
-                              <select class="form-control" id="id_country" name="country">
-                                   <option value="USA">USA</option>
-                                   <option value="Barcelona">Barcelona</option>
-                              </select>
-                         </div>
+                            <div class="select">
+                                <select class="form-control" id="MERGE4" name="MERGE4">
+                                    <option value="Clothing">
+                                        Clothing
+                                    </option>
+                                    <option value="Accessories">
+                                        Accessories
+                                    </option>
+                                    <option value="Jewelry">
+                                        Jewelry
+                                    </option>
+                                    <option value="Bags">
+                                        Bags
+                                    </option>
+                                    <option value="Shoes">
+                                        Shoes
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,3 +197,60 @@
         </div>
     </div>
 </div>
+
+<script>
+    //Get the messages div.
+    var formWrapper = $('#signupForm .unlabel-form');
+
+    // var formTitle = $('#signupForm .form-text');
+
+    var formMessagesSuccess = $('#signupForm .final-message-success');
+    var formMessagesError = $('#signupForm .final-message-error');
+    
+    function register($form) {
+        jQuery.ajax({
+            type: "GET",
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            cache       : false,
+            dataType    : 'jsonp',
+            contentType: "application/json; charset=utf-8",
+            error       : function(err) { console.log('Could not connect to the registration server. Please try again later.'); },
+            success     : function(data) {
+                if (data.result != "success") {
+                
+                    console.log('Subscription unsuccessful.');
+
+                    $(formMessagesError).addClass('show');
+                    $(formMessagesError).html("An error has occurred. This might be caused because you already have subscribed to our newsletter. If that's not the case, please try again.");
+              
+                } else {
+
+                    console.log('Successfully subscribed!');
+                                
+                    $(formMessagesError).removeClass('show');
+                    $(formMessagesError).addClass('hide');
+
+                    $(formWrapper).addClass('hide');
+                    // $(formTitle).addClass('hide');
+
+                    $(formMessagesSuccess).addClass('show');
+                    $(formMessagesSuccess).html("Thank you for signing up! </br> Someone from the Unlabel Team will be in touch soon.");
+
+                }
+            }
+        });
+    }
+
+    // waits for form to appear rather than appending straight to the form. Also helps if you have more than one type of form that you want to use this action on.
+    jQuery(document).on('submit', '#Brand_register_form', function(event) {
+        try {
+          //define argument as the current form especially if you have more than one
+          var $form = jQuery(this);
+          // stop open of new tab
+          event.preventDefault();
+          // submit form via ajax
+          register($form);
+        } catch(error){ console.log('error');}
+    });
+</script>

@@ -8,14 +8,14 @@
 
 
 <section class="triptych triptych--contentDesktopOnly color-context color-context--brands">
-    <div class="triptych__bg"></div>
+    <div class="triptych__bg js-animate"></div>
     <div class="container container--m-pad">
-        <div class="triptych__wrapper triptych__wrapper--thinner">
+        <div class="triptych__wrapper triptych__wrapper--thinner c-mask c-mask-brands">
             <header class="triptych__header">
                 <h2 class="title title--destructured title--caps title--oneWordPerLine">Our bra- nds</h2>
             </header>
             <div class="triptych__content u-desktop-only">
-                <ul class="cols cols--m-3">
+                <ul class="cols cols--m-3 ">
                 	{% for obj in brands | limit:3 offset:0 %}
 	                   {% include 'triptych-block' %}
 					{% endfor %}
@@ -47,7 +47,7 @@
             {% if brands.size > 0 %}
                 <ol class="grid__list color-context color-context--brands">
     				{% for obj in brands_alphabetical_order %}
-		                <li class="grid__item grid__item--m-2 grid__item--l-3 grid__item--xl-4">
+		                <li class="grid__item grid__item--m-2 grid__item--l-3 grid__item--xl-4 js-parallax js-scroll" data-repeat>
 		                    <article>
 		                        <div class="grid__itemInner">
 		                            {% include 'landscape-image-block' %}

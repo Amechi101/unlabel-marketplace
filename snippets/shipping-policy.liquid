@@ -1,0 +1,44 @@
+<section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--medium shipping-drawer" id="shipping-drawer">
+    <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
+    <div class="drawer__frame">
+        <div class="drawer__header">
+            <div class="drawer__headerContent">
+                <h2 class="title title--small">Shipping Info</h2>
+            </div>
+            <a class="drawer__close close close--medium" href="#close-drawer" title="Close Drawer"></a>
+        </div>
+        <div class="drawer__scroller">
+            <div class="drawer__content drawer__content--padded">
+                <ul class="returns-drawer__list">
+                    <li class="returns-drawer__listItem">Fulfilled By: <span class="unlabel-bold">{{ product.vendor }}</span></li>
+                    
+                    <li class="returns-drawer__listItem">Free Domestic Shipping within <span class="unlabel-bold">{{ brand_country }}</span> via <span class="unlabel-bold">{{ brand_shipping_domestic }}</span></li>
+                    
+                    {% if brand_shipping_international_choice == 'TRUE' %}
+                        <li class="returns-drawer__listItem">Free International Shipping outside <span class="unlabel-bold">{{ brand_country }}</span> via <span class="unlabel-bold">{{ brand_shipping_international_choice }}</span></li>
+                    {% endif %}
+                    
+                    <li class="returns-drawer__listItem">Estimated Domestic Delivery: {% include 'delivery_estimation_domestic' %}</li>
+                    
+                    {% if brand_shipping_international_choice == 'TRUE' %}
+                        <li class="returns-drawer__listItem">Estimated International Delivery: {% include 'delivery_estimation_international' %}</li>
+                    {% endif %}
+                    
+                    {% if brand_domestic_shipping_notes != '' %}
+                        <li class="returns-drawer__listItem">Notes About Domestic Shipping: <span class="unlabel-bold">{{ brand_domestic_shipping_notes }}</span></li>
+                    {% endif %}
+                    
+                    {% if brand_shipping_international_choice == 'TRUE' %}
+                        
+                        {% if brand_international_shipping_notes != '' %}
+                            <li class="returns-drawer__listItem">Notes About International Shipping: <span class="unlabel-bold">{{ brand_international_shipping_notes | escape }}</span></li>
+                        {% endif %}
+                    
+                    {% else %}
+                        <li class="returns-drawer__listItem">{{ product.vendor }}, does not ship internationally</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

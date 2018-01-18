@@ -14,7 +14,7 @@
         {% assign current_displayed = collection.products_count %}
     {% endif %}
 
-    <div class="container container--pad color-context {% if collection_type == 'creator' %}color-context--creator creator__overviewContainer{% else %} color-context--brand {% endif %}">
+    <div class="container container--pad color-context c-mask {% if collection_type == 'creator' %}color-context--creator creator__overviewContainer{% else %} color-context--brand {% endif %}">
         {% if collection_type == 'creator' %}
             <div class="cols cols--m-gutter32 creator__overviewCols">
                 <div class="col creator__overviewCol creator__overviewCol--visual">
@@ -29,9 +29,9 @@
                             <p class="title">{{ collection.title }}</p>
                             
                             {% if state_or_region != '' %}
-                                <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                                <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
                             {% else %}
-                                <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ country | upcase }}</p>
+                                <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ country | upcase }}</p>
                             {% endif %}
                         </figcaption>
                     </figure>
@@ -41,9 +41,9 @@
                         <p class="title">{{ collection.title }}</p>
                         
                         {% if state_or_region != '' %}
-                            <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                            <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
                         {% else %}
-                            <p class="creator__location"><span class="uppercase">{{ city }}</span>, {{ country | upcase }}</p>
+                            <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ country | upcase }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -59,9 +59,9 @@
                     <div class="brand__infoHeader">
                         <h2 class="title">{{ collection.title }}</h2>
                         {% if state_or_region != '' %}
-                            <p class="brand__location"><span class="uppercase">{{ city }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
+                            <p class="brand__location"><span class="uppercase">{{ city | downcase }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
                         {% else %}
-                            <p class="brand__location"><span class="uppercase">{{ city }}</span>, {{ country | upcase }}</p>
+                            <p class="brand__location"><span class="uppercase">{{ city | downcase }}</span>, {{ country | upcase }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -70,7 +70,7 @@
     </div>
 
     <div class="grid">
-        <div class="grid__sidebar">   
+        <div class="grid__sidebar js-parallax js-scroll" data-repeat>   
             <div class="grid__sidebarWidget">
                 {% if collection_type == 'creator' %}
                     <ul>
@@ -78,7 +78,7 @@
                         {% assign styles = collection.metafields.style.type | split: "," %}
                         
                         {% for style in styles %}
-                            <li class="tag"><span class="uppercase">{{ style }}</span></li>
+                            <li class="tag"><span class="uppercase">{{ style | downcase }}</span></li>
                         {% endfor %}
                     </ul>
                     <div class="creator__bio">
@@ -114,8 +114,9 @@
                 <div class="grid__headerTitle"></div>
                 <div class="grid__headerNav">
                     <div class="grid__headerNavGroup"></div>
-                    <div class="grid__headerNavGroup">        
-{% comment %}                        <div>
+                    <div class="grid__headerNavGroup">  
+                        <!-- // sort option -->     
+                        <!-- <div>
                             <form>
                                 <div class="select select--borderLess" name="SortBy" id="SortBy">
                                     <select>
@@ -131,7 +132,8 @@
                                     </select>
                                 </div>
                             </form>
-                        </div>{% endcomment %}
+                        </div> -->
+                        <!-- // sort option-->
                         <div>
                             <strong>{{ current_displayed }}</strong>&nbsp;results
                         </div>
@@ -141,17 +143,15 @@
             
             <div class="grid__content">
                 <ol class="grid__list color-context color-context--products">
-                    {% if collection.products.size == 0 %}
+                    {% if collection.products_count == 0 %}
                         <div class="grid__emptyMessage">
                             <p class="missing">No products for now.</p>
                         </div>
                     {% else %}  
                         {% for product in collection.products limit:16 %}
-                         
-                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5">
+                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5 js-parallax js-scroll" data-repeat>
                                 {% include 'product-grid-item' %}
                             </li>
-                          
                         {% endfor %}
                     {% endif %}
                 </ol>
@@ -163,7 +163,7 @@
         <section class="triptych color-context {% if collection_type == 'creator' %}color-context--creator{% else %}color-context--brand{% endif %}">
             <div class="triptych__bg"></div>
             <div class="container container--m-pad">
-                <div class="triptych__wrapper triptych__wrapper--thinner">
+                <div class="triptych__wrapper triptych__wrapper--thinner js-scroll js-parallax" data-repeat>
                     <header class="triptych__header">
                         <h2 class="title title--destructured title--caps title--oneWordPerLine">{% if collection_type == 'creator' %}More crea tors{% else %}More bra- nds{% endif %}</h2>
                     </header>

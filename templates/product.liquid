@@ -61,9 +61,43 @@
 
 {% assign cm_conversion_factor = 2.54 %}
 
+{% comment %}
+    
+    Getting the brand matched to this product to input product review
+    information for current product
+
+{% endcomment %}
+{% for tag in product.tags %}
+    {% if tag contains "brand-" %}
+        {% assign strip_creator_prefix = tag | remove: "brand-" %}
+    
+        {% capture brand_tag %}
+            {{ strip_creator_prefix }}
+        {% endcapture %}
+    {% endif %} 
+{% endfor %}
+
+{% assign brand = brand_tag | handleize %}
+
+{% assign brand_country = collections[brand].metafields.location.country | upcase %}
+{% assign brand_shipping_domestic = collections[brand].metafields.brand_info.shipping_carrier_domestic | upcase %}
+{% assign brand_shipping_internationl = collections[brand].metafields.brand_info.shipping_carrier_international | upcase %}
+
+{% assign brand_shipping_international_choice = collections[brand].metafields.brand_info.shipping_international_choice | upcase %}
+{% assign brand_domestic_shipping_notes = collections[brand].metafields.brand_info.domestic_shipping_notes %}
+{% assign brand_international_shipping_notes = collections[brand].metafields.brand_info.international_shipping_notes %}
+
+{% assign brand_days_to_fulfill_order = collections[brand].metafields.brand_info.days_to_fulfill_order %}
+{% assign brand_carrier_delivery_days_domestic = collections[brand].metafields.brand_info.delivery_days_domestic %}
+{% assign brand_carrier_delivery_days_international = collections[brand].metafields.brand_info.delivery_days_international %}
+
+{% assign max_days_domestic = brand_days_to_fulfill_order | plus: brand_carrier_delivery_days_domestic | times: 86400 %}
+{% assign max_days_international = brand_days_to_fulfill_order | plus: brand_carrier_delivery_days_international | times: 86400 %}
+{% assign min_days = 3 | times: 86400 %}
+
 <div class="product">
     <div class="container container--m-pad">
-        <div class="product__overview">
+        <div class="product__overview c-mask">
             <div class="product__galleryContainer">
                 <div class="gallery">
                     <div class="swiper-container gallery__larges">
@@ -186,7 +220,7 @@
             </div>
         </div>
     </div>
-    <div class="color-context color-context--product">
+    <div class="color-context color-context--product js-scroll js-parallax" data-repeat>
         <article class="review">
             <div class="container container--pad">
                 <div class="cols cols--m-2 cols--m-gutter32">
@@ -210,8 +244,13 @@
                             <div class="sizechart">
                                 <ul class="sizechart__list">
                                     <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
-                                    <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
+                                    {% if creator_hips > 0 %}
+                                        <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
+                                    {% else %}
+                                    
+                                    {% endif %}
                                     <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
+                                   
                                     <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
                                     
                                     {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
@@ -290,51 +329,7 @@
 
 
     {% endif %}
-
-    {% comment %}
-        @TODO shipping content and returns information dynamic
-    {% endcomment %}
-    <section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--medium shipping-drawer" id="shipping-drawer">
-        <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
-        <div class="drawer__frame">
-            <div class="drawer__header">
-                <div class="drawer__headerContent">
-                    <h2 class="title title--small">Shipping Info</h2>
-                </div><a class="drawer__close close close--medium" href="#close-drawer" title="Close Drawer"></a>
-            </div>
-            <div class="drawer__scroller">
-                <div class="drawer__content drawer__content--padded">
-                    Shipping Info content
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--small returns-drawer" id="returns-drawer">
-        <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
-        <div class="drawer__frame">
-            <div class="drawer__header">
-                <div class="drawer__headerContent">
-                    <h2 class="title title--small">Returns Policy</h2>
-                </div><a class="drawer__close close close--medium" href="#close-drawer" title="Close Drawer"></a>
-            </div>
-            <div class="drawer__scroller">
-                <div class="drawer__content drawer__content--padded">
-                    <ul class="returns-drawer__list">
-                        <li class="returns-drawer__listItem">All returns are free of charge.</li>
-                        <li class="returns-drawer__listItem">Merchandise must be returned within 15 days.</li>
-                        <li class="returns-drawer__listItem">Merchandise must not be worn, altered, or washed.</li>
-                        <li class="returns-drawer__listItem">Merchandise must have all tags attached and be returned in original packaging.</li>
-                        <li class="returns-drawer__listItem">Merchandise returned without the original security tag, or a damaged security tag, may result in a delayed refund or may not qualify for a refund.</li>
-                        <li class="returns-drawer__listItem">Footwear must include the original shoe box in its original condition, without postal labels. Shoe box fees are charged when footwear is returned in a damaged shoe box, or without the original shoe box.</li>
-                        <li class="returns-drawer__listItem">Fine jewelry, handmade items, custom and monogrammed items, and items listed as final sale may not be returne</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 </div>
-
-{% include 'shopping-bag-drawer' %}
 
 <script>
 

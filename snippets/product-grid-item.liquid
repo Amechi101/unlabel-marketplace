@@ -10,7 +10,7 @@
 					        {% assign strip_creator_prefix = tag | remove: "creator-" | replace: "-", " " %}
 					    {% endif %}
 					{% endfor %}
-					<h3><small>by {{ product.vendor }} &nbsp;x&nbsp; <span class="creator-uppercase">{{ strip_creator_prefix }}</span></small></h3>
+					<h3><small>by {{ product.vendor }} &nbsp;x&nbsp; <span class="uppercase">{{ strip_creator_prefix }}</span></small></h3>
 
 					{% include 'product-price' %}
 				</figcaption>

@@ -63,7 +63,9 @@
                         </div>
                     </div>
                     <div class="grid__headerNavGroup">
-{% comment %}                        <div>
+                        
+                        <!-- sorting
+                        <div>
                             <form>
                                 <div class="select select--borderLess">
                                     <select>
@@ -73,7 +75,7 @@
                                     </select>
                                 </div>
                             </form>
-                        </div>{% endcomment %}
+                        </div> // sort -->
                         <div>
                             <strong>{{ current_displayed }}</strong>&nbsp;results
                         </div>
@@ -82,7 +84,7 @@
             </div>
             <div class="grid__content">
                 <ol class="grid__list color-context color-context--products">
-                    {% if collection.products.count > 0 %}
+                    {% if collection.products_count > 0 %}
                         {% for product in collection.products limit:16 %}
                             {% for tag in product.tags %}
                                 {% if tag == "men" %}

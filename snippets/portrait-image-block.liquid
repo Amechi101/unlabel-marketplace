@@ -1,13 +1,15 @@
 <a class="u-block" href="{{ obj.url }}" title="{{ obj.title }}">
 	<figure>
-	    <div class="img-container img-container--portrait"><img alt="{{ obj.object.title }}" src="{{ obj.object.image | img_url: '1024x' }}"></div>
+	    <div class="img-container img-container--portrait js-parallax js-scroll" data-repeat>
+	    	<img alt="{{ obj.object.title }}" src="{{ obj.object.image | img_url: '1024x' }}">
+	    </div>
 	    <figcaption>
 	        <h3>{{ obj.object.title }}</h3>
 	        {% if obj.object.metafields.location.state_or_region != '' %}
-		        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city  }}</span>, {{ obj.object.metafields.location.state_or_region | upcase }}, {{ obj.object.metafields.location.country | upcase }}</small></p> 
+		        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city | downcase }}</span>, {{ obj.object.metafields.location.state_or_region | upcase }}, {{ obj.object.metafields.location.country | upcase }}</small></p> 
 
 		    	{% else %}
-		        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city  }}</span>, {{ obj.object.metafields.location.country | upcase }}</small></p> 
+		        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city | upcase }}</span>, {{ obj.object.metafields.location.country | upcase }}</small></p> 
 		    {% endif %}
 	    </figcaption>
 	</figure>

@@ -7,7 +7,6 @@
 /* ==============================
    Loading / Page Transitions
    ============================== */
-
 .pos-f-t-l {
     position: fixed;
     top: 0;
@@ -202,13 +201,29 @@ body:not(#homepage) .preloader-wrap .preloader-bg {
 
 
 /****** 
-    Regular Rules 
+    Global Rules
 *******/
 
-/* global ( dev only) */
+/* ( dev only) */
 .shopify-preview-bar__section {
     display: none !important;
 }
+
+.unlabel-bold {
+    font-family: 'FaroWeb-BoldLucky';
+}
+
+.uppercase {
+    text-transform: capitalize;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+/****** 
+    Form Brand/Creator Pages
+*******/
 
 /* Error and final message */
 #signupForm .final-message-error {
@@ -269,7 +284,9 @@ body:not(#homepage) .preloader-wrap .preloader-bg {
     transition: opacity 0.3s, visibility 0s 0.3s; 
 }
 
-/* cart page */
+/****** 
+    Cart Page
+*******/
 .desktop-cart-qty-control > .basket-item__quantity {
     -webkit-transform: translate(-35%, -50%);
     transform: translate(-35%, -50%);
@@ -284,29 +301,22 @@ body:not(#homepage) .preloader-wrap .preloader-bg {
     padding-left: 150px;
 }
 
-.unlabel-bold {
-    font-family: 'FaroWeb-BoldLucky';
-}
-
-.uppercase {
-    text-transform: capitalize;
-}
-
-.underline {
-    text-decoration: underline;
-}
 
 /****** 
     Animations 
 *******/
 
-/* smooth scroll container */
-.has-smooth-scroll .unlabel-scroll {
+
+/* 
+smooth scroll container 
+*/
+/*.has-smooth-scroll .unlabel-scroll {
     height: 100vh;
 }
+*/
 
 /* scrolling fade in animation */
-.dom-is-loaded .js-scroll {
+/*.dom-is-loaded .js-scroll {
     opacity: 0;
     -webkit-transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
     transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -316,10 +326,10 @@ body:not(#homepage) .preloader-wrap .preloader-bg {
 
 .dom-is-loaded .js-scroll.is-show {
     opacity: 1;
-}
+}*/
 
 /* c-mask for scrolling InView */
-.is-desktop .dom-is-loaded .js-scroll-mask:after { 
+/*.is-desktop .dom-is-loaded .js-scroll-mask:after { 
     position: absolute;
     left: -1px;
     right: -1px;
@@ -352,11 +362,11 @@ body:not(#homepage) .preloader-wrap .preloader-bg {
     transition: -webkit-transform 0.9s cubic-bezier(0.84, -0.01, 0.48, 0.995);
     transition: transform 0.9s cubic-bezier(0.84, -0.01, 0.48, 0.995);
     transition: transform 0.9s cubic-bezier(0.84, -0.01, 0.48, 0.995), -webkit-transform 0.9s cubic-bezier(0.84, -0.01, 0.48, 0.995);
-}
+}*/
 
 
 /* c-mask for initial page load */
-.c-mask:after,
+/*.c-mask:after,
 .c-mask:before {
     position: absolute;
     left: -0.25rem;
@@ -396,7 +406,7 @@ body:not(#homepage) .preloader-wrap .preloader-bg {
     -webkit-transform: scale(0, 1); 
     -ms-transform: scale(0, 1);
     transform: scale(0, 1);
-}
+}*/
 
 /*****************
     *************************
@@ -4304,6 +4314,22 @@ html.webkit .cta--facebook:not(button) {
     width: 100%;
 }
 
+
+/* @amechi */
+/*.gallery__largesImgContainer {
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.gallery__largesImgContainer:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}*/
+
 @media (max-width: 767px) {
     .gallery__thumbs {
         position: relative;
@@ -5701,9 +5727,9 @@ html.no-js .header_submenuToggler:hover .header__submenu {
 }
 
 @media (max-width: 767px) {
-    .home_creatorGridItem img {
+/*    .home_creatorGridItem img {
         max-width: 114px;
-    }
+    }*/
 }
 
 @media (min-width: 768px) {
@@ -5944,6 +5970,16 @@ a:hover .img-container img {
     -o-object-fit: cover;
     object-fit: cover;
 }
+
+.img-container--landscape video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover; 
+} 
 
 .img-container--square {
     padding-bottom: 100%;

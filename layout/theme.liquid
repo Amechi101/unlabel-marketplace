@@ -92,10 +92,10 @@
     <!-- // page content -->
     <div id="app" class="unlabel-scroll"> 
         <header class="header c-mask" id="header">
+            <!-- // shopping page overlay -->
+            <div id="header-submenu-overlay" class="header__overlay"></div>
+            <!-- // shopping page overlay -->
             <div class="header__bar cols cols--align-middle">
-                <!-- // shopping page overlay -->
-                    <!-- <div id="header-submenu-overlay" class="header__overlay"></div> -->
-                <!-- // shopping page overlay -->
                 <nav class="header__nav header__nav--primary nav--inline">
                     <a href="/" title="Home">
                         <div class="logo">
@@ -119,17 +119,17 @@
                 <nav class="header__nav header__nav--secondary nav--inline">
                     <ul class="header__navList nav__list">
                         <li class="header__navListItem header_submenuToggler" data-cart-view="data-cart-view">
-                            <a class="header__linkWithNotif header_linkWithSubmenu" href="#CartDrawer" title="Shopping Bag">
+                            <a class="header__linkWithNotif header_linkWithSubmenu" href="#" title="Shopping Bag">
                                 <span class="u-desktop-only">Shopping Bag</span> 
                                 <span class="fonticon fonticon--shoppingBag fonticon--box u-mobile-only"></span>
                                 <span rv-show="cart.item_count | gt 0" class="notif"><span rv-text="cart.item_count"></span></span>
                             </a>
                             <!-- hover shopping bag -->
-                            <!-- <div class="header__submenu">
+                            <div class="header__submenu">
                                 <div class="header__submenuWrapper">
-                                    {% comment %}{% include 'shopping-bag' %}{% endcomment %}
+                                    {% include 'shopping-bag' %}
                                 </div>
-                            </div> -->
+                            </div>
                             <!-- // hover shopping bag -->
                         </li>
                         <li class="header__navListItem">
@@ -241,7 +241,7 @@
                 </nav>
             </div>
             <div class="footer__bar footer__bar--bottom cols cols--align-middle">
-                <div class="footer__copyright"><span class="footer__copyrightSymbol">©</span>2017 Unlabel. All rights reserved</div>
+                <div class="footer__copyright"><span class="footer__copyrightSymbol">©</span>2018 Unlabel. All rights reserved</div>
                 <nav class="footer__nav footer__nav--secondary">
                     <ul class="footer__navList footer__navList--legal">
                         {% for link in linklists.legal.links %}
@@ -286,8 +286,6 @@
     
     {{ "jquery.currencies.min.js" | asset_url | script_tag }}
 
-    {{ "jquery.waypoints.min.js" | asset_url | script_tag }}
-
     {{ 'vendors.js' | asset_url | script_tag }}
 
     {{ 'bundle.js' | asset_url | script_tag }}
@@ -302,7 +300,7 @@
                 moneyWithCurrencyFormat: '{{ shop.money_with_currency_format }}'
             });
 
-            console.log(CartJS.cart, 'current cart');
+            // console.log(CartJS.cart, 'current cart');
 
             //Re-render CartJS data- elements when the currency changes.
             $(document).on('currency.changed', function(e, oldCurrency, newCurrency) {

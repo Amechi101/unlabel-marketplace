@@ -1,10 +1,5 @@
 <!-- /templates/page.about-us.liquid -->
 
-{% comment %} 
-	@TODO add page description
-    @TODO add a different image for the 'about visual'
-{% endcomment %}
-
 <div class="about">
     <div class="container container--m-pad">
         <div class="about__header js-parallax">
@@ -15,22 +10,26 @@
                 </div>
             </div>
             <div class="about__descContainer">
-                <p class="desc js-parallax" data-speed="-1.5" data-target=".is-smooth-scroll-compatible">Etiam aliquet erat eget consequat accumsan. Sed vel rhoncus erat. Integer laoreet libero nisl, in mollis justo lobortis vitae. Mauris ullamcorper vel tellus nec maximus. Duis sodales purus magna, sed pellentesque tellus lobortis at. Integer feugiat vel tortor et sollicitudin. Donec orci libero, congue vitae lacinia eu, aliquam ac risus.</p>
+                <p class="desc js-parallax" data-speed="-1.5" data-target=".is-smooth-scroll-compatible">
+                Unlabel brings hard-working digital creatives and forward-thinking independent brands together. It’s about encouraging creatives to continue setting themselves apart by making unique, quality content, and championing brands whose products are diverse and distinct while focusing on small-scale, ethical production. 
+                </p>
             </div>
         </div>
         <div class="about__story">
             <div class="about__storyDesc js-parallax" data-speed="1" data-target=".is-smooth-scroll-compatible">
-                <p><strong>Etiam sed semper enim. Mauris nec nulla facilisis arcu sodales iaculis eget non nibh. Proin eu viverra nisl. Praesent tincidunt leo at egestas fringilla. Morbi eget interdum risus. Pellentesque fermentum elementum metus. Quisque faucibus et ligula vitae hendrerit.</strong></p>
-                <p>Praesent ac dapibus libero. Suspendisse tincidunt ipsum ligula, et interdum odio dapibus ac. Praesent aliquam consequat sem eu rutrum. Fusce mollis arcu in enim porttitor aliquam. Maecenas blandit ornare efficitur. Phasellus dictum tellus nunc, quis ultricies dui vulputate vitae. Aliquam erat volutpat. Aliquam scelerisque, ante at gravida finibus, lorem arcu egestas nisl, auctor commodo metus eros ac risus.</p>
+                <p class="desc"><strong>Inspired by the independent fashion scenes of NYC and LA, Unlabel is a marketplace focused on authentic and unique online buying experiences. 
+                </strong></p>
+                                
+                <p class="desc">We provide honest product reviews and your new favorite products through collaborations with independent brands and the creatives who love them.</p>
             </div>
-            <div class="about__storyVisual js-parallax" data-speed="-1" data-target=".is-smooth-scroll-compatible"><img alt="About Visual" src="{{ 'about-story.jpg' | asset_url }}"></div>
+            <div class="about__storyVisual js-parallax" data-speed="-1" data-target=".is-smooth-scroll-compatible"><img alt="About Visual" src="{{ 'about-kandace.jpeg' | asset_url }}"></div>
         </div>
         <div class="about__carousel carousel">
             <div class="swiper-container carousel_visualsSlider about__carouselVisualsSlider">
                 <div class="swiper-wrapper js-parallax js-scroll" data-repeat>
                     {% for creator in linklists.creators.links limit:4 %}
                         <div class="swiper-slide">
-                            <div class="visual visual--wideLandscape"><img alt="{{ creator.title }}" src="{{ creator.object.image | img_url: '1024x' }}"></div>
+                            <div class="visual visual--wideLandscape"><img alt="{{ creator.title }}" src="{{ creator.object.image | img_url: '1024x', crop: 'center' }}"></div>
                         </div>
                     {% endfor %}
                 </div>

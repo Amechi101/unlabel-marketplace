@@ -1,0 +1,63 @@
+<div class="col">
+    {% if product.metafields.creator_video.video == blank %}
+        <a class="u-block" href="{{ creator_profile_url }}">
+            <figure>
+                <div class="img-container img-container--landscape">
+                    <img alt="{{ creator_name }}" src="{{ creator_image | img_url: '1024x' }}" />
+                </div>
+                <!--
+                <figcaption>
+                    <p>{{ creator_name }}</p>
+                    <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
+                </figcaption>
+                -->
+            </figure>
+        </a>
+    {% else %}
+        <figure>
+            <div class="img-container img-container--landscape">
+                <video 
+                    width="100%" 
+                    height="auto" 
+                    loop="" 
+                    muted=""
+                    controls="controls"
+                    src="{{ product.metafields.creator_video.video }}"
+                >
+                </video>
+            </div>
+        </figure>
+    {% endif %}
+</div>
+<div class="col">
+    <div class="review__content">
+        <h2 class="subtitle">Product Review</h2>
+        <p>by {{ creator_name }}</p>
+        <div class="desc">
+            {{ product.metafields.product_review.review }}
+        </div>
+
+        <div class="sizechart">
+            <ul class="sizechart__list">
+                <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
+                {% if creator_hips > 0 %}
+                    <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
+                {% else %}
+                
+                {% endif %}
+                <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
+               
+                <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
+                
+                {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
+                <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
+              
+            </ul>
+            <div class="sizechart__toggles">
+                <div class="toggle">
+                    <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

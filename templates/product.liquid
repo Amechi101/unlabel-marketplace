@@ -10,24 +10,7 @@
 {% endcomment %}
 
 {% assign brand_collection = product.vendor | handleize  %}
-
-
-{% comment %}
-    
-    To capture if the current brand has other products in its collection to 
-    show other related prdoucts
-
-{% endcomment %}
-
-{% for collection in product.collections %}
-    {% capture collection_size %}
-        {{ collection.products_count }}
-    {% endcapture %}
-{% endfor %}
-
-
-{% assign collection_size = collection_size | plus:0 %}
-
+{% assign collection_size = collections[brand_collection].products_count %}
 
 {% comment %}
     
@@ -100,13 +83,14 @@
         <div class="product__overview c-mask">
             <div class="product__galleryContainer">
                 <div class="gallery">
-                    <div class="swiper-container gallery__larges">
+                    <div class="swiper-container gallery__larges ">
                         <ul class="swiper-wrapper">
                             {% for image in product.images %}
                                 <li class="swiper-slide">
                                     <div class="gallery__largesImgContainer">
-                                        <img alt="{{ image.alt | escape }}" src="{{ image.src | img_url: 'large' }}" />
+                                        <img alt="{{ image.alt | escape }}" src="{{ image.src | img_url: '1024x1024', crop: 'center' }}" />
                                     </div>
+                                    {% comment %}<div class="gallery__largesImgContainer" style="background-image: url({{ image.src | img_url: 'large' }})"></div>{% endcomment %}
                                 </li>
                             {% endfor %}
                         </ul>
@@ -117,7 +101,7 @@
                     <div class="swiper-container gallery__thumbs">
                         <div class="swiper-wrapper">
                             {% for image in product.images %}
-                                <a class="gallery__link swiper-slide" data-slide-to="{{ image.position }}" href="#">
+                                <a class="gallery__link swiper-slide" data-slide-to="{{ image.position | minus: 1}}" href="#">
                                     <div class="img-container">
                                         <img alt="{{ image.alt | escape }}" src="{{ image.src | img_url: 'large' }}" />
                                     </div>
@@ -132,7 +116,7 @@
                     <h1 class="title product__title">{{ product.title }}</h1>
                     <a href="{{ collections[brand_collection].url }}">
                         <h2 class="product__brand uppercase">{{ product.vendor }}</h2>
-                    </a>
+                    </a> 
                 </div>
                 <div>
                     <p class="product__price">{% include 'product-price' %}</p>
@@ -224,47 +208,7 @@
         <article class="review">
             <div class="container container--pad">
                 <div class="cols cols--m-2 cols--m-gutter32">
-                    <div class="col">
-                        <a class="u-block" href="{{ creator_profile_url }}">
-                            <figure>
-                                <div class="img-container img-container--landscape"><img src="{{ creator_image | img_url: '1024x' }}"></div>
-                                <figcaption>
-                                    <p>{{ creator_name }}</p>
-                                    <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
-                                </figcaption>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <div class="review__content">
-                            <h2 class="subtitle">Product Review</h2>
-                            <div class="desc">
-                                {{ product.metafields.product_review.review }}
-                            </div>
-                            <div class="sizechart">
-                                <ul class="sizechart__list">
-                                    <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
-                                    {% if creator_hips > 0 %}
-                                        <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
-                                    {% else %}
-                                    
-                                    {% endif %}
-                                    <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
-                                   
-                                    <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
-                                    
-                                    {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
-                                    <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
-                                  
-                                </ul>
-                                <div class="sizechart__toggles">
-                                    <div class="toggle">
-                                        <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include 'product-review' %}
                 </div>
             </div>
         </article>
@@ -278,12 +222,12 @@
                 <a class="link link--thick" href="#returns-drawer">Returns Policy</a>
             </li>
             <li class="nav__item">
-                <a class="link link--thick" href="{{ creator_profile_url }}">{{ creator_name }}</a>
+                <a class="link link--thick" href="{{ creator_profile_url }}">{{ creator_name }}'s Profile</a>
             </li>
         </ul>
     </nav>
 
-    {% if collection_size > 4 %}
+    {% if collection_size > 2 %}
         <section class="triptych color-context color-context--products">
             <div class="container container--m-pad">
                 <div class="triptych__wrapper triptych__wrapper--taller">
@@ -327,7 +271,6 @@
         </section>
     {% else %}
 
-
     {% endif %}
 </div>
 
@@ -369,7 +312,6 @@
 
         stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
     });
-
 
     $(document).on('cart.requestComplete', function(event, cart) {
         

@@ -222,11 +222,6 @@
   },
   "homepage": {
     "sections": {
-      "intro": {
-          "unlabel-word-1":"Unla",
-          "unlabel-word-2":"bel",
-          ""
-      },
       "frontpage_title": "Frontpage Collection",
       "featured_title": "Featured Collections",
       "news_title": "Latest News"
@@ -258,9 +253,9 @@
       }
     },
     "listings": {
-        "title": {
-          "brand_listing": "Our bra- nds"
-        }
+      "title": {
+        "brand_listing": "Our bra- nds"
+      }
     },
     "customer": {
       "account": "Account",

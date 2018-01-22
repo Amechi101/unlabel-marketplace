@@ -9,10 +9,11 @@
         <nav class="anchors-nav">
             <ul>
                 <li>
-                    <a class="anchors-nav__link smoothscroll js-scrollto" href="#shipping">Shipping &amp; Returns</a>
+                    {% comment %}add js-scrollto --> when smooth animation is on{% endcomment %}
+                    <a class="anchors-nav__link smoothscroll" href="#shoppers">Shoppers</a>
                 </li>
                 <li>
-                    <a class="anchors-nav__link smoothscroll js-scrollto" href="#orders">Orders</a>
+                    <a class="anchors-nav__link smoothscroll" href="#orders">Orders</a>
                 </li>
             </ul>
         </nav>
@@ -27,8 +28,8 @@
                 <div class="grid__headerNavGroup">
                     <div class="select select--borderLess u-mobile-only">
                         <select class="smoothscroll">
-                            <option value="#shipping">
-                                Shipping &amp; Returns
+                            <option value="#shoppers">
+                                Shoppers
                             </option>
                             <option value="#orders">
                                 Orders
@@ -42,11 +43,12 @@
         <div class="grid__content">
             <div class="container container--medium container--left">
                 <div class="textual">
-                    <section class="textual__section" id="shipping">
-                        <h2 class="title title--small">Shipping on Unlabel</h2>
-                        <h3 class="subtitle subtitle--small">Shipping within US and US Territories</h3>
+                    <section class="textual__section" id="shoppers">
+                        <h2 class="title title--small">Shipping & Returns</h2>
+                        
+                        <h3 class="subtitle subtitle--small">Does Unlabel Ship to me?</h3>
                         <div>
-                            <p>All items you purchase on Unlabel will be shipped to you for free. However, each brand on Unlabel has its own shipping method, so your delivery provider and delivery time will vary accordingly from brand to brand.</p>
+                            <p>All products purchased on Unlabel will be shipped to you for free by the brand. However, each brand on Unlabel has its own shipping method, delivery provider, locations they ship to worldwide, and delivery time so please make sure to check the “shipping info” tab on the product page.</p>
                         </div>
                         <h3 class="subtitle subtitle--small">International Shipping</h3>
                         <div>

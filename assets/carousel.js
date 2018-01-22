@@ -1,6 +1,5 @@
 import Swiper from 'swiper'
 import device from './device'
-
 import {TweenMax} from 'gsap'
 
 class Carousel {

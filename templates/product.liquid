@@ -28,6 +28,7 @@
     {% endif %} 
 {% endfor %}
 
+
 {% assign creator = creator_tag | handleize %}
 
 {% assign creator_city = collections[creator].metafields.location.city %}
@@ -36,46 +37,21 @@
 {% assign creator_image = collections[creator].image %}
 {% assign creator_profile_url = collections[creator].url %}
 {% assign creator_name = collections[creator].title %}
-
 {% assign creator_height = collections[creator].metafields.creator_physical.height %}
 {% assign creator_chest_or_bust = collections[creator].metafields.creator_physical.chest_or_bust %}
 {% assign creator_hips = collections[creator].metafields.creator_physical.hips %}
 {% assign creator_waist = collections[creator].metafields.creator_physical.waist %}
-
 {% assign cm_conversion_factor = 2.54 %}
 
-{% comment %}
-    
-    Getting the brand matched to this product to input product review
-    information for current product
+{% assign brand_shipping_notes_domestic = collections[brand_collection].metafields.brand_info.shipping_notes_domestic %}
+{% assign brand_shipping_notes_international = collections[brand_collection].metafields.brand_info.shipping_notes_international %}
+{% assign brand_shipping_po_box = collections[brand_collection].metafields.brand_info.shipping_po_box | upcase %}
 
-{% endcomment %}
-{% for tag in product.tags %}
-    {% if tag contains "brand-" %}
-        {% assign strip_creator_prefix = tag | remove: "brand-" %}
-    
-        {% capture brand_tag %}
-            {{ strip_creator_prefix }}
-        {% endcapture %}
-    {% endif %} 
-{% endfor %}
+{% assign brand_shipping_carrier = collections[brand_collection].metafields.brand_info.shipping_carrier | upcase %}
+{% assign brand_days_to_fulfill_order = collections[brand_collection].metafields.brand_info.days_to_fulfill_order %}
+{% assign brand_carrier_delivery_time = collections[brand_collection].metafields.brand_info.carrier_delivery_time%}
 
-{% assign brand = brand_tag | handleize %}
-
-{% assign brand_country = collections[brand].metafields.location.country | upcase %}
-{% assign brand_shipping_domestic = collections[brand].metafields.brand_info.shipping_carrier_domestic | upcase %}
-{% assign brand_shipping_internationl = collections[brand].metafields.brand_info.shipping_carrier_international | upcase %}
-
-{% assign brand_shipping_international_choice = collections[brand].metafields.brand_info.shipping_international_choice | upcase %}
-{% assign brand_domestic_shipping_notes = collections[brand].metafields.brand_info.domestic_shipping_notes %}
-{% assign brand_international_shipping_notes = collections[brand].metafields.brand_info.international_shipping_notes %}
-
-{% assign brand_days_to_fulfill_order = collections[brand].metafields.brand_info.days_to_fulfill_order %}
-{% assign brand_carrier_delivery_days_domestic = collections[brand].metafields.brand_info.delivery_days_domestic %}
-{% assign brand_carrier_delivery_days_international = collections[brand].metafields.brand_info.delivery_days_international %}
-
-{% assign max_days_domestic = brand_days_to_fulfill_order | plus: brand_carrier_delivery_days_domestic | times: 86400 %}
-{% assign max_days_international = brand_days_to_fulfill_order | plus: brand_carrier_delivery_days_international | times: 86400 %}
+{% assign max_days = brand_days_to_fulfill_order | plus: brand_carrier_delivery_time | times: 86400 %}
 {% assign min_days = 3 | times: 86400 %}
 
 <div class="product">

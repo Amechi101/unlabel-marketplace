@@ -159,7 +159,7 @@
         </div>
     </div>
     {% include 'unlabel-paginate' %}
-    <div class="u-desktop-only">
+{% comment %}    <div class="u-desktop-only">
         <section class="triptych color-context {% if collection_type == 'creator' %}color-context--creator{% else %}color-context--brand{% endif %}">
             <div class="triptych__bg"></div>
             <div class="container container--m-pad">
@@ -187,7 +187,7 @@
                 </div>
             </div>
         </section>
-    </div>
+    </div>{% endcomment %}
     <script>
       /*============================================================================
         Inline JS because collection liquid object is only available

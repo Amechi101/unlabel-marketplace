@@ -110,19 +110,21 @@
                                             <div class="form__field">
                                                 <div class="select">
                                                     <select id="productVariants" class="form-control" name="id">
+                                                        {% for product_option in product.options_with_values %}
                                                         {% for variant in product.variants %}
                                                             {% if variant.available %}
                                                                 {% comment %}
                                                                   Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
                                                                 {% endcomment %}
                                        
-                                                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}">Size: {{ variant.title }}</option>
+                                                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}">{{ product_option.name }}: {{ variant.title }}</option>
                                                             {% else %}
                                                                 <option selected="selected" data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}" disabled="disabled">
-                                                                  Size: {{ variant.title }}
+                                                                  {{ product_option.name }}: {{ variant.title }}
                                                                 </option>
                                                             {% endif %}
                                                         {% endfor %}
+                                                         {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
@@ -203,7 +205,7 @@
         </ul>
     </nav>
 
-    {% if collection_size > 2 %}
+    {% if collection_size >= 2 %}
         <section class="triptych color-context color-context--products">
             <div class="container container--m-pad">
                 <div class="triptych__wrapper triptych__wrapper--taller">

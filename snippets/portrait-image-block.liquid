@@ -5,7 +5,7 @@
 	    </div>
 	    <figcaption>
 	        <h3>{{ obj.object.title }}</h3>
-	        {% if obj.object.metafields.location.state_or_region != '' %}
+	        {% if obj.object.metafields.location.state_or_region != blank %}
 		        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city | downcase }}</span>, {{ obj.object.metafields.location.state_or_region | upcase }}, {{ obj.object.metafields.location.country | upcase }}</small></p> 
 
 		    	{% else %}

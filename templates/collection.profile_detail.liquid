@@ -28,7 +28,7 @@
                         <figcaption class="creator__overviewVisualCol creator__overviewVisualCol--info u-mobile-only">
                             <p class="title">{{ collection.title }}</p>
                             
-                            {% if state_or_region != '' %}
+                            {% if state_or_region != blank %}
                                 <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
                             {% else %}
                                 <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ country | upcase }}</p>
@@ -40,7 +40,7 @@
                     <div class="creator__infoHeader u-desktop-only">
                         <p class="title">{{ collection.title }}</p>
                         
-                        {% if state_or_region != '' %}
+                        {% if state_or_region != blank %}
                             <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
                         {% else %}
                             <p class="creator__location"><span class="uppercase">{{ city | downcase }}</span>, {{ country | upcase }}</p>
@@ -58,7 +58,7 @@
                 <div class="col brand__overviewCol brand__overviewCol--info">
                     <div class="brand__infoHeader">
                         <h2 class="title">{{ collection.title }}</h2>
-                        {% if state_or_region != '' %}
+                        {% if state_or_region != blank %}
                             <p class="brand__location"><span class="uppercase">{{ city | downcase }}</span>, {{ state_or_region | upcase }}, {{ country | upcase }}</p>
                         {% else %}
                             <p class="brand__location"><span class="uppercase">{{ city | downcase }}</span>, {{ country | upcase }}</p>
@@ -145,7 +145,12 @@
                 <ol class="grid__list color-context color-context--products">
                     {% if collection.products_count == 0 %}
                         <div class="grid__emptyMessage">
-                            <p class="missing">No products for now.</p>
+                            {% if collection_type == 'creator' %}
+                                <p class="missing">No products for now.</p>
+                            {% else %} 
+                                <p class="missing">Products launching soon for {{ collection.title }}!</p>
+                            {% endif %}
+                            
                         </div>
                     {% else %}  
                         {% for product in collection.products limit:16 %}
@@ -159,7 +164,7 @@
         </div>
     </div>
     {% include 'unlabel-paginate' %}
-{% comment %}    <div class="u-desktop-only">
+    <div class="u-desktop-only">
         <section class="triptych color-context {% if collection_type == 'creator' %}color-context--creator{% else %}color-context--brand{% endif %}">
             <div class="triptych__bg"></div>
             <div class="container container--m-pad">
@@ -187,7 +192,7 @@
                 </div>
             </div>
         </section>
-    </div>{% endcomment %}
+    </div>
     <script>
       /*============================================================================
         Inline JS because collection liquid object is only available

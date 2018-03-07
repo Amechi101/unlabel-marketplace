@@ -3,7 +3,12 @@
 	    <div class="img-container img-container--landscape"><img alt="{{ obj.object.title }}" src="{{ obj.object.image | img_url: '1024x' }}"></div>
 	    <figcaption>
 	        <h3>{{ obj.object.title }}</h3>
-	        <p><small><span class="uppercase">{{ obj.object.metafields.location.city }}</span>, {{ obj.object.metafields.location.state_or_region | upcase }}, {{ obj.object.metafields.location.country | upcase }}</small></p> 
+       		{% if obj.object.metafields.location.state_or_region != blank %}
+	        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city | downcase }}</span>, {{ obj.object.metafields.location.state_or_region | upcase }}, {{ obj.object.metafields.location.country | upcase }}</small></p> 
+
+	    	{% else %}
+	        	<p><small><span class="uppercase">{{ obj.object.metafields.location.city | downcase }}</span>, {{ obj.object.metafields.location.country | upcase }}</small></p> 
+	    	{% endif %}
 	    </figcaption>
 	</figure>
 </a>

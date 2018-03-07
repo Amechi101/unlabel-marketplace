@@ -49,8 +49,10 @@
                
                 <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
                 
-                {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
-                <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
+                {% if creator_size_worn !=  %}
+                    {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
+                    <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
+                {% endif %}
               
             </ul>
             <div class="sizechart__toggles">

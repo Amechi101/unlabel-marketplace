@@ -8,35 +8,184 @@
     - http://docs.shopify.com/support/configuration/store-customization/adding-fields-to-the-liquid-contact-form
 
 {% endcomment %}
-<div class="contact">
-    <div class="container">
-        <div class="cols cols--m-2">
-            <div class="col contact__header">
-                <h2 class="title title--caps title--destructured">
-{% comment %}                    <span class="u-block">Freq-</span>
-                    <span class="u-block">uently</span>
-                    <span class="u-block">Asked</span>
-                    <span class="u-block">ques-</span>
-                    <span class="u-block">tions</span>{% endcomment %}
-                    <span class="u-block">FAQ</span>   
-                </h2>
-                <h3 class="subtitle subtitle--medium contact__subtitle">Our frequently asked questions regarding policies for shoppers, brands &amp; creators.</h3>
+<div class="grid">
+    <div class="grid__sidebar u-desktop-only">
+        <nav class="anchors-nav">
+            <ul>
+                <li>
+                    {% comment %}add js-scrollto --> when smooth animation is on{% endcomment %}
+                    <a class="anchors-nav__link smoothscroll" href="#shipping">Shipping</a>
+                </li>
+                <li>
+                    <a class="anchors-nav__link smoothscroll" href="#orders">Orders</a>
+                </li>
+                <li>
+                    <a class="anchors-nav__link smoothscroll" href="#payments">Payments</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="grid__main">
+        <div class="grid__banner"></div>
+        <div class="grid__header">
+            <div class="grid__headerTitle">
+                <h1 class="title">FAQ</h1>
             </div>
-            <div class="col contact__content">
-                <ul class="contact__list" style="background-color: #deedee;">
-                    <li class="contact__listItem">
-                        <p class="contact__emailLabel"><strong>For Shoppers</strong></p>
-                        <a href="/pages/shopper-faq" class="contact_email underline">Shopper FAQ</a>
-                    </li>
-                    <li class="contact__listItem">
-                        <p class="contact__emailLabel"><strong>For Brands</strong></p>
-                        <a href="/pages/brand-faq" class="contact_email underline">Brand FAQ</a>
-                    </li>
-                    <li class="contact__listItem">
-                        <p class="contact__emailLabel"><strong>For Creators</strong></p>
-                        <a href="/pages/creator-faq" class="contact_email underline">Creator FAQ</a>
-                    </li>
-                </ul>
+            <div class="grid__headerNav">
+                <div class="grid__headerNavGroup">
+                    <div class="select select--borderLess u-mobile-only">
+                        <select class="smoothscroll">
+                            <option value="#shipping">
+                                Shipping
+                            </option>
+                            <option value="#orders">
+                                Orders
+                            </option>
+                            <option value="#payments">
+                                Payments
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid__headerNavGroup"></div>
+            </div>
+        </div>
+        <div class="grid__content">
+            <div class="container container--medium container--left">
+                <div class="textual">
+                    <section class="textual__section" id="shipping">
+                        <h4 class="title title--xs-small">Updated: January 27th, 2018</h4>
+                        
+                        <!-- Shipping & Returns -->
+                        <h2 class="title title--small">Shipping &amp; Returns</h2>
+                        
+                        <h3 class="subtitle subtitle--small">How much does shipping cost?</h3>
+                        <div>
+                            <p>Nothing! All orders on Unlabel will be shipped to you for free.</p>
+                        </div>
+
+                        <h3 class="subtitle subtitle--small">How long will it take for my package to arrive?</h3>
+                        <div>
+                            <p>Depends! Each brand on Unlabel has its own shipping method, delivery provider and delivery time so please make sure to check the “Shipping Info” tab on the product page.</p>
+                        </div>
+
+                        <h3 class="subtitle subtitle--small">Where does Unlabel Ship too?</h3>
+                        <div>
+                            <p>Currently, all of Unlabel’s brands support shipping within the continental United States. Unfortunately some brands have restrictions on shipping orders to certain states, U.S. territories &amp; P.O. boxes. Please refer to the “Shipping Info” tab on the product page prior to placing an order to ensure that any given item can be shipped to your desired address.</p>
+                        </div>
+
+
+                        <h3 class="subtitle subtitle--small">Does Unlabel Ship internationally?</h3>
+                        <div>
+                            <p>Unlabel unfortunately does not offer direct international shipping, when placing an order on the <a class="links-faq" href="/">unlabel.us</a>. However please email <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a> with the items you wish to purchase. 
+
+                            Again, please refer to the “Shipping Info” tab on the product page prior to emailing us to ensure that the given item can be shipped to your desired address. If so we will reach out to the brand on your behalf and have the items shipped directly to you. Please note that additional shipping charges may apply and return policies will vary from brand to brand.</p>
+                        </div>
+
+                        <h3 class="subtitle subtitle--small">How do I know my order has been shipped?</h3>
+                        <div>
+                            <p>Once you place your order, you will receive an email from us letting you know we have received your order. The product you order from the designated brand will be fulfilled by them, so be on the lookout for a follow-up email about your order shipment status &amp; tracking information.</p>
+                        </div>
+                        
+                        <h3 class="subtitle subtitle--small">What is your return policy?</h3>
+                        <div>
+                            <h4>Applies only within the U.S. &amp; U.S. territories:</h4>
+                            <br>
+                            <li >All returns are free of charge.</li>
+                            <li >Merchandise must be returned within 15 days.</li>
+                            <li >Merchandise must not be worn, altered, or washed.</li>
+                            <li >Merchandise must have all tags attached and be returned in original packaging.</li>
+                            <li >Merchandise returned without the original security tag, or a damaged security tag, may result in a delayed refund or may not qualify for a refund.</li>
+                            <li >Footwear must include the original shoe box in its original condition, without postal labels. Shoe box fees are charged when footwear is returned in a damaged shoe box, or without the original shoe box.</li>
+                            <li >Fine jewelry, handmade items, custom and monogrammed items, and items listed as final sale may not be returned</li>
+                        </div>
+
+                        <h3 class="subtitle subtitle--small">How do I Return an Item?</h3>
+                        <div>
+                            <p>If a brand included a prepaid return label in your package, attach the return label to the box with the item inside and drop it in the mail. We’ll email you to let you know when your account has been refunded. If no return label is included, you can request a return label by emailing <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a>. Your refund will be credited to the original payment method. Please note that some brands may take a few weeks to process your refund.</p>
+
+                            <p>If you have any questions about the return policy of a particular item, or you have questions about making a return, please contact us at <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a>.</p>
+                        </div>   
+
+                        <h3 class="subtitle subtitle--small">Did you receive my return?</h3>
+                        <div>
+                            <p>When you return an order using a prepaid return label, your item is returned directly to the brand. Please note it can take up to 2 weeks for your refund to be received and processed. Please be sure to retain a copy of your return tracking number for your records. Once the brand has received and processed your return, you will receive a notification via email confirming that a refund has been issued.</p>
+
+                            <p>If it's been more than two weeks since your return has been received by the brand, please contact our <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a> and we can request an update on your refund status.</p>
+                        </div>
+              
+                        <h3 class="subtitle subtitle--small">Can I return an item that is marked as final sale?</h3>
+                        <div>
+                            <p>Final sale items are not eligible for return. We appreciate your understanding!</p>
+                        </div>  
+
+                        <h3 class="subtitle subtitle--small">How do I exchange my order?</h3>
+                        <div>
+                            <p>If you would like to proceed with an exchange of an item, please send an email to <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a> with your exchange details, and we will reach out to the brand and work with them on finding a solution for your request.</p>
+
+                            <p>Please note that due to the process of Unlabel orders and returns not all exchanges requests can be honored.</p>
+                        </div>                                                             
+                    </section>
+
+                    <section class="textual__section" id="orders">
+                        
+                        <!-- Orders -->
+                        <h2 class="title title--small">Orders</h2> 
+
+                        <h3 class="subtitle subtitle--small">When will you charge my credit card?</h3>
+                        <div>
+                            <p>Unlabel will charge your credit card when your order is placed.</p>
+                        </div> 
+
+                        <h3 class="subtitle subtitle--small">When will my order arrive?</h3>
+                        <div>
+                            <p>When you purchase an item on Unlabel, you place an order directly with a brand. On <a class="links-faq" href="/">unlabel.us</a>, you can view the estimated shipping time frame for any given product when you click on the “Shipping Info” tab on the product page.</p>
+
+                            <p>When you place an order, you will receive a confirmation email from Unlabel stating you placed an order and then another email with an estimated arrival date and the tracking number associated with your order from the respective brand.</p>
+                        </div> 
+
+                        <h3 class="subtitle subtitle--small">Can I modify my order before it is shipped?</h3>
+                        <div>
+                            <p>When you place an order on Unlabel, your order is immediately processed directly with our brand partners who fulfill and ship your orders. Due to the quick workaround time for processing orders, we generally cannot make any modifications to your order, however, please contact <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a> and a member of our team will try to work with the brand to accommodate your request. Kindly note this is not guaranteed, as some of our brand partners have very short order processing windows to ensure a speedy delivery.</p>
+                        </div> 
+
+                        <h3 class="subtitle subtitle--small">How do I cancel my order?</h3>
+                        <div>
+                            <p>Since orders are placed with our brand partners cancellations are subject to each brand's order fulfillment process, so we typically are unable to cancel orders once they have been placed. Don’t worry! If your product is eligible for a return then you will receive a full refund once your return is delivered back to the brand.</p>
+                        </div> 
+
+                        <h3 class="subtitle subtitle--small">Where can I find my order number?</h3>
+                        <div>
+                            <p>Once you place an order, You can find all your order information — including your order number — within the confirmation email.</p>
+                        </div>
+
+                        <h3 class="subtitle subtitle--small">I placed an order but didn't receive a confirmation email. Did my order go through?</h3>
+                        <div>
+                            <p>Every time you place an order, you should receive a confirmation email from Unlabel.</p>
+
+                            <p>If you didn’t receive an email, first check your Spam folder. If the confirmation email isn’t there, your order may not have been processed.</p>
+                        </div>                                                          
+                    </section>
+
+                    <section class="textual__section" id="payments">
+    
+                        <!-- Payments -->
+                        <h2 class="title title--small">Payments</h2> 
+
+                        <h3 class="subtitle subtitle--small">What payment methods do you accept?</h3>
+                        <div>
+                            <p>We accept Visa, MasterCard, American Express and Discover.</p>
+                        </div> 
+
+                        <h3 class="subtitle subtitle--small">When will my order arrive?</h3>
+                        <div>
+                            <p>Since Unlabel is a marketplace, refund processing time varies by brand. However, we always work with brands to get your refund processed as soon as possible. You will receive an email confirming the refund as soon as it is processed. Once we issue the refund, it may take 3-10 business days before the refund appears in your account, depending on your bank's processing time.</p>
+
+                            <p>If it's been more than two weeks since your return has been received by the brand, please contact <a class="links-faq" href="mailto:support@unlabel.us">support@unlabel.us</a> and we can request an update on your refund status.</p>
+                        </div>                                                             
+                    </section>
+
+                </div>
             </div>
         </div>
     </div>

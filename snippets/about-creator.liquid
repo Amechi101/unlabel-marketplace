@@ -1,40 +1,23 @@
 <div class="col">
-    {% if product.metafields.creator_video.video == blank %}
         <a class="u-block" href="{{ creator_profile_url }}">
             <figure>
                 <div class="img-container img-container--landscape">
                     <img alt="{{ creator_name }}" src="{{ creator_image | img_url: '1024x' }}" />
                 </div>
-                <!--
                 <figcaption>
                     <p>{{ creator_name }}</p>
                     <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
                 </figcaption>
-                -->
             </figure>
         </a>
-    {% else %}
-        <figure>
-            <div class="img-container img-container--landscape">
-                <video 
-                    width="100%" 
-                    height="auto" 
-                    loop="" 
-                    muted=""
-                    controls="controls"
-                    src="{{ product.metafields.creator_video.video }}"
-                >
-                </video>
-            </div>
-        </figure>
-    {% endif %}
 </div>
 <div class="col">
     <div class="review__content">
-        <h2 class="subtitle">Product Review</h2>
-        <p>by {{ creator_name }}</p>
+        <h2 class="subtitle">About Creator</h2>
+        {% comment %}<p>by {{ creator_name }}</p>{% endcomment %}
         <div class="desc">
-            {{ product.metafields.product_review.review }}
+            {% comment %}{{ product.metafields.product_review.review }}{% endcomment %}
+            {{ creator_description }}
         </div>
 
         <div class="sizechart">
@@ -49,10 +32,10 @@
                
                 <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
                 
-                {% if creator_size_worn !=  %}
+              {% comment %}  {% if creator_size_worn != blank %}
                     {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
                     <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
-                {% endif %}
+                {% endif %}{% endcomment %}
               
             </ul>
             <div class="sizechart__toggles">

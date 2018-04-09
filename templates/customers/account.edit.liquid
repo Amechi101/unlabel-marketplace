@@ -1,0 +1,119 @@
+<!-- /templates/customers/register.liquid -->
+
+<div class="grid grid--borderTopLess">
+    <div class="grid__sidebar color-context color-context--account u-desktop-only">
+        <div class="categories nested-lists">
+            <ul class="nested-lists__list">
+                <li class="nested-lists__item">
+                    <a class="categories__link" href="/account?view=reset_password">Password Reset</a>
+                </li>
+                {% comment %}<li class="nested-lists__item">
+                    <a class="categories__link" href="/account/addresses">My Addresses</a>
+                </li>{% endcomment %}
+                <li class="nested-lists__item">
+                    <a class="nested-lists__link categories__link is-active" href="/account?view=edit">Edit Account Info</a>
+                </li>
+                <li class="nested-lists__item">
+                    <a class="nested-lists__link categories__link" href="/account">My Account</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="grid__main">
+        <div class="grid__banner">
+            <h1 class="title title--caps">{{ customer.first_name }}<br>
+            {{ customer.last_name }}</h1>
+        </div>
+        <div class="grid__header">
+            <div class="grid__headerTitle u-desktop-only">
+                <h2 class="title title--small">Edit Account Info</h2>
+            </div>
+            <div class="grid__headerNav">
+                <div class="grid__headerNavGroup">
+                    <div class="select select--borderLess u-mobile-only">
+                        <select class="select-nav">
+                            <option value="/account?view=reset_password">
+                                Password Reset
+                            </option>
+                            <option value="/account?view=edit" selected="selected">
+                                Edit Account Info
+                            </option>
+                           {% comment %} <option value="/account/addresses">
+                                My Addresses
+                            </option>{% endcomment %}
+                            <option value="/account">
+                                My Account
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid__content">
+            
+            <div id="customer-fields">
+                {% form 'create_customer' %} 
+                    <input name="shop" type="hidden" value="{{ shop.permanent_domain }}">
+                    <div class="form form-stacked">
+                        <div class="container container--medium container--left container--pad48Bottom">
+                            {% comment %}
+                                <div class="fields">
+                                    <!-- Fields loaded from server -->
+                                </div>
+                            {% endcomment %}
+                            <div class="form__row form__row--m-2">
+                                <div class="form-group form__group">
+                                    <label class="form__label control-label required" for="FirstName" >First name</label>
+                                    <div class="form__field">
+                                        <input class="form-control" id="FirstName"  type="text" name="customer[first_name]" {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
+                                    </div>
+                                </div>
+                                <div class="form-group form__group">
+                                    <label class="form__label control-label required" for="LastName">Last name</label>
+                                    <div class="form__field">
+                                        <input class="form-control" name="customer[last_name]" id="LastName" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form__row">
+                                <div class="form-group form__group">
+                                    <label class="form__label control-label required" for="Email">Email address</label>
+                                    <div class="form__field">
+                                        <input class="form-control {% if form.errors contains 'email' %}error{% endif %}" name="customer[email]" id="Email" {% if form.email %} value="{{ form.email }}"{% endif %} type="email">
+                                    </div>
+                                </div>
+                            </div>
+                            {% comment %}  
+                                <div class="container container--medium container--left container--pad24">
+                                    <input class="cta cta--dark action-button" type="submit" value="Update Account" />
+                                    <span class="action-icon"></span>
+                                </div>
+                            {% endcomment %}
+                            
+                            <div class="form-footer"></div>
+                        </div>
+                    </div>
+                    <script>
+                        var Customr = {
+                          baseUrl: "https://customr.heliumdev.com",
+                          {% if customer %}
+                            shopifyCustomer: {
+                              id: {{ customer.id }},
+                              token: {{ customer.metafields.customr_auth.token | json }}
+                            }
+                          {% endif %}
+                        };
+                    </script> 
+                    <script src="https://cdn-customr.heliumdev.com/assets/v2/embed.js"></script> 
+                {% endform %}
+            </div>
+
+            <div class="u-mobile-only">
+                <hr>
+                <div class="container container--pad24 container--medium container--left">
+                    <a class="link" href="/account/logout/">Sign out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

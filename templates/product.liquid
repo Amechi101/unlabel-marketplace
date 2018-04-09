@@ -12,6 +12,7 @@
 {% assign brand_collection = product.vendor | handleize  %}
 {% assign collection_size = collections[brand_collection].products_count %}
 
+
 {% comment %}
     
     Getting the creator matched to this product to input product review
@@ -35,8 +36,10 @@
 {% assign creator_state_or_region = collections[creator].metafields.location.state_or_region | upcase %}
 {% assign creator_country = collections[creator].metafields.location.country | upcase %}
 {% assign creator_image = collections[creator].image %}
+{% assign creator_description = collections[creator].description %}
 {% assign creator_profile_url = collections[creator].url %}
 {% assign creator_name = collections[creator].title %}
+
 {% assign creator_height = collections[creator].metafields.creator_physical.height %}
 {% assign creator_chest_or_bust = collections[creator].metafields.creator_physical.chest_or_bust %}
 {% assign creator_hips = collections[creator].metafields.creator_physical.hips %}
@@ -53,6 +56,10 @@
 
 {% assign max_days = brand_days_to_fulfill_order | plus: brand_carrier_delivery_time | times: 86400 %}
 {% assign min_days = 3 | times: 86400 %}
+
+{% assign product_type = product.metafields.product_type.type %}
+{% assign product_materials = product.metafields.product_materials.materials %}
+{% assign creator_size_worn = product.metafields.creator_size_worn.size %}
 
 <div class="product">
     <div class="container container--m-pad">
@@ -139,7 +146,7 @@
                             </div>
                         </form>
                     </div>
-                    <p class="product__sizeWorn"></p>
+                    <p class="product__sizeWorn stock__count"></p>
                 </div>
             </div>
         </div>
@@ -148,10 +155,20 @@
         <div class="grid grid--inverted grid--borderBottomLess">
             <div class="grid__main">
                 <div class="product__descContainer">
-                    <p class="subtitle">Description</p>
+                    <p class="subtitle">Product Review</p>
                     <div class="desc">
-                        {{ product.description | strip_html | escape | strip }}
+                        {{ product.description }}
+                        
+                        {% if creator_size_worn != 0 %}
+                            <p class="product__sizeWorn"><span style="font-family: 'FaroWeb-BoldLucky';">Size Worn</span>: {{ creator_size_worn }} </p>
+                        {% endif %}
+                        {% comment %}{% if product_materials != blank %}
+                            <p class="product__sizeWorn">
+                                <span style="font-family: 'FaroWeb-BoldLucky';">Product Materials</span>: {{ product_materials }}
+                            </p>
+                        {% endif %}{% endcomment %}
                     </div>
+                
                 </div>
             </div>
             <div class="grid__sidebar">
@@ -182,23 +199,129 @@
             </div>
         </div>
     </div>
-    <div class="color-context color-context--product js-scroll js-parallax" data-repeat>
+    
+    {% if product.metafields.creator_video.video != blank %}
+        <section class="home__story" style="margin: 0; border-bottom: none;">
+            <div class="container">
+                <div class="home__storyWrapper">
+                    {% comment %}<h2 class="subtitle js-parallax js-scroll" data-repeat="">Product Review</h2>{% endcomment %}
+                    <div class="desc home__storyDesc" style="margin:0;">
+                        <video id="player" controls>
+                            <source src="{{ product.metafields.creator_video.video }}" type="video/mp4">
+                            <source src="{{ product.metafields.creator_video.video }}" type="video/webm">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+   {% comment %} {% if product.metafields.creator_video.video != blank %}
+        <div class="color-context color-context--product js-scroll js-parallax" data-repeat style="border-top: 1px solid #f0f0f0;">
+            <article class="review" style="background-color:white;">
+                <div class="container container--pad">
+                    <div class="cols cols--m-2 cols--m-gutter32">
+                        <div class="col" style="margin: 0 auto">
+                                <figure>
+                                    <div class="img-container img-container--landscape" style="padding-bottom: 0;">
+                                      
+                                        <video 
+                                            id="player"
+                                            width="100%" 
+                                            height="auto" 
+                                            loop="" 
+                                            muted=""
+                                            controls="controls"
+                                        >
+
+                                            <source src="{{ product.metafields.creator_video.video }}" type="video/mp4">
+                                            <source src="{{ product.metafields.creator_video.video }}" type="video/webm">
+                                        </video>
+                                    </div>
+                                </figure>
+                         
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    {% endif %}{% endcomment %}
+   
+
+    <section class="color-context color-context--product js-scroll js-parallax" data-repeat>
         <article class="review">
             <div class="container container--pad">
                 <div class="cols cols--m-2 cols--m-gutter32">
-                    {% include 'product-review' %}
+                    <div class="col">
+                        <a class="u-block" href="{{ creator_profile_url }}">
+                            <figure>
+                                <div class="img-container img-container--landscape">
+                                    <img alt="{{ creator_name }}" src="{{ creator_image | img_url: '1024x' }}" />
+                                </div>
+                                <figcaption>
+                                    <p>{{ creator_name }}</p>
+                                    <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
+                                </figcaption>
+                            </figure>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="review__content">
+                            <h2 class="subtitle">UNLABEL Creator Info</h2>
+                            {% comment %}<p>by {{ creator_name }}</p>{% endcomment %}
+                            <div class="desc">
+                                {% comment %}{{ product.metafields.product_review.review }}{% endcomment %}
+                                {{ creator_description | truncate: 500 }}
+                            </div>
+
+                            <div class="sizechart">
+                                <ul class="sizechart__list">
+                                    <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
+                                    {% if creator_hips > 0 %}
+                                        <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
+                                    {% else %}
+                                    
+                                    {% endif %}
+                                    <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
+                                   
+                                    <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
+                                    
+                                  {% comment %}  {% if creator_size_worn != blank %}
+                                        {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
+                                        <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
+                                    {% endif %}{% endcomment %}
+                                  
+                                </ul>
+                                <div class="sizechart__toggles">
+                                    <div class="toggle">
+                                        <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>
-    </div>
+    </section>
+
     <nav class="nav nav--internal">
         <ul class="nav__list">
+            {% if product_type == 'commission' %}
+                <li class="nav__item">
+                    <a class="link link--thick" href="#shipping-drawer">Shipping Info</a>
+                </li>
+
+            {% else %}
+            
+                {% comment %}
+                    @TODO - create unlabel shipping policy
+                {% endcomment %}
+
+            {% endif %}
             <li class="nav__item">
-                <a class="link link--thick" href="#shipping-drawer">Shipping Info</a>
-            </li>
-            <li class="nav__item">
-                <a class="link link--thick" href="#returns-drawer">Returns Policy</a>
-            </li>
+                    <a class="link link--thick" href="#returns-drawer">Returns Policy</a>
+                </li>
             <li class="nav__item">
                 <a class="link link--thick" href="{{ creator_profile_url }}">{{ creator_name }}'s Profile</a>
             </li>
@@ -242,7 +365,7 @@
                         </ul>
                     </div>
                     <nav class="triptych__nav">
-                        <a class="cta" href="{{ collection_url }}">See {{ product.vendor }}'s store</a>
+                        <a class="cta" href="{{ collection_url }}">More from {{ product.vendor }}</a>
                     </nav>
                 </div>
             </div>
@@ -259,7 +382,7 @@
     var productVariantsSelector = productActionsContainer.find('select');
     var productVariantOptions = productVariantsSelector.find('option:selected');
     var productVariantStock = productVariantOptions.data('stock-count');
-    var productVariantStockIndicator = $('.product__sizeWorn');
+    var productVariantStockIndicator = $('.stock__count');
 
     var stockIndicatorDisplay = function( el, selector, stock_count ) {
         // el         => element to update

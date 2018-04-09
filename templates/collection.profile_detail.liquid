@@ -175,13 +175,13 @@
                     <div class="triptych__content">
                         <ul class="cols cols--m-3">
                             {% if collection_type == 'creator' %}
-                                {% for obj in linklists.creators.links limit:4 %}
+                                {% for obj in linklists.creators.links limit:3 %}
                                     {% unless obj.object.handle == collection.handle %}
                                         {% include 'triptych-block' %}
                                     {% endunless %}
                                 {% endfor %}
                             {% else %}
-                                {% for obj in linklists.brands.links limit:4 %}
+                                {% for obj in linklists.brands.links limit:3 %}
                                     {% unless obj.object.handle == collection.handle %}
                                          {% include 'triptych-block' %}
                                     {% endunless %}

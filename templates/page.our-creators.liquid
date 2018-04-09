@@ -6,6 +6,8 @@
 {% assign creators = linklists.creators.links %}
 {% assign creators_alphabetical_order = creators | sort: 'title' %}
 
+{% assign collections_list = collections | sort: "published_at" | reverse %}
+
 <section class="triptych triptych--contentDesktopOnly color-context color-context--creators">
     <div class="triptych__bg js-animate"></div>
     <div class="container container--m-pad">
@@ -37,23 +39,42 @@
             <div class="grid__headerTitle"></div>
             <div class="grid__headerNav">
                 <div class="grid__headerNavGroup">
-                    <div>
+                    {% comment %}<div>
                         <strong>{{ creators.size }}</strong>&nbsp;{{ linklists.creators.title | downcase }}
-                    </div>
+                    </div>{% endcomment %}
                 </div>
             </div>
         </div>  
         <div class="grid__content">
-            {% if creators.size > 0 %}
+            {% if collections_list.size > 0 %}
                 <ol class="grid__list color-context color-context--creators">
-                    {% for obj in creators_alphabetical_order %}
-                        <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5 js-parallax js-scroll" data-repeat>
-                            <article>
-                                <div class="grid__itemInner">
-                                    {% include 'portrait-image-block' %}
-                                </div>
-                            </article>
-                        </li>
+                    {% for obj in collections_list %}
+                        {% assign creators_collection = obj.metafields.collection_type.type %}
+
+                        {% if creators_collection == 'creator' %}
+                            <li class="grid__item grid__item--s-2 grid__item--l-3 grid__item--xl-4 grid__item--xxl-5 js-parallax js-scroll" data-repeat>
+                                <article>
+                                    <div class="grid__itemInner">
+                                        <a class="u-block" href="{{ obj.url }}" title="{{ obj.title }}">
+                                            <figure>
+                                                <div class="img-container img-container--portrait js-parallax js-scroll" data-repeat>
+                                                    <img alt="{{ obj.title }}" src="{{ obj.image | img_url: '1024x' }}">
+                                                </div>
+                                                <figcaption>
+                                                    <h3>{{ obj.title }}</h3>
+                                                    {% if obj.metafields.location.state_or_region != blank %}
+                                                            <p><small><span class="uppercase">{{ obj.metafields.location.city | downcase }}</span>, {{ obj.metafields.location.state_or_region | upcase }}, {{ obj.metafields.location.country | upcase }}</small></p> 
+
+                                                        {% else %}
+                                                            <p><small><span class="uppercase">{{ obj.metafields.location.city | upcase }}</span>, {{ obj.metafields.location.country | upcase }}</small></p> 
+                                                    {% endif %}
+                                                </figcaption>
+                                            </figure>
+                                        </a>
+                                    </div>
+                                </article>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ol>
             {% else %}

@@ -1,36 +1,61 @@
 <!-- /templates/customers/register.liquid -->
+<div class="register">
+    <section class="register__header">
+        <div class="container container--narrow">
+            <h2 class="register__headerTitle title title--small">Your account on Unlabel</h2>
+            <p>Creating an account is simple and easy. An account will allow you to follow brands updates, add products to your wishlist, manage your personal details and more. Follow the next quick steps to set up your account today.</p>
+        </div>
+    </section>
+    <hr>
+    <section class="register__main">
+        <div class="container container--narrow">
 
-<div class="grid">
+            {% form 'create_customer' %}
+                {{ form.errors | default_errors }}
+                
+                <div class="form form--m-2 form-stacked">
+                    <div class="form__row form__row--m-2">
+                        <div class="form-group form__group">
+                            <label class="form__label control-label required" for="FirstName" >First name</label>
+                            <div class="form__field">
+                                <input class="form-control" id="FirstName"  type="text" name="customer[first_name]" {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
+                            </div>
+                        </div>
+                        <div class="form-group form__group">
+                            <label class="form__label control-label required" for="LastName">Last name</label>
+                            <div class="form__field">
+                                <input class="form-control" name="customer[last_name]" id="LastName" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form__row">
+                        <div class="form-group form__group">
+                            <label class="form__label control-label required" for="Email">Email address</label>
+                            <div class="form__field">
+                                <input class="form-control {% if form.errors contains 'email' %}error{% endif %}" name="customer[email]" id="Email" {% if form.email %} value="{{ form.email }}"{% endif %} type="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form__row">
+                        <div class="form-group form__group">
+                            <label class="form__label control-label required" for="CreatePassword">Password</label>
+                            <div class="form__field">
+                                <input class="form-control {% if form.errors contains 'password' %}error{% endif %}" name="customer[password]" id="CreatePassword" type="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form__passwordSecurity">
+                        <span>Security level (at least one capital letter and one number)</span><br class="u-mobile-only">
+                        <span class="password-security" data-password-security-id="CreatePassword"><span class="password-security__bar"></span> <span class="password-security__bar"></span> <span class="password-security__bar"></span> <span class="password-security__bar"></span></span>
+                    </div>
 
-  <div class="grid__item large--one-third push--large--one-third text-center">
-
-    <h1>{{ 'customer.register.title' | t }}</h1>
-
-    <div class="form-vertical">
-      {% form 'create_customer' %}
-
-        {{ form.errors | default_errors }}
-
-        <label for="FirstName" class="hidden-label">{{ 'customer.register.first_name' | t }}</label>
-        <input type="text" name="customer[first_name]" id="FirstName" class="input-full" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
-
-        <label for="LastName" class="hidden-label">{{ 'customer.register.last_name' | t }}</label>
-        <input type="text" name="customer[last_name]" id="LastName" class="input-full" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
-
-        <label for="Email" class="hidden-label">{{ 'customer.register.email' | t }}</label>
-        <input type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
-
-        <label for="CreatePassword" class="hidden-label">{{ 'customer.register.password' | t }}</label>
-        <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.register.password' | t }}">
-
-        <p>
-          <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn btn--full">
-        </p>
-        <a href="{{ shop.url }}">{{ 'customer.register.cancel' | t }}</a>
-
-      {% endform %}
-    </div>
-
-  </div>
-
+{% comment %}                    <p class="form__group">By creating an account, you agree to Unlabel’s <a class="link" href="#">Privacy Policy</a> and <a class="link" href="#">Terms of Use</a></p>{% endcomment %}
+                    <div class="form__actions">
+                        <button class="cta cta--dark" name="registration_submit" type="submit">Create my account</button>
+                    </div>
+                    <p class="form__alternative">Already have an account? <a class="link" href="/account/login/">Sign in</a></p>
+                </div>
+            {% endform %}
+        </div>
+    </section>
 </div>

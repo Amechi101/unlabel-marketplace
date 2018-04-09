@@ -1,0 +1,106 @@
+{% if shop.customer_accounts_enabled %}
+    <!-- Account -->
+    <li class="header__navListItem header_submenuToggler">
+
+        <a class="header__linkWithNotif header_linkWithSubmenu" href="/account" title="My Account"><span class="u-desktop-only">My Account</span> <span class="fonticon fonticon--profile fonticon--box u-mobile-only"></span></a>
+        <div class="header__submenu">
+            <div class="header__submenuWrapper">
+
+                {% if customer %}
+                    <div class="account-mini">
+                        <div class="account-mini__col account-mini__col--left">
+                            <div class="account-mini__colGroup">
+                                <p class="title title--small title--oneWordPerLine account-mini__userName">{{ customer.first_name }} {{ customer.last_name }}</p>
+                                <ul class="account-mini__navList color-context color-context--account">
+                                    <li class="nested-lists__item">
+                                        <a class="account-mini__navLink" href="/account/addresses">My Addresses</a>
+                                    </li>
+                                    <li class="nested-lists__item">
+                                        <a class="account-mini__navLink" href="/account?view=edit">Edit Account Info</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="account-mini__colGroup">
+                                <a class="link account-mini__logout" href="/account/logout/">Sign out</a><a class="account-mini__profile cta cta--dark" href="/account">My Account</a>
+                            </div>
+                        </div>
+                        <div class="account-mini__col account-mini__col--right">
+                            <p class="account-mini__notificationsTitle subtitle subtitle--small">Recent Orders</p>
+                            {% paginate customer.orders by 3 %}
+                                {% if customer.orders.size != 0 %}
+                                    <ul class="account-mini__notificationsList">
+                                        {% for order in customer.orders %}
+                                            {% for line_item in order.line_items %}
+                                                <li class="account-mini__notificationsListItem">
+                                                    <div class="notification">
+                                                        <div class="notification__visual">
+                                                            <div class="img-container img-container--square"><img alt="{{ line_item.title }}" src="{{ line_item.image | img_url: '100x100' }}"></div>
+                                                        </div>
+                                                        <div class="notification__content">
+                                                            <p class="notification__title">{{ line_item.title | link_to: line_item.product.url }}</p>
+                                                            <p class="notification__time">{{ order.created_at | date: format: 'month_day_year' }}</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="account-mini__notificationsMore">
+                                        <a class="link" href="/account">See More</a>
+                                    </div>
+                                {% else %}
+                                    <div class="account-mini__notificationsMessage">
+                                        <p class="missing missing==matchColor">No orders for now</p>
+                                    </div>
+                                {% endif %}
+                            {% endpaginate %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    {% else %}
+        <section class="connect connect--mini">
+            <div class="">
+                <div class="cols cols--m-2">
+                    <div class="col connect__option connect__option--register">
+                        <div>
+                            <div class="connect__optionHeader">
+                                <h2 class="subtitle subtitle--small">I’m new</h2>
+                            </div>
+                            <p>Creating an account is simple and easy. An account will allow you to follow brands updates, add products to your wishlist, manage your personal details and more. Follow the next quick steps to set up your account today.</p>
+                        </div>
+                        <div class="connect__optionFooter">
+                            <a class="cta cta--dark cta--block" href="/account/register/">Create an account</a>
+                        </div>
+                    </div>
+                    <div class="col connect__option connect__option--signin">
+                        {% form 'customer_login' %}
+                            
+                            <div class="connect__optionHeader">
+                                <h2 class=" subtitle subtitle--small">Sign in</h2>
+                            </div>
+                            <div class="form__row">
+                                <div class="form__group">
+                                    <input class="form-control {% if form.errors contains 'email' %}error{% endif %}" name="customer[email]" {% if form.email %} value="{{ form.email }}"{% endif %} type="email">
+                                </div>
+                            </div>
+                            <div class="form__row">
+                                <div class="form__group">
+                                    <input class="form-control {% if form.errors contains 'password' %}error{% endif %}" name="customer[password]" id="CustomerPassword" type="password">
+                                </div>
+                            </div>
+                            <div class="form__group">
+                                <a class="link" href="/pages/password-reset">Forgot password ?</a>
+                            </div>
+                            <div class="form__actions connect__optionFooter">
+                                <button class="cta cta--light" name="login_submit" type="submit" value="Log In">Sign in</button>
+                            </div>
+                        {% endform %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endif %}
+<!-- Account end //-->

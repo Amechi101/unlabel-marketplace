@@ -45,6 +45,7 @@
 
   <!-- CSS ================================================== -->
   {{ 'unlabel.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'plyr.css' | asset_url | stylesheet_tag }}
 
   <!-- Header hook for plugins ================================================== -->
   {{ content_for_header }}
@@ -118,8 +119,9 @@
 
                 <nav class="header__nav header__nav--secondary nav--inline">
                     <ul class="header__navList nav__list">
+                        {% include 'account-header'  %}
                         <li class="header__navListItem header_submenuToggler" data-cart-view="data-cart-view">
-                            <a class="header__linkWithNotif header_linkWithSubmenu" href="#" title="Shopping Bag">
+                            <a class="header__linkWithNotif header_linkWithSubmenu" href="/cart" title="Shopping Bag">
                                 <span class="u-desktop-only">Shopping Bag</span> 
                                 <span class="fonticon fonticon--shoppingBag fonticon--box u-mobile-only"></span>
                                 <span rv-show="cart.item_count | gt 0" class="notif"><span rv-text="cart.item_count"></span></span>
@@ -213,6 +215,7 @@
 
         {% if template == 'cart' %}
             {{ content_for_layout }}
+
         {% else %}
             <main id="content_inner" class="{{ page_title | handle }}" role="main">
                 {{ content_for_layout }}   
@@ -286,6 +289,8 @@
     
     {{ "jquery.currencies.min.js" | asset_url | script_tag }}
 
+    {{ 'plyr.min.js' | asset_url | script_tag }}
+
     {{ 'vendors.js' | asset_url | script_tag }}
 
     {{ 'bundle.js' | asset_url | script_tag }}
@@ -306,11 +311,14 @@
             $(document).on('currency.changed', function(e, oldCurrency, newCurrency) {
                 CartJS.render(e, CartJS.cart);
             });
-
+            
+            var player = new Plyr('#player');
+       
         }(jQuery));
     </script>
 
     {{ 'animation-dev.js' | asset_url | script_tag }}
+
  
 </body>
 </html>

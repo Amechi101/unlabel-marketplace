@@ -1,0 +1,154 @@
+<div class="grid grid--borderTopLess">
+    <div class="grid__sidebar color-context color-context--account u-desktop-only">
+        <div class="categories nested-lists">
+            <ul class="nested-lists__list">
+                <li class="nested-lists__item">
+                    <a class="categories__link" href="/account/addresses">My Addresses</a>
+                </li>
+                <li class="nested-lists__item">
+                    <a class="nested-lists__link categories__link" href="/account?view=edit">Edit Profile</a>
+                </li>
+                <li class="nested-lists__item">
+                    <a class="nested-lists__link categories__link" href="/account">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="grid__main">
+        <div class="grid__banner">
+            <h1 class="title title--caps">{{ customer.first_name }}<br>
+            {{ customer.last_name }}</h1>
+        </div>
+        <div class="grid__header">
+{% comment %}            <div class="grid__headerTitle u-desktop-only">
+                <h2 class="title title--small">My {{template.name | capitalize }}</h2>
+            </div>{% endcomment %}
+            <div class="grid__headerNav">
+                <div class="grid__headerNavGroup">
+                    <div class="select select--borderLess u-mobile-only">
+                        <select class="select-nav">
+                            <option >
+                                Select Page
+                            </option>
+                            <option value="/account?view=edit">
+                                Edit Profile
+                            </option>
+                            <option value="/account/addresses">
+                                My Addresses
+                            </option>
+                            <option value="/account">
+                                My Dashboard
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid__content">
+            
+            {{ content_for_layout }}
+
+            <div class="u-mobile-only">
+                <hr>
+                <div class="container container--pad24 container--medium container--left">
+                    <a class="link" href="/account/logout/">Sign out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>{{ 'customer.account.title' | t }}</h1>
+
+<hr class="hr--small">
+
+<div class="grid">
+
+  <div class="grid__item two-thirds medium-down--one-whole">
+    <h2 class="h4">{{ 'customer.orders.title' | t }}</h2>
+
+    {% comment %}
+      If we have past orders, loop through each one
+    {% endcomment %}
+    {% paginate customer.orders by 20 %}
+      {% if customer.orders.size != 0 %}
+
+        <div class="table-wrap">
+          <table class="full">
+            <thead>
+              <tr>
+                <th>{{ 'customer.orders.order_number' | t }}</th>
+                <th>{{ 'customer.orders.date' | t }}</th>
+                <th>{{ 'customer.orders.payment_status' | t }}</th>
+                <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th>{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in customer.orders %}
+                <tr>
+                  <td>{{ order.name | link_to: order.customer_url }}</td>
+                  <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                  <td>{{ order.financial_status_label }}</td>
+                  <td>{{ order.fulfillment_status_label }}</td>
+                  <td>{{ order.total_price | money }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      {% else %}
+
+        <p>{{ 'customer.orders.none' | t }}</p>
+
+      {% endif %}
+      {% if paginate.pages > 1 %}
+        <hr>
+        <div class="pagination">
+          {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+
+  <div class="grid__item one-third medium-down--one-whole">
+    <h2 class="h4">{{ 'customer.account.details' | t }}</h2>
+
+    <h3 class="h5">{{ customer.name }}</h3>
+
+    {% if customer.default_address != nil %}
+      <p>
+      {{ customer.default_address.address1 }}<br>
+
+      {% if customer.default_address.address2 != "" %}
+        {{ customer.default_address.address2 }}<br>
+      {% endif %}
+
+      {% if customer.default_address.city != "" %}
+        {{ customer.default_address.city }}<br>
+      {% endif %}
+
+      {% if customer.default_address.province_code != "" %}
+        {{ customer.default_address.province_code | upcase }}<br>
+      {% endif %}
+
+      {% if customer.default_address.zip != "" %}
+        {{ customer.default_address.zip | upcase }}<br>
+      {% endif %}
+
+      {% if customer.default_address.country != "" %}
+        {{ customer.default_address.country }}<br>
+      {% endif %}
+
+      {% if customer.default_address.phone != "" %}
+        {{ customer.default_address.phone }}
+      {% endif %}
+      </p>
+
+    {% endif %}
+<br><a href="/account?view=edit" style="font-size: 14px;">{{ shop.metafields.locales.edit }}</a>
+    <p><a href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></p>
+  </div>
+
+</div>

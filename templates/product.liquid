@@ -11,6 +11,7 @@
 
 {% assign brand_collection = product.vendor | handleize  %}
 {% assign collection_size = collections[brand_collection].products_count %}
+{% assign product_type_content = product.metafields.product_type.content %}
 
 
 {% comment %}
@@ -77,9 +78,9 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <div class="product__exclusiveLabel">
+                        {% comment %}<div class="product__exclusiveLabel">
                             Sponsored Content
-                        </div>
+                        </div>{% endcomment %}
                     </div>
                     <div class="swiper-container gallery__thumbs">
                         <div class="swiper-wrapper">
@@ -124,9 +125,9 @@
                                                                   Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
                                                                 {% endcomment %}
                                        
-                                                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}">{{ product_option.name }}: {{ variant.title }}</option>
+                                                                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-variant-price="{{ variant.price | money }}" data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}">{{ product_option.name }}: {{ variant.title }}</option>
                                                             {% else %}
-                                                                <option selected="selected" data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}" disabled="disabled">
+                                                                <option selected="selected" data-variant-price="{{ variant.price | money }}" data-stock-count="{{ variant.inventory_quantity }}" value="{{ variant.id }}" disabled="disabled">
                                                                   {{ product_option.name }}: {{ variant.title }}
                                                                 </option>
                                                             {% endif %}
@@ -155,7 +156,11 @@
         <div class="grid grid--inverted grid--borderBottomLess">
             <div class="grid__main">
                 <div class="product__descContainer">
-                    <p class="subtitle">Product Review</p>
+                    {% if product_type == 'commission' or product_type 'unlabel_inventory'  %}
+                        <p class="subtitle">Product Description</p>
+                    {% else %}
+                        <p class="subtitle">Product Review</p>
+                    {% endif %}
                     <div class="desc">
                         {{ product.description }}
                         
@@ -200,111 +205,124 @@
         </div>
     </div>
     
-    {% if product.metafields.creator_video.video != blank %}
-        <section class="home__story" style="margin: 0; border-bottom: none;">
-            <div class="container">
-                <div class="home__storyWrapper">
-                    {% comment %}<h2 class="subtitle js-parallax js-scroll" data-repeat="">Product Review</h2>{% endcomment %}
-                    <div class="desc home__storyDesc" style="margin:0;">
-                        <video id="player" controls>
-                            <source src="{{ product.metafields.creator_video.video }}" type="video/mp4">
-                            <source src="{{ product.metafields.creator_video.video }}" type="video/webm">
-                        </video>
+    {% if product_type_content == 'brand_curated' or product_type_content == blank %}
+        
+
+    {% else %}
+        {% if product.metafields.creator_video.video != blank %}
+            <section class="home__story" style="margin: 0; border-bottom: none;">
+                <div class="container">
+                    <div class="home__storyWrapper">
+                        {% comment %}<h2 class="subtitle js-parallax js-scroll" data-repeat="">Product Review</h2>{% endcomment %}
+                        <div class="desc home__storyDesc" style="margin:0;">
+                            <video id="player" controls>
+                                <source src="{{ product.metafields.creator_video.video }}" type="video/mp4">
+                                <source src="{{ product.metafields.creator_video.video }}" type="video/webm">
+                            </video>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    {% endif %}
+            </section>
+        {% endif %}
 
-   {% comment %} {% if product.metafields.creator_video.video != blank %}
-        <div class="color-context color-context--product js-scroll js-parallax" data-repeat style="border-top: 1px solid #f0f0f0;">
-            <article class="review" style="background-color:white;">
+       {% comment %} {% if product.metafields.creator_video.video != blank %}
+            <div class="color-context color-context--product js-scroll js-parallax" data-repeat style="border-top: 1px solid #f0f0f0;">
+                <article class="review" style="background-color:white;">
+                    <div class="container container--pad">
+                        <div class="cols cols--m-2 cols--m-gutter32">
+                            <div class="col" style="margin: 0 auto">
+                                    <figure>
+                                        <div class="img-container img-container--landscape" style="padding-bottom: 0;">
+                                          
+                                            <video 
+                                                id="player"
+                                                width="100%" 
+                                                height="auto" 
+                                                loop="" 
+                                                muted=""
+                                                controls="controls"
+                                            >
+
+                                                <source src="{{ product.metafields.creator_video.video }}" type="video/mp4">
+                                                <source src="{{ product.metafields.creator_video.video }}" type="video/webm">
+                                            </video>
+                                        </div>
+                                    </figure>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        {% endif %}{% endcomment %}
+       
+
+        <section class="color-context color-context--product js-scroll js-parallax" data-repeat>
+            <article class="review">
                 <div class="container container--pad">
                     <div class="cols cols--m-2 cols--m-gutter32">
-                        <div class="col" style="margin: 0 auto">
+                        <div class="col">
+                            <a class="u-block" href="{{ creator_profile_url }}">
                                 <figure>
-                                    <div class="img-container img-container--landscape" style="padding-bottom: 0;">
-                                      
-                                        <video 
-                                            id="player"
-                                            width="100%" 
-                                            height="auto" 
-                                            loop="" 
-                                            muted=""
-                                            controls="controls"
-                                        >
-
-                                            <source src="{{ product.metafields.creator_video.video }}" type="video/mp4">
-                                            <source src="{{ product.metafields.creator_video.video }}" type="video/webm">
-                                        </video>
+                                    <div class="img-container img-container--landscape">
+                                        <img alt="{{ creator_name }}" src="{{ creator_image | img_url: '1024x', crop: 'top' }}" />
                                     </div>
+                                    <figcaption>
+                                        <p>{{ creator_name }}</p>
+                                        <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
+                                    </figcaption>
                                 </figure>
-                         
+                            </a>
+                        </div>
+                        <div class="col">
+                            <div class="review__content">
+                                <h2 class="subtitle">UNLABEL Creator Info</h2>
+                                {% comment %}<p>by {{ creator_name }}</p>{% endcomment %}
+                                <div class="desc">
+                                    {% comment %}{{ product.metafields.product_review.review }}{% endcomment %}
+                                    {{ creator_description }}
+                                </div>
+
+                                <div class="sizechart">
+                                    <ul class="sizechart__list">
+                                        <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
+                                        
+                                        {% if creator_hips > 0 %}
+                                            <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
+                                        {% else %}
+                                        
+                                        {% endif %}
+                                        
+                                        <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
+                                        
+                                        {% if creator_chest_or_bust  > 0 %}
+                                            <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
+                                         {% else %}
+                                        
+                                        {% endif %}
+                                        
+                                      {% comment %}  {% if creator_size_worn != blank %}
+                                            {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
+                                            <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
+                                        {% endif %}{% endcomment %}
+                                      
+                                    </ul>
+                                    <div class="sizechart__toggles">
+                                        <div class="toggle">
+                                            <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </article>
-        </div>
-    {% endif %}{% endcomment %}
-   
+        </section>
 
-    <section class="color-context color-context--product js-scroll js-parallax" data-repeat>
-        <article class="review">
-            <div class="container container--pad">
-                <div class="cols cols--m-2 cols--m-gutter32">
-                    <div class="col">
-                        <a class="u-block" href="{{ creator_profile_url }}">
-                            <figure>
-                                <div class="img-container img-container--landscape">
-                                    <img alt="{{ creator_name }}" src="{{ creator_image | img_url: '1024x' }}" />
-                                </div>
-                                <figcaption>
-                                    <p>{{ creator_name }}</p>
-                                    <p><small><span class="uppercase">{{ creator_city }}</span>, {{ creator_state_or_region }}, {{ creator_country }}</small></p>
-                                </figcaption>
-                            </figure>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <div class="review__content">
-                            <h2 class="subtitle">UNLABEL Creator Info</h2>
-                            {% comment %}<p>by {{ creator_name }}</p>{% endcomment %}
-                            <div class="desc">
-                                {% comment %}{{ product.metafields.product_review.review }}{% endcomment %}
-                                {{ creator_description | truncate: 500 }}
-                            </div>
-
-                            <div class="sizechart">
-                                <ul class="sizechart__list">
-                                    <li class="sizechart__item">Height: <span data-sizechart-unit="cm">{{ creator_height | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_height }}"</span></li>
-                                    {% if creator_hips > 0 %}
-                                        <li class="sizechart__item">Hips: <span data-sizechart-unit="cm">{{ creator_hips | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_hips }}"</span></li>
-                                    {% else %}
-                                    
-                                    {% endif %}
-                                    <li class="sizechart__item">Waist: <span data-sizechart-unit="cm">{{ creator_waist | times: cm_conversion_factor | ceil  }} cm</span> <span data-sizechart-unit="inch">{{ creator_waist }}"</span></li>
-                                   
-                                    <li class="sizechart__item">Chest/Bust: <span data-sizechart-unit="cm">{{ creator_chest_or_bust | times: cm_conversion_factor | ceil }} cm</span> <span data-sizechart-unit="inch">{{ creator_chest_or_bust }}"</span></li>
-                                    
-                                  {% comment %}  {% if creator_size_worn != blank %}
-                                        {% assign creator_size_worn = product.metafields.creator_size_worn.size %}
-                                        <li class="sizechart__item">Size worn: {{ creator_size_worn }}</li>
-                                    {% endif %}{% endcomment %}
-                                  
-                                </ul>
-                                <div class="sizechart__toggles">
-                                    <div class="toggle">
-                                        <a class="toggle__label toggle__label--left" data-toggle-value="cm" href="#">Centimeters</a> <a class="toggle__slider" data-toggle-values="cm,inch" href="#"></a> <a class="toggle__label toggle__label--right" data-toggle-value="inch" href="#">Inches</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-
+    {% endif %}
+    
+    <hr>
     <nav class="nav nav--internal">
         <ul class="nav__list">
             {% if product_type == 'commission' %}
@@ -312,19 +330,25 @@
                     <a class="link link--thick" href="#shipping-drawer">Shipping Info</a>
                 </li>
 
-            {% else %}
+            {% elsif product_type == 'unlabel_inventory' %}
             
-                {% comment %}
-                    @TODO - create unlabel shipping policy
-                {% endcomment %}
+                <li class="nav__item">
+                    <a class="link link--thick" href="#unlabel-shipping-drawer">Shipping Info</a>
+                </li>
 
             {% endif %}
-            <li class="nav__item">
+                <li class="nav__item">
                     <a class="link link--thick" href="#returns-drawer">Returns Policy</a>
                 </li>
-            <li class="nav__item">
-                <a class="link link--thick" href="{{ creator_profile_url }}">{{ creator_name }}'s Profile</a>
-            </li>
+
+            {% if product_type_content == 'brand_curated' or product_type_content == blank %}
+
+            {% else %}
+                <li class="nav__item">
+                    <a class="link link--thick" href="{{ creator_profile_url }}">{{ creator_name }}'s Profile</a>
+                </li>
+
+            {% endif %}
         </ul>
     </nav>
 
@@ -340,14 +364,14 @@
                             {% assign exclude_current_product = product.title %}
 
                             {% for collection in product.collections %}
-
+                            
                                 {% if collection.title == product.vendor %}
-
+                                
                                     {% capture collection_url %}
                                         {{ collection.url }}
                                     {% endcapture %}
                                       
-                                    {% for product in collection.products %}
+                                    {% for product in collection.products limit:4 %}
                                             
                                         {% unless product.title contains exclude_current_product %}
                                             {% if product.available %}
@@ -382,7 +406,9 @@
     var productVariantsSelector = productActionsContainer.find('select');
     var productVariantOptions = productVariantsSelector.find('option:selected');
     var productVariantStock = productVariantOptions.data('stock-count');
+
     var productVariantStockIndicator = $('.stock__count');
+    var productPrice = $('.product__price');
 
     var stockIndicatorDisplay = function( el, selector, stock_count ) {
         // el         => element to update
@@ -407,12 +433,16 @@
 
     productVariantsSelector.change(function() {
 
-        var $this =  $(this)
-        productVariantOptions = $this.find('option:selected');
-        productVariantStock = productVariantOptions.data('stock-count'); 
+        var $this =  $(this);
+        var productVariantOptions = $this.find('option:selected');
+        var productVariantStock = productVariantOptions.data('stock-count'); 
+        var productVariantPrice = productVariantOptions.data('variant-price'); 
+
+        productPrice.text(productVariantPrice);
 
         stockIndicatorDisplay(productVariantStockIndicator, productVariantOptions, productVariantStock);
     });
+
 
     $(document).on('cart.requestComplete', function(event, cart) {
         
@@ -426,6 +456,17 @@
    
     });
 </script>
+
+
+{% comment %}{% if product_type == 'commission' %}
+    
+    {% include 'shipping-policy' %}
+         
+{% elsif product_type == blank %}
+            
+    {% include 'unlabel-shipping-policy' %} 
+
+{% endif %}{% endcomment %}
 
 
 

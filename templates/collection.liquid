@@ -17,8 +17,9 @@
         {% assign current_displayed = paginate.items | modulo:paginate.page_size %}
     {% else %}
         {% assign current_displayed = collection.products_count %}
+
+
     {% endif %}
-    
     <div class="grid grid--borderTopLess color-context color-context--products">
         <div class="grid__sidebar u-desktop-only">
             <div class="categories nested-lists">

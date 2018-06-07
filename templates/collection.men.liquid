@@ -6,7 +6,7 @@
 
 {% endcomment %}
 
-{% paginate collection.products by 12 %}
+{% paginate collection.products by 13 %}
     
     {% if paginate.pages == paginate.current_page %}
         {% assign current_displayed = paginate.items | modulo:paginate.page_size %}

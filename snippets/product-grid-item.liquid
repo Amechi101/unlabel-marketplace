@@ -1,3 +1,11 @@
+{% assign product_type_content = product.metafields.product_type.content %}
+
+{% comment %}
+	creator_reviewed
+	creator_curated
+	brand_curated
+{% endcomment %}
+
 <article>
 	<div class="grid__itemInner">
 		<a class="u-block" href="{{ product.url }}" title="{{ product.title }}">
@@ -10,8 +18,19 @@
 					        {% assign strip_creator_prefix = tag | remove: "creator-" | replace: "-", " " %}
 					    {% endif %}
 					{% endfor %}
-					<h3><small>by {{ product.vendor }} &nbsp;x&nbsp; <span class="uppercase">{{ strip_creator_prefix }}</span></small></h3>
+					<h3><small>{{ product.vendor }}</small></h3>
+					{% if product_type_content == 'creator_reviewed' %}
+						
+						<h3><small>Reviewed by: <span class="uppercase">{{ strip_creator_prefix }}</span></small></h3>
+					
+					{% elsif product_type_content == 'creator_curated' %}
 
+						<h3><small>Curated by: <span class="uppercase">{{ strip_creator_prefix }}</span></small></h3>
+
+					{% elsif product_type_content == 'brand_curated' or product_type_content == blank %}
+						
+
+					{% endif %}
 					{% include 'product-price' %}
 				</figcaption>
 			</figure>

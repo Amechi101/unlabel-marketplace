@@ -25,7 +25,7 @@
             </div>
             <div class="cols cols--m home__headerCols">
                 <div class="col home__headerIntroContainer js-parallax" data-speed="2" data-target=".is-smooth-scroll-compatible">
-                    <p class="title title--medium">The best place to shop quality, inspired apparel, footwear and accessories from independent brands all over the world.</p>
+                    <p class="title title--medium">The best place to discover fashion and lifestyle products from brands all over the world.</p>
                 </div>
             </div>
         </div>
@@ -121,15 +121,15 @@
         </div>
         <nav class="home__brandsNav">
             <ul class="home__brandsNavList">
-                <li class="home__brandsNavItem">
+                {% comment %}<li class="home__brandsNavItem">
                     <a href="{{ collections.women.url }}" class="cta">See Women’s apparel</a>
-                </li>
+                </li>{% endcomment %}
                 <li class="home__brandsNavItem">
                     <a href="{{ pages.our-brands.url }}" class="cta cta--dark">See All Brands</a>
                 </li>
-                <li class="home__brandsNavItem">
+                {% comment %}<li class="home__brandsNavItem">
                     <a href="{{ collections.men.url }}" class="cta">See Men’s apparel</a>
-                </li>
+                </li>{% endcomment %}
             </ul>
         </nav>
     </div>
@@ -140,7 +140,7 @@
         <div class="home__storyWrapper">
             <h2 class="subtitle js-parallax js-scroll" data-repeat>Who we are</h2>
             <div class="desc home__storyDesc js-parallax js-scroll" data-repeat>
-                Unlabel is an online fashion destination driven by digital creatives who experience up-and-coming brands through their work. Their authentic product reviews create an informed and artful shopping experience we're proud to share with you.
+                Unlabel is an online destination driven by digital creatives who experience up-and-coming brands through their work. Their authentic product reviews create an informed and artful shopping experience we're proud to share with you.
             </div>
         </div>
     </div>

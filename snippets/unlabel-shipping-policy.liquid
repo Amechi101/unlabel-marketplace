@@ -1,0 +1,33 @@
+{% assign unlabel_days_to_fulfill_order = 3 %}
+{% assign unlabel_carrier_delivery_time = 5 %}
+
+{% assign max_days = unlabel_days_to_fulfill_order | plus: unlabel_carrier_delivery_time | times: 86400 %}
+{% assign min_days = 3 | times: 86400 %}
+
+
+<section class="drawer drawer--bigHeader drawer--right drawer--dark drawer--medium shipping-drawer" id="unlabel-shipping-drawer">
+    <a class="drawer__backdrop" href="#close-drawer" title="Close Drawer"></a>
+    <div class="drawer__frame">
+        <div class="drawer__header">
+            <div class="drawer__headerContent">
+                <h2 class="title title--small">Shipping Info</h2>
+            </div>
+            <a class="drawer__close close close--medium" href="#close-drawer" title="Close Drawer"></a>
+        </div>
+        <div class="drawer__scroller">
+            <div class="drawer__content drawer__content--padded">
+                <ul class="returns-drawer__list">
+                    <li class="returns-drawer__listItem">Fulfilled By: <span class="unlabel-bold">UNLABEL</span></li>
+                    
+                    <li class="returns-drawer__listItem">Free Shipping within the <span class="unlabel-bold">USA</span> via <span class="unlabel-bold">UPS</span></li>
+
+                    <li class="returns-drawer__listItem">Estimated Delivery:  <span class="unlabel-bold">{{ "now" | date: "%s" | plus: max_days | minus: min_days | date: "%b %d" }} - {{ "now" | date: "%s" | plus: max_days | date: "%b %d" }}</span></li>
+
+                    <li class="returns-drawer__listItem">UNLABEL <span class="unlabel-bold">does</span> ship to <span class="unlabel-bold">P.O. Boxes</span></li>
+                    
+                    <li class="returns-drawer__listItem">Please see our <a class="underline" href="/pages/faq">FAQ</a> for our policy on international shipping.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
